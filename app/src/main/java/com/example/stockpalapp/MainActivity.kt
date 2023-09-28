@@ -29,6 +29,8 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+//test 2
+
 //test commit
 
 @Composable
