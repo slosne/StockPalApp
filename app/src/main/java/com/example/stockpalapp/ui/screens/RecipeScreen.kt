@@ -2,6 +2,7 @@ package com.example.stockpalapp.ui.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -57,7 +58,7 @@ fun RecipePage(modifier: Modifier = Modifier){
 @Composable
 fun RecipeLayout(modifier: Modifier = Modifier){
     AppLayout(content = { paddingValues ->
-        Column {
+        Column(modifier = Modifier.padding(paddingValues)) {
             RecipePage()
         }},
         topAppBarTitle = "Oppskrifter",

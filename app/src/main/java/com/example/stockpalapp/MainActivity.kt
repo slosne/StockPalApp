@@ -1,8 +1,10 @@
 package com.example.stockpalapp
 
+import android.content.res.Resources.Theme
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -24,8 +26,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,19 +47,11 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    HomeLayout()
                 }
             }
         }
     }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -67,50 +64,67 @@ fun AppLayout(
     navigationIcon: ImageVector,
     actionIcon: ImageVector?,
     navigationContentDescription: String?,
-    actionContentDescription: String?
+    actionContentDescription: String?,
+    modifier: Modifier = Modifier
 ) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text(text = topAppBarTitle) },
-                navigationIcon = {IconButton(onClick = { navigationClickHandler }) {
-                    Icon(imageVector = navigationIcon, contentDescription = navigationContentDescription)
-                }}, actions = {IconButton(onClick = { actionClickHandler }) {
-                    if (actionIcon != null) {
-                        Icon(imageVector = actionIcon, contentDescription = actionContentDescription)
+                navigationIcon = {
+                    IconButton(onClick = { navigationClickHandler }) {
+                        Icon(
+                            imageVector = navigationIcon,
+                            contentDescription = navigationContentDescription
+                        )
                     }
-                }}
+                }, actions = {
+                    IconButton(onClick = { actionClickHandler }) {
+                        if (actionIcon != null) {
+                            Icon(
+                                imageVector = actionIcon,
+                                contentDescription = actionContentDescription
+                            )
+                        }
+                    }
+                }, colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xE7F0F5ff))
             )
         },
         bottomBar = {
-                    BottomAppBar {
-                        Row( modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween) {
-                            Row{
-                                IconButton(onClick = { /*TODO*/ }) {
-                                    Icon(imageVector = Icons.Default.Search, contentDescription = null)
-                                }
-                                IconButton(onClick = { /*TODO*/ }) {
-                                    Icon(imageVector = Icons.Default.Edit, contentDescription = null)
-                                }
-                                IconButton(onClick = { /*TODO*/ }) {
-                                    Icon(imageVector = Icons.Default.AccountCircle, contentDescription = null)
-                                }
-                            }
-                            IconButton(onClick = { /*TODO*/ }) {
-                                FloatingActionButton(onClick = { /*TODO*/ }) {
-                                    Icon(imageVector = Icons.Default.Add, contentDescription = null)
-                                }
-                            }
+            BottomAppBar {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Row {
+                        IconButton(onClick = { /*TODO*/ }) {
+                            Icon(imageVector = Icons.Default.Search, contentDescription = null)
+                        }
+                        IconButton(onClick = { /*TODO*/ }) {
+                            Icon(imageVector = Icons.Default.Edit, contentDescription = null)
+                        }
+                        IconButton(onClick = { /*TODO*/ }) {
+                            Icon(
+                                imageVector = Icons.Default.AccountCircle,
+                                contentDescription = null
+                            )
                         }
                     }
-        }
-        ,
-        content = {paddingValues ->
-            content(paddingValues)}
+                    IconButton(onClick = { /*TODO*/ }) {
+                        FloatingActionButton(onClick = { /*TODO*/ }) {
+                            Icon(imageVector = Icons.Default.Add, contentDescription = null)
+                        }
+                    }
+                }
+            }
+        },
+        content = { paddingValues ->
+            content(paddingValues)
+        },
     )
+
 }
 
 @Preview(showBackground = true)
