@@ -1,12 +1,13 @@
 package com.example.stockpalapp
 
-import android.graphics.drawable.Icon
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -25,7 +26,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.example.stockpalapp.ui.screens.HomeLayout
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -57,29 +61,48 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun AppLayout(
     content: @Composable (PaddingValues) -> Unit,
+    navigationClickHandler: () -> Unit,
+    actionClickHandler: () -> Unit,
     topAppBarTitle: String,
-    modifier: Modifier = Modifier
+    navigationIcon: ImageVector,
+    actionIcon: ImageVector?,
+    navigationContentDescription: String?,
+    actionContentDescription: String?
 ) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text(text = topAppBarTitle) },
+                navigationIcon = {IconButton(onClick = { navigationClickHandler }) {
+                    Icon(imageVector = navigationIcon, contentDescription = navigationContentDescription)
+                }}, actions = {IconButton(onClick = { actionClickHandler }) {
+                    if (actionIcon != null) {
+                        Icon(imageVector = actionIcon, contentDescription = actionContentDescription)
+                    }
+                }}
             )
         },
         bottomBar = {
                     BottomAppBar {
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Icon(imageVector = Icons.Default.Search, contentDescription = null)
-                        }
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Icon(imageVector = Icons.Default.Edit, contentDescription = null)
-                        }
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Icon(imageVector = Icons.Default.AccountCircle, contentDescription = null)
-                        }
-                        IconButton(onClick = { /*TODO*/ }) {
-                            FloatingActionButton(onClick = { /*TODO*/ }) {
-                                Icon(imageVector = Icons.Default.Add, contentDescription = null)
+                        Row( modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween) {
+                            Row{
+                                IconButton(onClick = { /*TODO*/ }) {
+                                    Icon(imageVector = Icons.Default.Search, contentDescription = null)
+                                }
+                                IconButton(onClick = { /*TODO*/ }) {
+                                    Icon(imageVector = Icons.Default.Edit, contentDescription = null)
+                                }
+                                IconButton(onClick = { /*TODO*/ }) {
+                                    Icon(imageVector = Icons.Default.AccountCircle, contentDescription = null)
+                                }
+                            }
+                            IconButton(onClick = { /*TODO*/ }) {
+                                FloatingActionButton(onClick = { /*TODO*/ }) {
+                                    Icon(imageVector = Icons.Default.Add, contentDescription = null)
+                                }
                             }
                         }
                     }
@@ -94,6 +117,6 @@ fun AppLayout(
 @Composable
 fun GreetingPreview() {
     StockPalAppTheme {
-        Greeting("Android")
+        HomeLayout()
     }
 }

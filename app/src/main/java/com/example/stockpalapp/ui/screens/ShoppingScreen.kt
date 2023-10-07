@@ -3,6 +3,9 @@ package com.example.stockpalapp.ui.screens
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -51,7 +54,15 @@ fun ShoppingLayout(modifier: Modifier = Modifier){
             ShoppingItem()
             ShoppingItemList()
             ShoppingListBtn()
-        }}, topAppBarTitle = "Handleliste")
+        }},
+        topAppBarTitle = "Handleliste",
+        navigationIcon = Icons.Default.ArrowBack,
+        actionIcon = Icons.Default.Menu,
+        navigationContentDescription = null,
+        actionContentDescription = null,
+        navigationClickHandler = { },
+        actionClickHandler = {},
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

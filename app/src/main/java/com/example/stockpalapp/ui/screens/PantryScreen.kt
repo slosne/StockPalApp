@@ -3,6 +3,9 @@ package com.example.stockpalapp.ui.screens
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
@@ -48,7 +51,15 @@ fun PantryLayout(modifier: Modifier = Modifier){
             FoodItem()
             FoodItemList()
             PantryScreenBtn()
-    }}, topAppBarTitle = "Mitt matskap")
+    }},
+        topAppBarTitle = "Matskap",
+        navigationIcon = Icons.Default.ArrowBack,
+        actionIcon = Icons.Default.Menu,
+        navigationContentDescription = null,
+        actionContentDescription = null,
+        navigationClickHandler = { },
+        actionClickHandler = {}
+    )
 }
 
 
