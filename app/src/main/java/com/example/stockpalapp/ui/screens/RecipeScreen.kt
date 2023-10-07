@@ -11,6 +11,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.stockpalapp.AppLayout
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,11 +51,19 @@ fun RecipePage(modifier: Modifier = Modifier){
     }
 }
 
+@Composable
+fun RecipeLayout(modifier: Modifier = Modifier){
+    AppLayout(content = { paddingValues ->
+        Column {
+            RecipePage()
+        }}, topAppBarTitle = "Oppskrifter")
+}
+
 @Preview(showBackground = true)
 @Composable
 fun RecipeScreenPreview() {
     StockPalAppTheme {
-        RecipePage()
+        RecipeLayout()
 
     }
 }

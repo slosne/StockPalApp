@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.stockpalapp.AppLayout
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
 
 @Composable
@@ -40,18 +41,22 @@ fun PantryScreenBtn(modifier: Modifier = Modifier){
     }
 }
 
+@Composable
+fun PantryLayout(modifier: Modifier = Modifier){
+    AppLayout(content = { paddingValues ->
+        Column {
+            FoodItem()
+            FoodItemList()
+            PantryScreenBtn()
+    }}, topAppBarTitle = "Mitt matskap")
+}
+
 
 
 @Preview(showBackground = true)
 @Composable
 fun PantryScreenPreview() {
     StockPalAppTheme {
-        Column {
-            FoodItem()
-            FoodItemList()
-            PantryScreenBtn()
-        }
-
-
+        PantryLayout()
     }
 }

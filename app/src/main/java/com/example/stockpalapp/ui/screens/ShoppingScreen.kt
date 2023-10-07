@@ -11,6 +11,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.stockpalapp.AppLayout
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
 
 @Composable
@@ -42,6 +43,17 @@ fun ShoppingListBtn(modifier: Modifier = Modifier){
     }
 }
 
+@Composable
+fun ShoppingLayout(modifier: Modifier = Modifier){
+    AppLayout(content = { paddingValues ->
+        Column {
+            ShoppingListSearch()
+            ShoppingItem()
+            ShoppingItemList()
+            ShoppingListBtn()
+        }}, topAppBarTitle = "Handleliste")
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ShoppingListSearch(modifier: Modifier = Modifier){
@@ -59,12 +71,7 @@ fun ShoppingListSearch(modifier: Modifier = Modifier){
 @Composable
 fun ShoppingScreenPreview() {
     StockPalAppTheme {
-        Column {
-            ShoppingListSearch()
-            ShoppingItem()
-            ShoppingItemList()
-            ShoppingListBtn()
-        }
+        ShoppingLayout()
 
 
     }
