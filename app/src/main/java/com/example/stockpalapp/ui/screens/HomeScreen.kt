@@ -11,15 +11,21 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.stockpalapp.AppLayout
+import com.example.stockpalapp.R
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
 
 @Composable
 fun PantryCarousel(modifier: Modifier = Modifier) {
     Column {
         Text(
-            text = "Mitt matskap",
+            text = stringResource(R.string.mypantry),
             modifier = modifier
         )
         Card {
@@ -34,7 +40,7 @@ fun PantryCarousel(modifier: Modifier = Modifier) {
 fun RecommendedRecipeCard(modifier: Modifier = Modifier){
     Column {
         Text(
-            text = "Dagens anbefaling",
+            text = stringResource(R.string.recommodation),
             modifier = modifier
         )
         Card {
@@ -42,7 +48,7 @@ fun RecommendedRecipeCard(modifier: Modifier = Modifier){
                 Text(text = "bilde")
                 LazyColumn(){
                     item {
-                        Text(text = "Du mangler:")
+                        Text(text = stringResource(R.string.missing))
                     }
                     items(5){ pantry -> Text(text = "test")}
                 }
@@ -53,7 +59,7 @@ fun RecommendedRecipeCard(modifier: Modifier = Modifier){
 }
 
 @Composable
-fun HomeLayout(){
+fun HomeScreen(navController: NavController){
     AppLayout(
         content = { paddingValues ->
             Column(modifier = Modifier.padding(paddingValues)) {
@@ -61,13 +67,12 @@ fun HomeLayout(){
                 RecommendedRecipeCard()
             }
         },
-        topAppBarTitle = "StockPal",
+        topAppBarTitle = stringResource(R.string.stockpal),
         navigationIcon = Icons.Default.Menu,
         actionIcon = null,
         navigationContentDescription = null,
         actionContentDescription = null,
-        navigationClickHandler = { },
-        actionClickHandler = {}
+        navController = navController
     )
 }
 
@@ -75,6 +80,7 @@ fun HomeLayout(){
 @Composable
 fun GreetingPreview() {
     StockPalAppTheme {
-        HomeLayout()
+        val navController = rememberNavController()
+        HomeScreen(navController)
     }
 }

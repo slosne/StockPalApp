@@ -13,6 +13,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.stockpalapp.AppLayout
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
 
@@ -46,7 +49,7 @@ fun PantryScreenBtn(modifier: Modifier = Modifier){
 }
 
 @Composable
-fun PantryLayout(modifier: Modifier = Modifier){
+fun PantryScreen(navController: NavController){
     AppLayout(content = { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues)) {
             FoodItem()
@@ -58,8 +61,7 @@ fun PantryLayout(modifier: Modifier = Modifier){
         actionIcon = Icons.Default.Menu,
         navigationContentDescription = null,
         actionContentDescription = null,
-        navigationClickHandler = { },
-        actionClickHandler = {}
+        navController = navController
     )
 }
 
@@ -69,6 +71,7 @@ fun PantryLayout(modifier: Modifier = Modifier){
 @Composable
 fun PantryScreenPreview() {
     StockPalAppTheme {
-        PantryLayout()
+        val navController = rememberNavController()
+        PantryScreen(navController)
     }
 }
