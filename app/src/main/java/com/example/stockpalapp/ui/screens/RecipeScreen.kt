@@ -16,14 +16,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.stockpalapp.AppLayout
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecipeSearch(modifier: Modifier = Modifier){
+fun RecipeSearch(){
     Row {
         TextField(value = "", onValueChange = {})
         Button(onClick = { /*TODO*/ }) {
@@ -33,7 +32,7 @@ fun RecipeSearch(modifier: Modifier = Modifier){
 }
 
 @Composable
-fun RecipeItem(modifier: Modifier = Modifier) {
+fun RecipeItem() {
     Card {
         Row {
             Text(text = "tekst")
@@ -42,14 +41,14 @@ fun RecipeItem(modifier: Modifier = Modifier) {
     }
 }
 @Composable
-fun RecipeList(modifier: Modifier = Modifier){
+fun RecipeList(){
     LazyColumn(){
         item { Text(text = "Mangler:") }
         items(3){ recipeItem -> RecipeItem() }
     }
 }
 @Composable
-fun RecipePage(modifier: Modifier = Modifier){
+fun RecipePage(){
     Column {
         RecipeSearch()
         Text(text = "Middagsforslag")
@@ -69,7 +68,8 @@ fun RecipeScreen(navController: NavController){
         actionIcon = Icons.Default.Menu,
         navigationContentDescription = null,
         actionContentDescription = null,
-        navController = navController
+        navController = navController,
+        leftIconClickHandler = {navController.navigateUp()}
     )
 }
 

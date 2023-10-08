@@ -14,13 +14,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.stockpalapp.AppLayout
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
 
 @Composable
-fun FoodItem(modifier: Modifier = Modifier) {
+fun FoodItem() {
     Card {
         Row {
             Text(text = "bilde")
@@ -34,14 +33,14 @@ fun FoodItem(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun FoodItemList(modifier: Modifier = Modifier){
+fun FoodItemList(){
     LazyColumn(){
         items(3){ shoppingItem -> FoodItem() }
     }
 }
 
 @Composable
-fun PantryScreenBtn(modifier: Modifier = Modifier){
+fun PantryScreenBtn(){
     Button(onClick = { /*TODO*/ }) {
         Text(text = "Del matskap")
 
@@ -61,7 +60,8 @@ fun PantryScreen(navController: NavController){
         actionIcon = Icons.Default.Menu,
         navigationContentDescription = null,
         actionContentDescription = null,
-        navController = navController
+        navController = navController,
+        leftIconClickHandler = {navController.navigateUp()}
     )
 }
 
