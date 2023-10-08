@@ -42,7 +42,7 @@ fun PantryScreenBtn(modifier: Modifier = Modifier){
 
 
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun PantryScreenPreview() {
     StockPalAppTheme {
