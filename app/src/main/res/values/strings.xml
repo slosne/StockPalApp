@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">StockPalApp</string>
+    <string name="missing">Du mangler:</string>
+    <string name="recommodation">Dagens anbefaling</string>
+    <string name="mypantry">Mitt matskap</string>
+    <string name="stockpal">StockPal</string>
 </resources>
