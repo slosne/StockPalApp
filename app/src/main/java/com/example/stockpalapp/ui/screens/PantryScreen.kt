@@ -57,7 +57,7 @@ fun PantryScreenBtn(modifier: Modifier = Modifier){
     uiMode = UI_MODE_NIGHT_YES,
     name = "DarkModePreview"
 )
-
+ //text
 @Composable
 fun PantryScreenPreview() {
     StockPalAppTheme {
