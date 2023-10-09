@@ -38,7 +38,7 @@ fun FoodItem() {
 
 @Composable
 fun FoodItemList(){
-    LazyColumn(){
+    LazyColumn{
         items(3){ shoppingItem -> FoodItem() }
     }
 }
@@ -50,27 +50,6 @@ fun PantryScreenBtn(){
 
     }
 }
-
-
-
-
-
-
-
-
-@Preview(
-    showBackground = true,
-    showSystemUi = true,
-    uiMode = UI_MODE_NIGHT_NO,
-    name = "LightModePreview"
-)
-
-@Preview(
-    showBackground = true,
-    showSystemUi = true,
-    uiMode = UI_MODE_NIGHT_YES,
-    name = "DarkModePreview"
-)
 
 @Composable
 fun PantryScreen(navController: NavController){
@@ -94,7 +73,19 @@ fun PantryScreen(navController: NavController){
    }   
 }
 
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    uiMode = UI_MODE_NIGHT_NO,
+    name = "LightModePreview"
+)
 
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    uiMode = UI_MODE_NIGHT_YES,
+    name = "DarkModePreview"
+)
 
 @Preview(showBackground = true)
 @Composable

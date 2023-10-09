@@ -80,6 +80,9 @@ fun AppLayout(
                     IconButton(onClick = {}) {
                         Icon(imageVector = Icons.Default.Search, contentDescription = null)
                     }
+                    LargeFloatingActionButton(onClick = {}) {
+                        Icon(imageVector = Icons.Default.Add, contentDescription = null)
+                    }
                     IconButton(onClick = {navController.navigate("shoppinglist")}) {
                         Icon(imageVector = Icons.Default.Edit, contentDescription = null)
                     }
@@ -88,10 +91,6 @@ fun AppLayout(
                             imageVector = Icons.Default.AccountCircle,
                             contentDescription = null
                         )
-                    }
-                    Spacer(modifier = Modifier.width(16.dp))
-                    LargeFloatingActionButton(onClick = {}) {
-                        Icon(imageVector = Icons.Default.Add, contentDescription = null)
                     }
                 }
             }
