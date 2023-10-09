@@ -4,7 +4,11 @@ import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Surface
@@ -13,10 +17,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.stockpalapp.AppLayout
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
 
 @Composable
-fun FoodItem(modifier: Modifier = Modifier) {
+fun FoodItem() {
     Card {
         Row {
             Text(text = "bilde")
@@ -30,19 +37,26 @@ fun FoodItem(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun FoodItemList(modifier: Modifier = Modifier){
+fun FoodItemList(){
     LazyColumn(){
         items(3){ shoppingItem -> FoodItem() }
     }
 }
 
 @Composable
-fun PantryScreenBtn(modifier: Modifier = Modifier){
+fun PantryScreenBtn(){
     Button(onClick = { /*TODO*/ }) {
         Text(text = "Del matskap")
 
     }
 }
+
+
+
+
+
+
+
 
 @Preview(
     showBackground = true,
@@ -57,17 +71,36 @@ fun PantryScreenBtn(modifier: Modifier = Modifier){
     uiMode = UI_MODE_NIGHT_YES,
     name = "DarkModePreview"
 )
- //text
+
+@Composable
+fun PantryScreen(navController: NavController){
+   StockPalAppTheme {
+     Surface(tonalElevation = 5.dp) {
+      AppLayout(content = { paddingValues ->
+          Column(modifier = Modifier.padding(paddingValues)) {
+             FoodItem()
+             FoodItemList()
+             PantryScreenBtn()
+     }},
+          topAppBarTitle = "Matskap",
+          navigationIcon = Icons.Default.ArrowBack,
+          actionIcon = Icons.Default.Menu,
+          navigationContentDescription = null,
+          actionContentDescription = null,
+          navController = navController,
+          leftIconClickHandler = {navController.navigateUp()}
+      )
+     }
+   }   
+}
+
+
+
+@Preview(showBackground = true)
 @Composable
 fun PantryScreenPreview() {
     StockPalAppTheme {
-        Surface(tonalElevation = 5.dp) {
-            Column {
-                FoodItem()
-                FoodItemList()
-                PantryScreenBtn()
-            }
-        }
-
+        val navController = rememberNavController()
+        PantryScreen(navController)
     }
 }
