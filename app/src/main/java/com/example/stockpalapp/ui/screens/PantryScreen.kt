@@ -41,6 +41,7 @@ import com.example.stockpalapp.ui.theme.StockPalAppTheme
 fun FoodItem(models: Models, modifier: Modifier = Modifier) {
     Card(modifier = modifier
         .height(100.dp)
+        // Legg til padding fra top navigasjonbaren
     ) {
         Row {
             Image (
@@ -81,14 +82,6 @@ fun FoodItem(models: Models, modifier: Modifier = Modifier) {
     }
 }
 
-//@Composable
-//fun FoodItemList(){
-//    LazyColumn(){
-//        items(3){ shoppingItem -> FoodItem(Models(R.string.carrots, R.drawable.carrots)) }
-//    }
-//}
-
-@Composable
 fun FoodItemList(loadFoodItems: List<Models>, modifier: Modifier = Modifier){
     LazyColumn(modifier = modifier){
         items(loadFoodItems) { models ->
@@ -97,8 +90,6 @@ fun FoodItemList(loadFoodItems: List<Models>, modifier: Modifier = Modifier){
                 modifier = Modifier.padding(8.dp)
             )
         }
-    }
-}
 
 @Composable
 fun PantryScreenBtn(modifier: Modifier = Modifier){
@@ -109,7 +100,6 @@ fun PantryScreenBtn(modifier: Modifier = Modifier){
         Text(text = "Del matskap")
     }
 }
-
 
 @Composable
 fun PantryScreen(navController: NavController){
