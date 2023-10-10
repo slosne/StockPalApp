@@ -4,4 +4,8 @@
     <string name="recommodation">Dagens anbefaling</string>
     <string name="mypantry">Mitt matskap</string>
     <string name="stockpal">StockPal</string>
+    <string name="carrots">Gulrøtter</string>
+    <string name="cheese">Ost</string>
+    <string name="ketchup">Ketchup</string>
+    <string name="sausages">Pølser</string>
 </resources>
