@@ -82,14 +82,17 @@ fun FoodItem(models: Models, modifier: Modifier = Modifier) {
     }
 }
 
-fun FoodItemList(loadFoodItems: List<Models>, modifier: Modifier = Modifier){
-    LazyColumn(modifier = modifier){
+@Composable
+fun FoodItemList(loadFoodItems: List<Models>, modifier: Modifier = Modifier) {
+    LazyColumn(modifier = modifier) {
         items(loadFoodItems) { models ->
             FoodItem(
                 models = models,
                 modifier = Modifier.padding(8.dp)
             )
         }
+    }
+}
 
 @Composable
 fun PantryScreenBtn(modifier: Modifier = Modifier){
@@ -134,12 +137,14 @@ fun PantryScreen(navController: NavController){
     showSystemUi = true,
     uiMode = UI_MODE_NIGHT_YES,
     name = "DarkModePreview"
-)
+        )
 
+
+@Preview(showBackground = true)
 @Composable
 fun PantryScreenPreview() {
     StockPalAppTheme {
         val navController = rememberNavController()
-        PantryScreen(navController)
+        ProfileScreen(navController)
     }
 }
