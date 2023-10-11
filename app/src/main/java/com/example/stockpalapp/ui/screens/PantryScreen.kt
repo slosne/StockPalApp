@@ -68,8 +68,7 @@ fun FoodItem(models: Models, modifier: Modifier = Modifier) {
                     text = "dato",
                     modifier = Modifier
                         .padding(2.dp)
-                        .align(CenterHorizontally)
-                    ,
+                        .align(CenterHorizontally),
                 )
             }
             Button(onClick = { /*TODO*/ }, modifier = Modifier
@@ -83,9 +82,9 @@ fun FoodItem(models: Models, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun FoodItemList(loadFoodItems: List<Models>, modifier: Modifier = Modifier) {
+fun FoodItemList(foodItemList: List<Models>, modifier: Modifier = Modifier) {
     LazyColumn(modifier = modifier) {
-        items(loadFoodItems) { models ->
+        items(foodItemList) { models ->
             FoodItem(
                 models = models,
                 modifier = Modifier.padding(8.dp)
@@ -110,7 +109,7 @@ fun PantryScreen(navController: NavController){
      Surface(tonalElevation = 5.dp) {
       AppLayout(content = { paddingValues ->
           Column(modifier = Modifier.padding(paddingValues)) {
-             FoodItemList(loadFoodItems = Datasource().loadFoodItems())
+             FoodItemList(foodItemList = Datasource().loadFoodItems())
              PantryScreenBtn()
      }},
           topAppBarTitle = "Matskap",

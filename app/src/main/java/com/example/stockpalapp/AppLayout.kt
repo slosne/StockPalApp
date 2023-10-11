@@ -13,6 +13,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeFloatingActionButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
@@ -98,7 +99,11 @@ fun AppLayout(
         },
         bottomBar = {
             Column(horizontalAlignment = Alignment.End) {
-                LargeFloatingActionButton(onClick = { /*TODO*/ }, modifier = Modifier.padding(16.dp)) {
+                LargeFloatingActionButton(onClick = { /*TODO*/ },
+                    modifier = Modifier.padding(16.dp),
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onTertiaryContainer
+                    ) {
                     Icon(imageVector = Icons.Default.Add, contentDescription = null)
                 }
                 Spacer(modifier = Modifier.padding(10.dp))
