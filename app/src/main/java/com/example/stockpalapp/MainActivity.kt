@@ -26,3 +26,13 @@ fun GreetingPreview() {
         AppNavigation()
     }
 }
+
+
+
+
+/* KILDER
+*
+* Brambora0 for StackOverflow (10. juli, 2022).
+* https://stackoverflow.com/questions/72928622/material-3-navigationbaritem-how-to-change-selected-and-unselected-icons
+*
+* */
