@@ -9,16 +9,22 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.DrawerState
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.stockpalapp.AppLayout
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @Composable
 fun ShoppingItem() {
@@ -49,8 +55,9 @@ fun ShoppingListBtn(){
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ShoppingScreen(navController: NavController){
+fun ShoppingScreen(navController: NavController, drawerState: DrawerState, scope: CoroutineScope){
     AppLayout(content = { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues)) {
             ShoppingListSearch()
@@ -64,7 +71,10 @@ fun ShoppingScreen(navController: NavController){
         navigationContentDescription = null,
         actionContentDescription = null,
         navController = navController,
-        leftIconClickHandler = {navController.navigateUp()}
+        leftIconClickHandler = {navController.navigateUp()},
+        drawerState = drawerState,
+        scope = scope,
+        rightIconClickHandler = {scope.launch { drawerState.open() }}
 
     )
 }
@@ -81,13 +91,15 @@ fun ShoppingListSearch(){
 
 }
 
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun ShoppingScreenPreview() {
     StockPalAppTheme {
         val navController = rememberNavController()
-        ShoppingScreen(navController)
+        val scope = rememberCoroutineScope()
+        val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+        ShoppingScreen(navController, drawerState, scope)
 
 
     }
