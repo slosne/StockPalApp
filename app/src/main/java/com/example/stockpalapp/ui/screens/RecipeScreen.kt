@@ -18,10 +18,12 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.stockpalapp.AppLayout
+import com.example.stockpalapp.R
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -32,7 +34,7 @@ fun RecipeSearch(){
     Row {
         TextField(value = "", onValueChange = {})
         Button(onClick = { /*TODO*/ }) {
-            Text(text = "Søk")
+            Text(text = stringResource(R.string.search))
         }
     }
 }
@@ -41,15 +43,15 @@ fun RecipeSearch(){
 fun RecipeItem() {
     Card {
         Row {
-            Text(text = "tekst")
-            Text(text = "bilde")
+            Text(text = stringResource(R.string.text))
+            Text(text = stringResource(R.string.image))
         }
     }
 }
 @Composable
 fun RecipeList(){
     LazyColumn(){
-        item { Text(text = "Mangler:") }
+        item { Text(text = stringResource(R.string.missing_items)) }
         items(3){ recipeItem -> RecipeItem() }
     }
 }
@@ -57,7 +59,7 @@ fun RecipeList(){
 fun RecipePage(){
     Column {
         RecipeSearch()
-        Text(text = "Middagsforslag")
+        Text(text = stringResource(R.string.suggestions))
         RecipeList()
         RecipeList()
     }
@@ -70,11 +72,11 @@ fun RecipeScreen(navController: NavController, drawerState: DrawerState, scope: 
         Column(modifier = Modifier.padding(paddingValues)) {
             RecipePage()
         }},
-        topAppBarTitle = "Oppskrifter",
+        topAppBarTitle = stringResource(R.string.recipes),
         navigationIcon = Icons.Default.ArrowBack,
         actionIcon = Icons.Default.Menu,
-        navigationContentDescription = null,
-        actionContentDescription = null,
+        navigationContentDescription = stringResource(R.string.navigate_up),
+        actionContentDescription = stringResource(R.string.navigation_drawer),
         navController = navController,
         leftIconClickHandler = {navController.navigateUp()},
         drawerState = drawerState,

@@ -35,4 +35,8 @@ fun GreetingPreview() {
 * Brambora0 for StackOverflow (10. juli, 2022).
 * https://stackoverflow.com/questions/72928622/material-3-navigationbaritem-how-to-change-selected-and-unselected-icons
 *
+* Arif, M (4. august, 2023). Mastering Navigation Drawer in Jetpack Compose with Material Design 3 | Android Dev | Kotlin.
+* https://www.youtube.com/watch?v=2pGTSiqnW90
+*
+* https://developer.android.com/
 * */

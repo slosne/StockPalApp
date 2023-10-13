@@ -30,12 +30,12 @@ import kotlinx.coroutines.launch
 fun PantryCarousel(modifier: Modifier = Modifier) {
     Column {
         Text(
-            text = stringResource(R.string.mypantry),
+            text = stringResource(R.string.my_pantry),
             modifier = modifier
         )
         Card {
             LazyRow(){
-                items(5){ pantry -> Text(text = "test")}
+                items(5){ pantry -> Text(text = stringResource(R.string.test))}
             }
         }
     }
@@ -50,12 +50,12 @@ fun RecommendedRecipeCard(modifier: Modifier = Modifier){
         )
         Card {
             Row {
-                Text(text = "bilde")
+                Text(text = stringResource(R.string.image))
                 LazyColumn(){
                     item {
-                        Text(text = stringResource(R.string.missing))
+                        Text(text = stringResource(R.string.missing_items))
                     }
-                    items(5){ pantry -> Text(text = "test")}
+                    items(5){ pantry -> Text(text = stringResource(R.string.test))}
                 }
             }
 
@@ -76,7 +76,7 @@ fun HomeScreen(navController: NavController, drawerState: DrawerState, scope: Co
         topAppBarTitle = stringResource(R.string.stockpal),
         navigationIcon = Icons.Default.Menu,
         actionIcon = null,
-        navigationContentDescription = null,
+        navigationContentDescription = stringResource(R.string.navigation_drawer),
         actionContentDescription = null,
         navController = navController,
         leftIconClickHandler = {scope.launch { drawerState.open() }},
