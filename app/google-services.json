@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1044419734681",
+    "project_id": "stockpal-24be4",
+    "storage_bucket": "stockpal-24be4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1044419734681:android:87226eb32220bff1ae9c08",
+        "android_client_info": {
+          "package_name": "com.example.stockpalapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASmy3tOUteUX_AeOFvsBW29N_fLPWrxio"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
