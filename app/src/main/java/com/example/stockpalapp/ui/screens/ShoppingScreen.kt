@@ -93,8 +93,11 @@ fun ShoppingItemList(shoppingItemList: List<Models>, modifier: Modifier = Modifi
 }
 
 @Composable
-fun ShoppingListBtn(){
-    Button(onClick = { /*TODO*/ }) {
+fun ShoppingListBtn(modifier: Modifier = Modifier){
+    Button(onClick = { /*TODO*/}, modifier = modifier
+        //Finn ut hvordan å sentrere knappen uten å manuelt skrive inn halve dp mengden
+        .padding(horizontal = 145.dp)
+    ) {
         Text(text = "Legg til")
         
     }
