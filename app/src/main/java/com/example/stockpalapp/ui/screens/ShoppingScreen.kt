@@ -33,7 +33,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -112,7 +111,7 @@ fun ShoppingListBtn(modifier: Modifier = Modifier){
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ShoppingScreen(navController: NavController) {
+fun ShoppingScreen(navController: NavController, drawerState: DrawerState, scope: CoroutineScope) {
     StockPalAppTheme {
         Surface(tonalElevation = 5.dp) {
             AppLayout(content = { paddingValues ->
@@ -128,7 +127,10 @@ fun ShoppingScreen(navController: NavController) {
                 navigationContentDescription = stringResource(R.string.navigate_up),
                 actionContentDescription = stringResource(R.string.navigation_drawer),
                 navController = navController,
-                leftIconClickHandler = { navController.navigateUp() }
+                leftIconClickHandler = { navController.navigateUp() },
+                rightIconClickHandler = {scope.launch { drawerState.open() }},
+                drawerState = drawerState,
+                scope = scope,
 
             )
         }
@@ -153,6 +155,7 @@ fun ShoppingListSearch(modifier: Modifier = Modifier){
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview(
     showBackground = true,
     showSystemUi = true,
