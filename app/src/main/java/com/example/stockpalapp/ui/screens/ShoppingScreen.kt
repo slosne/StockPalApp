@@ -18,17 +18,22 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.DrawerState
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,7 +42,10 @@ import androidx.navigation.compose.rememberNavController
 import com.example.stockpalapp.AppLayout
 import com.example.stockpalapp.data.Datasource
 import com.example.stockpalapp.ui.model.Models
+import com.example.stockpalapp.R
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @Composable
 fun ShoppingItem(models: Models, modifier: Modifier = Modifier) {
@@ -69,12 +77,12 @@ fun ShoppingItem(models: Models, modifier: Modifier = Modifier) {
                         //Finn ut hvordan å sentrere knappen
                         // uten å manuelt skrive inn halve dp mengden
                         .padding(horizontal = 40.dp)
-                    ) { Text(text = "Kjøp")}
+                    ) { Text(text = stringResource(R.string.buy))}
                 }
                 Button(onClick = { /*TODO*/ }, modifier = Modifier
                     .align(Alignment.CenterVertically)
                     .padding(horizontal = 10.dp)
-                    ) { Text(text = "Fjern")}
+                    ) { Text(text = stringResource(R.string.delete))}
             }
     }
 }
@@ -98,11 +106,11 @@ fun ShoppingListBtn(modifier: Modifier = Modifier){
         //Finn ut hvordan å sentrere knappen uten å manuelt skrive inn halve dp mengden
         .padding(horizontal = 145.dp)
     ) {
-        Text(text = "Legg til")
-        
+        Text(text = stringResource(R.string.add))
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ShoppingScreen(navController: NavController) {
     StockPalAppTheme {
@@ -114,11 +122,11 @@ fun ShoppingScreen(navController: NavController) {
                     ShoppingListBtn()
                 }
             },
-                topAppBarTitle = "Handleliste",
+                topAppBarTitle = stringResource(R.string.shopping_list),
                 navigationIcon = Icons.Default.ArrowBack,
                 actionIcon = Icons.Default.Menu,
-                navigationContentDescription = null,
-                actionContentDescription = null,
+                navigationContentDescription = stringResource(R.string.navigate_up),
+                actionContentDescription = stringResource(R.string.navigation_drawer),
                 navController = navController,
                 leftIconClickHandler = { navController.navigateUp() }
 
@@ -139,12 +147,11 @@ fun ShoppingListSearch(modifier: Modifier = Modifier){
     ) {
         TextField(value = "", onValueChange = {})
         Button(onClick = { /*TODO*/ }) {
-            Text(text = "Søk")
+            Text(text = stringResource(R.string.search))
         }
     }
 
 }
-
 
 @Preview(
     showBackground = true,
@@ -164,7 +171,9 @@ fun ShoppingListSearch(modifier: Modifier = Modifier){
 fun ShoppingScreenPreview() {
     StockPalAppTheme {
         val navController = rememberNavController()
-        ShoppingScreen(navController)
+        val scope = rememberCoroutineScope()
+        val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+        ShoppingScreen(navController, drawerState, scope)
 
 
     }

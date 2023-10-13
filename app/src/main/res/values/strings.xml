@@ -1,11 +1,29 @@
 <resources>
     <string name="app_name">StockPalApp</string>
-    <string name="missing">Du mangler:</string>
+    <string name="missing_items">Du mangler:</string>
     <string name="recommodation">Dagens anbefaling</string>
-    <string name="mypantry">Mitt matskap</string>
+    <string name="my_pantry">Mitt matskap</string>
     <string name="stockpal">StockPal</string>
     <string name="carrots">Gulrøtter</string>
     <string name="cheese">Ost</string>
     <string name="ketchup">Ketchup</string>
     <string name="sausages">Pølser</string>
+    <string name="image">bilde</string>
+    <string name="test">test</string>
+    <string name="date">dato</string>
+    <string name="delete">Fjern</string>
+    <string name="share_pantry">Del matskap</string>
+    <string name="pantry">Matskap</string>
+    <string name="input_label_name">"Navn: "</string>
+    <string name="input_label_email">"Email: "</string>
+    <string name="profile">Profil</string>
+    <string name="text">tekst</string>
+    <string name="search">Søk</string>
+    <string name="suggestions">Middagsforslag</string>
+    <string name="recipes">Oppskrifter</string>
+    <string name="buy">Kjøp</string>
+    <string name="add">Legg til</string>
+    <string name="shopping_list">Handleliste</string>
+    <string name="navigation_drawer">Navigasjonsmeny</string>
+    <string name="navigate_up">Naviger til forrige skjerm</string>
 </resources>
