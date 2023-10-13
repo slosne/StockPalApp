@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.stockpalapp.AppLayout
+import com.example.stockpalapp.R
 import com.example.stockpalapp.data.Datasource
 import com.example.stockpalapp.ui.model.Models
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
@@ -72,17 +73,16 @@ fun FoodItem(models: Models, modifier: Modifier = Modifier) {
                     style = MaterialTheme.typography.headlineSmall
                 )
                 Text(
-                    text = "dato",
+                    text = stringResource(R.string.date),
                     modifier = Modifier
                         .padding(2.dp)
-                        .align(CenterHorizontally)
-                    ,
+                        .align(CenterHorizontally),
                 )
             }
             Button(onClick = { /*TODO*/ }, modifier = Modifier
                 .align(CenterVertically)
                 .padding(horizontal = 10.dp)
-            ) { Text(text = "Fjern")
+            ) { Text(text = stringResource(R.string.delete))
 
             }
         }
@@ -107,7 +107,7 @@ fun PantryScreenBtn(modifier: Modifier = Modifier){
         //Finn ut hvordan å sentrere knappen uten å manuelt skrive inn halve dp mengden
         .padding(horizontal = 130.dp)
     ) {
-        Text(text = "Del matskap")
+        Text(text = stringResource(R.string.share_pantry))
     }
 }
 
@@ -121,11 +121,11 @@ fun PantryScreen(navController: NavController, drawerState: DrawerState, scope: 
              FoodItemList(loadFoodItems = Datasource().loadFoodItems())
              PantryScreenBtn()
      }},
-          topAppBarTitle = "Matskap",
+          topAppBarTitle = stringResource(R.string.pantry),
           navigationIcon = Icons.Default.ArrowBack,
           actionIcon = Icons.Default.Menu,
-          navigationContentDescription = null,
-          actionContentDescription = null,
+          navigationContentDescription = stringResource(R.string.navigate_up),
+          actionContentDescription = stringResource(R.string.navigation_drawer),
           navController = navController,
           leftIconClickHandler = {navController.navigateUp()},
           scope = scope,

@@ -30,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.stockpalapp.ui.model.BottomNavItem
@@ -65,7 +66,7 @@ fun BottomNavigation(navController: NavController){
                             launchSingleTop = true
                             restoreState = true}
                     },
-                    icon = { Icon(imageVector = item.icon, contentDescription = null) },
+                    icon = { Icon(imageVector = item.icon, contentDescription = item.title) },
                     label = { Text(item.title) }
                 )
             }
@@ -79,10 +80,10 @@ fun HamburgerMenuContent(navController: NavController, drawerState: DrawerState,
 
     val drawerItems = listOf(
         DrawerItem.Home,
-        DrawerItem.Profile,
         DrawerItem.Pantry,
         DrawerItem.Shoppinglist,
-        DrawerItem.Recipe
+        DrawerItem.Recipe,
+        DrawerItem.Profile
     )
 
     val currentRoute = navController.currentBackStackEntry?.destination?.route
@@ -96,7 +97,7 @@ fun HamburgerMenuContent(navController: NavController, drawerState: DrawerState,
             contentAlignment = Alignment.Center
         )
         {
-            Text(text = "StockPal")
+            Text(text = stringResource(R.string.stockpal))
         }
 
         drawerItems.forEach { item ->

@@ -18,10 +18,12 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.stockpalapp.AppLayout
+import com.example.stockpalapp.R
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -30,12 +32,12 @@ import kotlinx.coroutines.launch
 fun ShoppingItem() {
         Card {
             Row {
-                Text(text = "bilde")
+                Text(text = stringResource(R.string.image))
                 Column {
-                    Text(text = "tekst")
-                    Button(onClick = { /*TODO*/ }) { Text(text = "Kjøp")} 
+                    Text(text = stringResource(R.string.text))
+                    Button(onClick = { /*TODO*/ }) { Text(text = stringResource(R.string.buy))}
                 }
-                Button(onClick = { /*TODO*/ }) { Text(text = "Fjern")}
+                Button(onClick = { /*TODO*/ }) { Text(text = stringResource(R.string.delete))}
             }
     }
 }
@@ -50,7 +52,7 @@ fun ShoppingItemList(){
 @Composable
 fun ShoppingListBtn(){
     Button(onClick = { /*TODO*/ }) {
-        Text(text = "Legg til")
+        Text(text = stringResource(R.string.add))
         
     }
 }
@@ -65,11 +67,11 @@ fun ShoppingScreen(navController: NavController, drawerState: DrawerState, scope
             ShoppingItemList()
             ShoppingListBtn()
         }},
-        topAppBarTitle = "Handleliste",
+        topAppBarTitle = stringResource(R.string.shopping_list),
         navigationIcon = Icons.Default.ArrowBack,
         actionIcon = Icons.Default.Menu,
-        navigationContentDescription = null,
-        actionContentDescription = null,
+        navigationContentDescription = stringResource(R.string.navigate_up),
+        actionContentDescription = stringResource(R.string.navigation_drawer),
         navController = navController,
         leftIconClickHandler = {navController.navigateUp()},
         drawerState = drawerState,
@@ -85,7 +87,7 @@ fun ShoppingListSearch(){
     Row {
         TextField(value = "", onValueChange = {})
         Button(onClick = { /*TODO*/ }) {
-            Text(text = "Søk")
+            Text(text = stringResource(R.string.search))
         }
     }
 
