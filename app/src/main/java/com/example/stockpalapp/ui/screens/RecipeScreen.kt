@@ -74,7 +74,7 @@ fun RecipeItem(models: Models, modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .width(50.dp)
                     .fillMaxHeight(),
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Crop,
             )
         }
     }
