@@ -28,14 +28,13 @@ import com.example.stockpalapp.AppLayout
 import com.example.stockpalapp.R
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
 import com.example.stockpalapp.ui.viewmodels.HomeScreenViewModel
-import com.example.stockpalapp.ui.viewmodels.PantryViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
 fun PantryCarousel(modifier: Modifier = Modifier) {
-    val pantryViewModel: PantryViewModel = hiltViewModel()
-    val pantryItems by pantryViewModel.pantry.collectAsState(initial = emptyList())
+    val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
+    val pantryItems by homeScreenViewModel.pantry.collectAsState(initial = emptyList())
 
     Column {
         Text(
@@ -52,8 +51,8 @@ fun PantryCarousel(modifier: Modifier = Modifier) {
 
 @Composable
 fun RecommendedRecipeCard(modifier: Modifier = Modifier){
-    val recipeViewModel: HomeScreenViewModel = hiltViewModel()
-    val recipeList by recipeViewModel.recipes.collectAsState(initial = emptyList())
+    val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
+    val recipeList by homeScreenViewModel.recipes.collectAsState(initial = emptyList())
 
     Column {
         Text(

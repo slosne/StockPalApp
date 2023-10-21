@@ -1,5 +1,6 @@
 package com.example.stockpalapp.data.repositories.module
 
+
 import com.example.stockpalapp.data.repositories.RecipeRepository
 import com.example.stockpalapp.data.repositories.impl.RecipeRepositoryImpl
 import dagger.Binds

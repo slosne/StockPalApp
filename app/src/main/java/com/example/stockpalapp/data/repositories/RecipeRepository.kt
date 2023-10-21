@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 interface RecipeRepository {
     val recipes: Flow<List<Recipe>>
     suspend fun getRecipe(itemID: String): Recipe?
-    suspend fun postRecipe(item: Recipe): String
+    suspend fun save(item: Recipe): String
 }
