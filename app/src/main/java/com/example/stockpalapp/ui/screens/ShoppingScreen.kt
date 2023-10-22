@@ -1,16 +1,13 @@
 package com.example.stockpalapp.ui.screens
 
 import android.content.res.Configuration
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -27,45 +24,39 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.stockpalapp.AppLayout
-import com.example.stockpalapp.data.Datasource
-import com.example.stockpalapp.ui.model.Models
 import com.example.stockpalapp.R
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
+import com.example.stockpalapp.ui.viewmodels.ShoppingScreenViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
-fun ShoppingItem(models: Models, modifier: Modifier = Modifier) {
+fun ShoppingItem(title: String, modifier: Modifier = Modifier) {
         Card(modifier = modifier
             .fillMaxWidth()
             .height(100.dp)) {
             Row {
-                Image(
-                    painter = painterResource(models.imageResourceId),
-                    contentDescription = stringResource(models.stringResourceId),
-                    modifier = modifier
-                        .width(100.dp)
-                        .fillMaxHeight(),
-                    contentScale = ContentScale.Crop
+                Text(
+                    text = stringResource(R.string.image)
                 )
                 Column(modifier = Modifier
                     .weight(1f),
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = LocalContext.current.getString(models.stringResourceId),
+                        text = title,
                         modifier = Modifier
                             .padding(5.dp)
                             .align(Alignment.CenterHorizontally),
@@ -87,13 +78,14 @@ fun ShoppingItem(models: Models, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ShoppingItemList(shoppingItemList: List<Models>, modifier: Modifier = Modifier){
+fun ShoppingItemList(modifier: Modifier = Modifier){
+
+    val shoppingScreenViewModel: ShoppingScreenViewModel = hiltViewModel()
+    val shoppingList by shoppingScreenViewModel.recipes.collectAsState(initial = emptyList())
+
     LazyColumn(modifier = modifier){
-        items(shoppingItemList) { models ->
-            ShoppingItem(
-                models = models,
-                modifier = Modifier.padding(8.dp)
-        )
+        items(shoppingList) { item -> ShoppingItem(item.title,
+            modifier = Modifier.padding(8.dp))
 
         }
     }
@@ -117,7 +109,7 @@ fun ShoppingScreen(navController: NavController, drawerState: DrawerState, scope
             AppLayout(content = { paddingValues ->
                 Column(modifier = Modifier.padding(paddingValues)) {
                     ShoppingListSearch()
-                    ShoppingItemList(shoppingItemList = Datasource().loadShoppingItems())
+                    ShoppingItemList()
                     ShoppingListBtn()
                 }
             },
