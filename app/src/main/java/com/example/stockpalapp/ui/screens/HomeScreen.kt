@@ -1,8 +1,13 @@
 package com.example.stockpalapp.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -20,9 +25,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -32,6 +38,7 @@ import com.example.stockpalapp.ui.theme.StockPalAppTheme
 import com.example.stockpalapp.ui.viewmodels.HomeScreenViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import coil.compose.rememberImagePainter
 
 
 @Composable
@@ -56,32 +63,59 @@ fun PantryCarousel(modifier: Modifier = Modifier) {
     }
 }
 
-
 @Composable
 fun RecommendedRecipeCard(modifier: Modifier = Modifier){
     val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
     val recipeList by homeScreenViewModel.recipes.collectAsState(initial = emptyList())
 
-    //Det må endres på hva som hentes inn etterhvert. Foreløpig henter den bare
-    //random data for å se at det fungerer. Det passer ikke med hva vi har tenkt.
+    //Det må endres på hva som hentes inn etterhvert. Foreløpig henter den
+    //bare en liste med oppskrifter, men den skal egentlig gi anbefaling ut fra ingredienser i pantry
 
-    Column {
-        Card {
-            Row {
-                Text(text = stringResource(R.string.image))
-                LazyColumn{
-                    item {
-                        Text(text = stringResource(R.string.recommodation))
-                    }
-                    items(recipeList){recipe ->
-                        Column {
-                            Text(text = recipe.title)}
-                            Text(text = "Cooking time: " + recipe.cookingTime)
-                            Text(text = "Cuisine: " + recipe.cuisine)
+    Column(modifier = Modifier.padding(20.dp)) {
+        Text(text = stringResource(R.string.recommodation))
+        Spacer(modifier = Modifier.padding(10.dp))
+        LazyColumn{
+            items(recipeList){recipe ->
+                Card(modifier = Modifier
+                    .fillMaxWidth())
+                {
+                    Row(
+                        modifier = Modifier
+                            .height(300.dp)
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .weight(0.3f)
+                        )
+                        {
+                            val imagePainter = rememberImagePainter(data = recipe.image)
+                            Image(
+                                painter = imagePainter,
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .fillMaxSize(),
+                                contentScale = ContentScale.Crop
+                            )
                         }
+                        Spacer(modifier = Modifier.padding(5.dp))
+                        Column(modifier = Modifier.fillMaxSize()
+                            .weight(0.7f)
+                            .padding(8.dp))
+                        {
+                            Text(text = recipe.title)
+                            Spacer(modifier = Modifier.padding(5.dp))
+                            Text(text = "Cooking time: " + recipe.cookingTime)
+                            Spacer(modifier = Modifier.padding(5.dp))
+                            Column{
+                                Text(text = "Ingredients:")
+                                recipe.ingredients.forEach { ingredient ->
+                                    Text(text = ingredient)
+                                }
+                            }
+                        }
+                    }
                 }
             }
-
         }
     }
 }
@@ -97,7 +131,6 @@ fun HomeScreen(
     AppLayout(
         content = { paddingValues ->
             Column(modifier = Modifier.padding(paddingValues)) {
-                //Kommentert ut PantryCarousel, fordi det er noe galt med innehenting av pantryitems
                 PantryCarousel()
                 RecommendedRecipeCard()
             }
