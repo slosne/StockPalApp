@@ -2,10 +2,10 @@ package com.example.stockpalapp.data.repositories.impl
 
 import com.example.stockpalapp.data.repositories.PantryRepository
 import kotlinx.coroutines.flow.Flow
+import com.google.firebase.firestore.toObject
+import com.google.firebase.firestore.dataObjects
 import com.example.stockpalapp.model.PantryItem
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.dataObjects
-import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
