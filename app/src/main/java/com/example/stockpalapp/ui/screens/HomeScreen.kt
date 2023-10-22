@@ -1,5 +1,6 @@
 package com.example.stockpalapp.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -19,6 +20,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -44,7 +46,11 @@ fun PantryCarousel(modifier: Modifier = Modifier) {
         )
         Card {
             LazyRow{
-                items(pantryItems){item -> Text(text = item.name)}
+                items(pantryItems){item ->
+                    Text(text = item.cookingTime)
+                    Text(text = item.vendor)
+                    Text(text = item.eannumber.toString())
+                }
             }
         }
     }
@@ -92,7 +98,7 @@ fun HomeScreen(
         content = { paddingValues ->
             Column(modifier = Modifier.padding(paddingValues)) {
                 //Kommentert ut PantryCarousel, fordi det er noe galt med innehenting av pantryitems
-                //PantryCarousel()
+                PantryCarousel()
                 RecommendedRecipeCard()
             }
         },
