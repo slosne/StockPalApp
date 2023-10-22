@@ -14,13 +14,17 @@ class RecipeRepositoryImpl
 constructor(private val firestore: FirebaseFirestore) : RecipeRepository {
 
     override val recipes: Flow<List<Recipe>>
-        get() = firestore.collection("recipes").dataObjects()
+        get() = firestore.collection(RECIPE_COLLECTION).dataObjects()
 
     override suspend fun getRecipe(movieId: String): Recipe? =
-        firestore.collection("recipes").document(movieId).get().await().toObject()
+        firestore.collection(RECIPE_COLLECTION).document(movieId).get().await().toObject()
 
 
     override suspend fun save(recipe: Recipe): String =
-        firestore.collection("recipes").add(recipe).await().id
+        firestore.collection(RECIPE_COLLECTION).add(recipe).await().id
+
+    companion object {
+        private const val RECIPE_COLLECTION = "recipes"
+    }
 
 }
