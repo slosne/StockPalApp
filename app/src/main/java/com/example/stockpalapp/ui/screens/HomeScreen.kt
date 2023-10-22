@@ -31,6 +31,7 @@ import com.example.stockpalapp.ui.viewmodels.HomeScreenViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+
 @Composable
 fun PantryCarousel(modifier: Modifier = Modifier) {
     val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
@@ -49,30 +50,36 @@ fun PantryCarousel(modifier: Modifier = Modifier) {
     }
 }
 
+
 @Composable
 fun RecommendedRecipeCard(modifier: Modifier = Modifier){
     val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
     val recipeList by homeScreenViewModel.recipes.collectAsState(initial = emptyList())
 
+    //Det må endres på hva som hentes inn etterhvert. Foreløpig henter den bare
+    //random data for å se at det fungerer. Det passer ikke med hva vi har tenkt.
+
     Column {
-        Text(
-            text = stringResource(R.string.recommodation),
-            modifier = modifier
-        )
         Card {
             Row {
                 Text(text = stringResource(R.string.image))
                 LazyColumn{
                     item {
-                        Text(text = stringResource(R.string.missing_items))
+                        Text(text = stringResource(R.string.recommodation))
                     }
-                    items(recipeList){recipe -> Text(text = recipe.title)}
+                    items(recipeList){recipe ->
+                        Column {
+                            Text(text = recipe.title)}
+                            Text(text = "Cooking time: " + recipe.cookingTime)
+                            Text(text = "Cuisine: " + recipe.cuisine)
+                        }
                 }
             }
 
         }
     }
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -84,7 +91,8 @@ fun HomeScreen(
     AppLayout(
         content = { paddingValues ->
             Column(modifier = Modifier.padding(paddingValues)) {
-                PantryCarousel()
+                //Kommentert ut PantryCarousel, fordi det er noe galt med innehenting av pantryitems
+                //PantryCarousel()
                 RecommendedRecipeCard()
             }
         },

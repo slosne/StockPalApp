@@ -14,12 +14,15 @@ class PantryRepositoryImpl
 constructor(private val firestore: FirebaseFirestore) : PantryRepository {
 
     override val pantry: Flow<List<PantryItem>>
-        get() = firestore.collection("pantry").dataObjects()
+        get() = firestore.collection(PANTRY_COLLECTION).dataObjects()
 
     override suspend fun getPantryItem(itemID: String): PantryItem? =
-        firestore.collection("pantry").document(itemID).get().await().toObject()
+        firestore.collection(PANTRY_COLLECTION).document(itemID).get().await().toObject()
 
     override suspend fun save(item: PantryItem): String =
-        firestore.collection("pantry").add(item).await().id
+        firestore.collection(PANTRY_COLLECTION).add(item).await().id
 
+    companion object {
+        private const val PANTRY_COLLECTION = "pantry"
+    }
 }

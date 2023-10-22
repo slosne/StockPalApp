@@ -8,4 +8,3 @@ interface PantryRepository {
     suspend fun getPantryItem(itemID: String): PantryItem?
     suspend fun save(item: PantryItem): String
 }
-
