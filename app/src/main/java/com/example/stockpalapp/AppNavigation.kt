@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.stockpalapp.ui.model.Routes
+import com.example.stockpalapp.ui.screens.AddPantryItemScreen
 import com.example.stockpalapp.ui.screens.HomeScreen
 import com.example.stockpalapp.ui.screens.RecipeScreen
 import com.example.stockpalapp.ui.screens.ShoppingScreen
@@ -29,5 +30,6 @@ fun AppNavigation() {
         composable(routes.pantry) { PantryScreen(navController, drawerState, scope) }
         composable(routes.recipes) { RecipeScreen(navController, drawerState, scope) }
         composable(routes.profile) { ProfileScreen(navController, drawerState, scope) }
+        composable(routes.AddPantryItem) { AddPantryItemScreen(navController, drawerState, scope)}
     }
 }
