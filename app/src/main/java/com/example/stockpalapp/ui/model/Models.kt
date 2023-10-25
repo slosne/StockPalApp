@@ -4,6 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
@@ -22,13 +23,14 @@ data class Routes(
    val recipes: String = "recipes",
    val profile: String = "profile",
    val login: String = "login",
-   val AddPantryItem: String = "addpantryitem"
+   val addPantryItem: String = "addpantryitem"
 )
 
 data class Titles(
    val home: String = "Hjem",
    val shoppingList: String = "Handleliste",
    val pantry: String = "Matskap",
+   val addPantryItem: String = "Ny vare",
    val recipes: String = "Oppskrifter",
    val profile: String = "Profil"
 )
@@ -38,6 +40,8 @@ sealed class BottomNavItem(var title: String, var icon: ImageVector, var screen_
    object Shoppinglist: BottomNavItem(Titles().shoppingList, Icons.Filled.Edit,Routes().shoppingList)
    object Pantry: BottomNavItem(Titles().pantry, Icons.Filled.ShoppingCart,Routes().pantry)
    object Recipe: BottomNavItem(Titles().recipes, Icons.Filled.List,Routes().recipes)
+   object AddPantryItem: BottomNavItem(Titles().addPantryItem, Icons.Filled.Add,Routes().addPantryItem)
+
 }
 
 sealed class DrawerItem(var screen_route: String, var icon: ImageVector, var label: String){

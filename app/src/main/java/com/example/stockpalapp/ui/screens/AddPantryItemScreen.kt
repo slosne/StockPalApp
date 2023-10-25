@@ -1,10 +1,5 @@
 package com.example.stockpalapp.ui.screens
 
-import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -14,7 +9,6 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
@@ -31,7 +25,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -45,10 +38,8 @@ import kotlinx.coroutines.launch
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddPantryItemScanning(modifier: Modifier = Modifier) {
+fun AddPantryItemScanning() {
     Button(onClick = { /*TODO*/ }) {
         Text(text = "Scanne Produkter")
     }
@@ -57,7 +48,7 @@ fun AddPantryItemScanning(modifier: Modifier = Modifier) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddPantryItem(modifier: Modifier = Modifier) {
+fun AddPantryItem() {
     var expandedState by remember { mutableStateOf(true)}
 
     ElevatedCard(
@@ -163,10 +154,10 @@ fun AddPantryItemScreen(navController: NavController, drawerState: DrawerState, 
                 navigationContentDescription = stringResource(R.string.navigate_up),
                 actionContentDescription = stringResource(R.string.navigation_drawer),
                 navController = navController,
-                leftIconClickHandler = {navController.navigateUp()},
+                navigationClickHandler = {navController.navigateUp()},
                 scope = scope,
                 drawerState = drawerState,
-                rightIconClickHandler = {scope.launch { drawerState.open() }}
+                arrowBackClickHandler = {scope.launch { drawerState.open() }}
             )
         }
     }

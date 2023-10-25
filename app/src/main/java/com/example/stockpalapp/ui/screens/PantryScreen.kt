@@ -41,6 +41,7 @@ import com.example.stockpalapp.AppLayout
 import com.example.stockpalapp.R
 import com.example.stockpalapp.data.Datasource
 import com.example.stockpalapp.ui.model.Models
+import com.example.stockpalapp.ui.model.Routes
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -102,13 +103,17 @@ fun FoodItemList(foodItemList: List<Models>, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun PantryScreenBtn(modifier: Modifier = Modifier){
-    Button(onClick = { /*TODO*/ }, modifier = modifier
-        //Finn ut hvordan å sentrere knappen uten å manuelt skrive inn halve dp mengden
-        .padding(horizontal = 130.dp)
-    ) {
-        Text(text = stringResource(R.string.share_pantry))
+fun PantryScreenBtn(navController: NavController){
+    Row(horizontalArrangement = Arrangement.SpaceBetween) {
+        Button(onClick = { /*TODO*/ }
+        ) {
+            Text(text = stringResource(R.string.share_pantry))
+        }
+        Button(onClick = { navController.navigate(Routes().addPantryItem) }) {
+            Text(text = stringResource(R.string.add))
+        }
     }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -119,7 +124,7 @@ fun PantryScreen(navController: NavController, drawerState: DrawerState, scope: 
       AppLayout(content = { paddingValues ->
           Column(modifier = Modifier.padding(paddingValues)) {
              FoodItemList(foodItemList = Datasource().loadFoodItems())
-             PantryScreenBtn()
+             PantryScreenBtn(navController)
      }},
           topAppBarTitle = stringResource(R.string.pantry),
           navigationIcon = Icons.Default.ArrowBack,
@@ -127,10 +132,10 @@ fun PantryScreen(navController: NavController, drawerState: DrawerState, scope: 
           navigationContentDescription = stringResource(R.string.navigate_up),
           actionContentDescription = stringResource(R.string.navigation_drawer),
           navController = navController,
-          leftIconClickHandler = {navController.navigateUp()},
+          navigationClickHandler = {navController.navigateUp()},
           scope = scope,
           drawerState = drawerState,
-          rightIconClickHandler = {scope.launch { drawerState.open() }}
+          arrowBackClickHandler = {scope.launch { drawerState.open() }}
       )
      }
    }   

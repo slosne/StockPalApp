@@ -30,6 +30,6 @@ fun AppNavigation() {
         composable(routes.pantry) { PantryScreen(navController, drawerState, scope) }
         composable(routes.recipes) { RecipeScreen(navController, drawerState, scope) }
         composable(routes.profile) { ProfileScreen(navController, drawerState, scope) }
-        composable(routes.AddPantryItem) { AddPantryItemScreen(navController, drawerState, scope)}
+        composable(routes.addPantryItem) { AddPantryItemScreen(navController, drawerState, scope)}
     }
 }

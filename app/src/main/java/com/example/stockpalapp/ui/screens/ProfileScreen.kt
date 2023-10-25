@@ -56,10 +56,10 @@ fun ProfileScreen(navController: NavController, drawerState: DrawerState, scope:
                 navigationContentDescription = stringResource(R.string.navigate_up),
                 actionContentDescription = stringResource(R.string.navigation_drawer),
                 navController = navController,
-                leftIconClickHandler = {navController.navigateUp()},
+                navigationClickHandler = {navController.navigateUp()},
                 scope = scope,
                 drawerState = drawerState,
-                rightIconClickHandler = {scope.launch { drawerState.open() }}
+                arrowBackClickHandler = {scope.launch { drawerState.open() }}
             )
         }
     }
