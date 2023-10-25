@@ -64,7 +64,7 @@ fun PantryCarousel(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun RecommendedRecipeCard(modifier: Modifier = Modifier){
+fun RecommendedRecipeCard(){
     val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
     val recipeList by homeScreenViewModel.recipes.collectAsState(initial = emptyList())
 
@@ -136,12 +136,12 @@ fun HomeScreen(
             }
         },
         topAppBarTitle = stringResource(R.string.stockpal),
-        navigationIcon = Icons.Default.Menu,
-        actionIcon = null,
+        navigationIcon = null,
+        actionIcon = Icons.Default.Menu,
         navigationContentDescription = stringResource(R.string.navigation_drawer),
         actionContentDescription = null,
         navController = navController,
-        leftIconClickHandler = {scope.launch { drawerState.open() }},
+        arrowBackClickHandler = {scope.launch { drawerState.open() }},
         drawerState = drawerState,
         scope = scope,
     )

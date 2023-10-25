@@ -3,19 +3,14 @@ package com.example.stockpalapp
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LargeFloatingActionButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationBar
@@ -48,6 +43,7 @@ fun BottomNavigation(navController: NavController){
     val navItems = listOf(
         BottomNavItem.Home,
         BottomNavItem.Shoppinglist,
+        BottomNavItem.AddPantryItem,
         BottomNavItem.Pantry,
         BottomNavItem.Recipe
     )
@@ -126,11 +122,11 @@ fun HamburgerMenuContent(navController: NavController, drawerState: DrawerState,
 @Composable
 fun AppLayout(
     content: @Composable (PaddingValues) -> Unit,
-    leftIconClickHandler: () -> Unit = {},
-    rightIconClickHandler: () -> Unit = {},
+    navigationClickHandler: () -> Unit = {},
+    arrowBackClickHandler: () -> Unit = {},
     topAppBarTitle: String,
-    navigationIcon: ImageVector,
-    actionIcon: ImageVector?,
+    navigationIcon: ImageVector?,
+    actionIcon: ImageVector,
     navigationContentDescription: String?,
     actionContentDescription: String?,
     navController: NavController,
@@ -150,35 +146,25 @@ fun AppLayout(
                 CenterAlignedTopAppBar(
                     title = { Text(text = topAppBarTitle) },
                     navigationIcon = {
-                        IconButton(onClick = {leftIconClickHandler()}) {
-                            Icon(
-                                imageVector = navigationIcon,
-                                contentDescription = navigationContentDescription
-                            )
+                        IconButton(onClick = {navigationClickHandler()}) {
+                            if(navigationIcon != null){
+                                Icon(
+                                    imageVector = navigationIcon,
+                                    contentDescription = navigationContentDescription
+                                )
+                            }
                         }
                     }, actions = {
-                        IconButton(onClick = {rightIconClickHandler()}) {
-                            if (actionIcon != null) {
+                        IconButton(onClick = {arrowBackClickHandler()}) {
                                 Icon(
                                     imageVector = actionIcon,
                                     contentDescription = actionContentDescription
                                 )
-                            }
                         }
                     }, colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xE7F0F5ff))
                 )
             },
         bottomBar = {
-
-                LargeFloatingActionButton(onClick = { /*TODO*/ },
-                    modifier = Modifier
-                        .offset(x = 280.dp, y = -110.dp),
-                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onTertiaryContainer
-                    ) {
-                    Icon(imageVector = Icons.Default.Add, contentDescription = null)
-                }
-                //Spacer(modifier = Modifier.padding(10.dp))
                 BottomNavigation(navController)
 
         },

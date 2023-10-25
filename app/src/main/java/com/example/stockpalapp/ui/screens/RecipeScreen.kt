@@ -91,10 +91,10 @@ fun RecipeScreen(navController: NavController, drawerState: DrawerState, scope: 
         navigationContentDescription = stringResource(R.string.navigate_up),
         actionContentDescription = stringResource(R.string.navigation_drawer),
         navController = navController,
-        leftIconClickHandler = {navController.navigateUp()},
+        navigationClickHandler = {navController.navigateUp()},
         drawerState = drawerState,
         scope = scope,
-        rightIconClickHandler = {scope.launch { drawerState.open() }}
+        arrowBackClickHandler = {scope.launch { drawerState.open() }}
     )
 }
 

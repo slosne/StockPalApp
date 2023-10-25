@@ -119,8 +119,8 @@ fun ShoppingScreen(navController: NavController, drawerState: DrawerState, scope
                 navigationContentDescription = stringResource(R.string.navigate_up),
                 actionContentDescription = stringResource(R.string.navigation_drawer),
                 navController = navController,
-                leftIconClickHandler = { navController.navigateUp() },
-                rightIconClickHandler = {scope.launch { drawerState.open() }},
+                navigationClickHandler = { navController.navigateUp() },
+                arrowBackClickHandler = {scope.launch { drawerState.open() }},
                 drawerState = drawerState,
                 scope = scope,
 
