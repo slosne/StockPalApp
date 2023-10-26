@@ -35,6 +35,13 @@ data class Titles(
    val profile: String = "Profil"
 )
 
+val categories = listOf(
+   "Frysevarer",
+   "Kjølevarer",
+   "Tørrvarer",
+   "Annet"
+)
+
 sealed class BottomNavItem(var title: String, var icon: ImageVector, var screen_route: String){
    object Home: BottomNavItem(Titles().home, Icons.Filled.Home,Routes().home)
    object Shoppinglist: BottomNavItem(Titles().shoppingList, Icons.Filled.Edit,Routes().shoppingList)

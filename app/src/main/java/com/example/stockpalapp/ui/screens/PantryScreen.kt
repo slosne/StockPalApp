@@ -6,9 +6,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -40,6 +43,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.stockpalapp.AppLayout
 import com.example.stockpalapp.R
 import com.example.stockpalapp.data.Datasource
+import com.example.stockpalapp.ui.components.CategoryTab
 import com.example.stockpalapp.ui.model.Models
 import com.example.stockpalapp.ui.model.Routes
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
@@ -104,11 +108,12 @@ fun FoodItemList(foodItemList: List<Models>, modifier: Modifier = Modifier) {
 
 @Composable
 fun PantryScreenBtn(navController: NavController){
-    Row(horizontalArrangement = Arrangement.SpaceBetween) {
+    Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
         Button(onClick = { /*TODO*/ }
         ) {
             Text(text = stringResource(R.string.share_pantry))
         }
+        Spacer(modifier = Modifier.size(15.dp))
         Button(onClick = { navController.navigate(Routes().addPantryItem) }) {
             Text(text = stringResource(R.string.add))
         }
@@ -123,8 +128,11 @@ fun PantryScreen(navController: NavController, drawerState: DrawerState, scope: 
      Surface(tonalElevation = 5.dp) {
       AppLayout(content = { paddingValues ->
           Column(modifier = Modifier.padding(paddingValues)) {
+              CategoryTab()
+              Spacer(modifier = Modifier.size(30.dp))
              FoodItemList(foodItemList = Datasource().loadFoodItems())
-             PantryScreenBtn(navController)
+             Spacer(modifier = Modifier.size(20.dp))
+              PantryScreenBtn(navController)
      }},
           topAppBarTitle = stringResource(R.string.pantry),
           navigationIcon = Icons.Default.ArrowBack,
