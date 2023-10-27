@@ -1,18 +1,13 @@
 package com.example.stockpalapp.ui.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,11 +23,12 @@ import com.example.stockpalapp.ui.theme.StockPalAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PantrySearch(modifier: Modifier = Modifier){
+fun SearchComponent(){
 
     var searchValue by remember {
         mutableStateOf("")
     }
+
     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center){
         OutlinedTextField(
             value = searchValue,
@@ -56,6 +52,6 @@ fun PantrySearch(modifier: Modifier = Modifier){
 @Composable
 fun PantrySearchPreview() {
     StockPalAppTheme {
-        PantrySearch()
+        SearchComponent()
     }
 }
