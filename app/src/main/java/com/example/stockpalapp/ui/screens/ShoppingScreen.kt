@@ -5,19 +5,29 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -29,6 +39,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,45 +48,13 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.stockpalapp.AppLayout
 import com.example.stockpalapp.R
+import com.example.stockpalapp.ui.components.FilledBtn
+import com.example.stockpalapp.ui.components.ProductListItem
+import com.example.stockpalapp.ui.components.StandardBtn
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
 import com.example.stockpalapp.ui.viewmodels.ShoppingScreenViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-
-@Composable
-fun ShoppingItem(title: String, modifier: Modifier = Modifier) {
-        Card(modifier = modifier
-            .fillMaxWidth()
-            .height(100.dp)) {
-            Row {
-                Text(
-                    text = stringResource(R.string.image)
-                )
-                Column(modifier = Modifier
-                    .weight(1f),
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = title,
-                        modifier = Modifier
-                            .padding(5.dp)
-                            .align(Alignment.CenterHorizontally),
-                        style = MaterialTheme.typography.headlineSmall
-
-                    )
-                    Button(onClick = { /*TODO*/ }, modifier = Modifier
-                        //Finn ut hvordan å sentrere knappen
-                        // uten å manuelt skrive inn halve dp mengden
-                        .padding(horizontal = 40.dp)
-                    ) { Text(text = stringResource(R.string.buy))}
-                }
-                Button(onClick = { /*TODO*/ }, modifier = Modifier
-                    .align(Alignment.CenterVertically)
-                    .padding(horizontal = 10.dp)
-                    ) { Text(text = stringResource(R.string.delete))}
-            }
-    }
-}
 
 @Composable
 fun ShoppingItemList(modifier: Modifier = Modifier){
@@ -84,20 +63,19 @@ fun ShoppingItemList(modifier: Modifier = Modifier){
     val shoppingList by shoppingScreenViewModel.recipes.collectAsState(initial = emptyList())
 
     LazyColumn(modifier = modifier){
-        items(shoppingList) { item -> ShoppingItem(item.title,
-            modifier = Modifier.padding(8.dp))
-
+        items(shoppingList) { item ->
+            ProductListItem(title = item.title, description = item.cuisine, imageUrl = item.image) {
+                Row {
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(modifier = Modifier.size(40.dp), imageVector = Icons.Default.Check, contentDescription = "Kjøpt")
+                    }
+                    Spacer(modifier = Modifier.size(7.dp))
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(modifier = Modifier.size(40.dp), imageVector = Icons.Default.Delete, contentDescription = "Kjøpt")
+                    }
+                }
+            }
         }
-    }
-}
-
-@Composable
-fun ShoppingListBtn(modifier: Modifier = Modifier){
-    Button(onClick = { /*TODO*/}, modifier = modifier
-        //Finn ut hvordan å sentrere knappen uten å manuelt skrive inn halve dp mengden
-        .padding(horizontal = 145.dp)
-    ) {
-        Text(text = stringResource(R.string.add))
     }
 }
 
@@ -106,13 +84,19 @@ fun ShoppingListBtn(modifier: Modifier = Modifier){
 fun ShoppingScreen(navController: NavController, drawerState: DrawerState, scope: CoroutineScope) {
     StockPalAppTheme {
         Surface(tonalElevation = 5.dp) {
-            AppLayout(content = { paddingValues ->
-                Column(modifier = Modifier.padding(paddingValues)) {
-                    ShoppingListSearch()
-                    ShoppingItemList()
-                    ShoppingListBtn()
-                }
-            },
+            AppLayout(
+                content = { paddingValues ->
+                    Column(modifier = Modifier.padding(paddingValues)) {
+                        ShoppingItemList()
+                        Spacer(modifier = Modifier.size(30.dp))
+                        Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
+                            StandardBtn(modifier = Modifier, {}, "Legg til")
+                            Spacer(modifier = Modifier.size(10.dp))
+                            StandardBtn(modifier = Modifier, {}, "Del handleliste")
+
+                        }
+                    }
+                },
                 topAppBarTitle = stringResource(R.string.shopping_list),
                 navigationIcon = Icons.Default.ArrowBack,
                 actionIcon = Icons.Default.Menu,
@@ -120,31 +104,13 @@ fun ShoppingScreen(navController: NavController, drawerState: DrawerState, scope
                 actionContentDescription = stringResource(R.string.navigation_drawer),
                 navController = navController,
                 navigationClickHandler = { navController.navigateUp() },
-                arrowBackClickHandler = {scope.launch { drawerState.open() }},
+                arrowBackClickHandler = { scope.launch { drawerState.open() } },
                 drawerState = drawerState,
                 scope = scope,
 
-            )
+                )
         }
     }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun ShoppingListSearch(modifier: Modifier = Modifier){
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-            .background(MaterialTheme.colorScheme.background),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        TextField(value = "", onValueChange = {})
-        Button(onClick = { /*TODO*/ }) {
-            Text(text = stringResource(R.string.search))
-        }
-    }
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -169,7 +135,6 @@ fun ShoppingScreenPreview() {
         val scope = rememberCoroutineScope()
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
         ShoppingScreen(navController, drawerState, scope)
-
 
     }
 }
