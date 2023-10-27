@@ -63,19 +63,18 @@ fun ShoppingItemList(modifier: Modifier = Modifier){
     val shoppingList by shoppingScreenViewModel.recipes.collectAsState(initial = emptyList())
 
     LazyColumn(modifier = modifier){
-        items(shoppingList) { item -> ProductListItem(title = item.title, description = item.cuisine, imageUrl = item.image) {
-            Row {
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(modifier = Modifier.size(40.dp), imageVector = Icons.Default.Check, contentDescription = "Kjøpt")
-                }
-                Spacer(modifier = Modifier.size(7.dp))
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(modifier = Modifier.size(40.dp), imageVector = Icons.Default.Delete, contentDescription = "Kjøpt")
+        items(shoppingList) { item ->
+            ProductListItem(title = item.title, description = item.cuisine, imageUrl = item.image) {
+                Row {
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(modifier = Modifier.size(40.dp), imageVector = Icons.Default.Check, contentDescription = "Kjøpt")
+                    }
+                    Spacer(modifier = Modifier.size(7.dp))
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(modifier = Modifier.size(40.dp), imageVector = Icons.Default.Delete, contentDescription = "Kjøpt")
+                    }
                 }
             }
-
-        }
-
         }
     }
 }

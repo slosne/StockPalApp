@@ -39,17 +39,20 @@ fun RecipeList(){
     val recipeScreenViewModel: RecipeScreenViewModel = hiltViewModel()
     val recipeList by recipeScreenViewModel.recipes.collectAsState(initial = emptyList())
 
-    LazyColumn(){
-        items(recipeList){ item -> FullRecipeCard(
+    LazyColumn{
+        items(recipeList){ item ->
+            FullRecipeCard(
             title = item.title,
             imageUrl = item.image,
             cuisine = item.cuisine,
             cookingTime = item.cookingTime,
             ingredients = item.ingredients,
             instructions = item.instructions
-        ) {
-
-        } }
+        )
+            {
+                //no content yet
+            }
+        }
     }
 }
 @Composable
@@ -57,7 +60,6 @@ fun RecipePage(){
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         SearchComponent()
         Text(text = stringResource(R.string.suggestions), style = TextStyle(fontSize = 20.sp))
-        RecipeList()
         RecipeList()
     }
 }
