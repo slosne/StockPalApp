@@ -44,6 +44,7 @@ import com.example.stockpalapp.AppLayout
 import com.example.stockpalapp.R
 import com.example.stockpalapp.data.Datasource
 import com.example.stockpalapp.ui.components.CategoryTab
+import com.example.stockpalapp.ui.components.PantrySearch
 import com.example.stockpalapp.ui.model.Models
 import com.example.stockpalapp.ui.model.Routes
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
@@ -130,6 +131,8 @@ fun PantryScreen(navController: NavController, drawerState: DrawerState, scope: 
           Column(modifier = Modifier.padding(paddingValues)) {
               CategoryTab()
               Spacer(modifier = Modifier.size(30.dp))
+              PantrySearch()
+              Spacer(modifier = Modifier.size(10.dp))
              FoodItemList(foodItemList = Datasource().loadFoodItems())
              Spacer(modifier = Modifier.size(20.dp))
               PantryScreenBtn(navController)
