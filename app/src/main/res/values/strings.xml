@@ -26,4 +26,12 @@
     <string name="shopping_list">Handleliste</string>
     <string name="navigation_drawer">Navigasjonsmeny</string>
     <string name="navigate_up">Naviger til forrige skjerm</string>
+    <string name="webClientId">1044419734681-q3ju77gqm3iaqnu6lpqidsn8q70lbn9m.apps.googleusercontent.com</string>
+    <string name="email">Email</string>
+    <string name="password">Passord</string>
+    <string name="login">Log In</string>
+    <string name="notRegistered">Ikke registrert?</string>
+    <string name="signup">Sign Up</string>
+    <string name="alreadyRegistered">Allerede registert?</string>
+    <string name="name">Navn</string>
 </resources>

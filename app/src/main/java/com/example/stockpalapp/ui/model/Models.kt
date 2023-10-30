@@ -23,7 +23,8 @@ data class Routes(
    val recipes: String = "recipes",
    val profile: String = "profile",
    val login: String = "login",
-   val addPantryItem: String = "addpantryitem"
+   val addPantryItem: String = "addpantryitem",
+   val signup: String = "signup"
 )
 
 data class Titles(
