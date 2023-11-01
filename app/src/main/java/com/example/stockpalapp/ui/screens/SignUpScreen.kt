@@ -24,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -53,6 +54,7 @@ fun SignupScreen(
     var password by remember { mutableStateOf("") }
 
     val authResource = viewModel?.signupFlow?.collectAsState()
+    val context = LocalContext.current
 
     Column(
         Modifier
@@ -119,7 +121,7 @@ fun SignupScreen(
             )
             Spacer(modifier = Modifier.size(12.dp))
 
-            Button(onClick = {viewModel?.handleSignUpClick(name, email, password)}){
+            Button(onClick = {viewModel?.handleSignUpClick(name, email, password, context)}){
                 Text(text = "Sign up")
             }
             Spacer(modifier = Modifier.size(12.dp))
