@@ -12,7 +12,20 @@
           "package_name": "com.example.stockpalapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1044419734681-losan93oqej26a2r0v186d4lrcn0a9bv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.stockpalapp",
+            "certificate_hash": "9669ff16c8cf380651b0bf2f239badf17b2f4d3d"
+          }
+        },
+        {
+          "client_id": "1044419734681-q3ju77gqm3iaqnu6lpqidsn8q70lbn9m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyASmy3tOUteUX_AeOFvsBW29N_fLPWrxio"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1044419734681-7141b1vdk3sd5kco2p8t6q5fre0jlhrb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

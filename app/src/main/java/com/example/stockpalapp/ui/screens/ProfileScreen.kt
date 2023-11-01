@@ -1,53 +1,71 @@
 package com.example.stockpalapp.ui.screens
 
-import androidx.compose.foundation.Image
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.DrawerState
-import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.stockpalapp.AppLayout
 import com.example.stockpalapp.R
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
-import com.example.stockpalapp.R.drawable.womansprofile
+import com.example.stockpalapp.ui.model.Routes
+import com.example.stockpalapp.ui.viewmodels.AuthViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
-fun ProfileCard() {
+fun ProfileCard(
+    viewModel: AuthViewModel?,
+    name: String,
+    email: String,
+    navController: NavController)
+{
     Card(modifier = Modifier.padding(15.dp)) {
         Column(modifier = Modifier.padding(30.dp)) {
-            Image(painter = painterResource(id = womansprofile) , contentDescription = null)
-                Text(text = stringResource(R.string.input_label_name))
-                Text(text = stringResource(R.string.input_label_email))
+            Text(text = "Your profile")
+            Text(text = stringResource(R.string.input_label_name) + name)
+                Text(text = stringResource(R.string.input_label_email) + email)
+            
+            Button(onClick = { viewModel?.logout()
+                Log.e("ProfileScreen", "Logging out")
+                navController.navigate(Routes().login){
+                    popUpTo(Routes().home){
+                        inclusive = true
+                    }
+                } }) 
+            {
+                Text(text = "Log Out")
+            }
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileScreen(navController: NavController, drawerState: DrawerState, scope: CoroutineScope){
+fun ProfileScreen(
+    navController: NavController,
+    drawerState: DrawerState,
+    scope: CoroutineScope,
+    viewModel: AuthViewModel?){
     StockPalAppTheme {
         Surface(tonalElevation = 5.dp) {
             AppLayout(content = { paddingValues ->
                 Column(modifier = Modifier.padding(paddingValues)) {
-                        ProfileCard()
+                    viewModel?.currentUser?.let {
+                        ProfileCard(viewModel = viewModel, navController = navController, name = it.displayName.toString(), email = it.email.toString())
+                    }
                 }
             },
                 topAppBarTitle = stringResource(R.string.profile),
@@ -65,6 +83,7 @@ fun ProfileScreen(navController: NavController, drawerState: DrawerState, scope:
     }
 }
 
+/*
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
@@ -76,3 +95,6 @@ fun ProfileScreenPreview() {
         ProfileScreen(navController, drawerState, scope )
     }
 }
+
+
+ */

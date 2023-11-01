@@ -73,10 +73,15 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
     // Firebase
-    implementation(platform("com.google.firebase:firebase-bom:32.4.0"))
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-storage")
+    implementation("com.firebaseui:firebase-ui-auth:7.2.0")
+    implementation(platform("com.google.firebase:firebase-bom:32.4.1"))
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.2.0-alpha13")
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha13")
+
 
     // Hilt - til dependency injection
     implementation("com.google.dagger:hilt-android:2.47")
