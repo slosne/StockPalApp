@@ -21,7 +21,12 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun login(email: String, password: String): Resource<FirebaseUser> {
         return try {
             val result = firebaseAuth.signInWithEmailAndPassword(email, password).await()
-            Resource.Success(result.user!!)
+            val user = result.user
+            if (user != null) {
+                Resource.Success(user)
+            } else {
+                Resource.Failure(Exception("User not found"))
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             Resource.Failure(e)
