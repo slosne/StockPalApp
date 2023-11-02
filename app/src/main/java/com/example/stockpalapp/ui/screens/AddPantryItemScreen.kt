@@ -37,6 +37,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.stockpalapp.ui.viewmodels.AddPantryItemViewModel
+import com.example.stockpalapp.ui.viewmodels.HomeScreenViewModel
 
 @Composable
 fun AddPantryItemScanning() {
@@ -49,6 +52,7 @@ fun AddPantryItemScanning() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddPantryItem() {
+    val addPantryItemViewModel: AddPantryItemViewModel = hiltViewModel()
     var expandedState by remember { mutableStateOf(true)}
 
     ElevatedCard(
@@ -80,7 +84,7 @@ fun AddPantryItem() {
                 Column {
                     var text by remember { mutableStateOf("Type here")}
                     TextField(
-                        value = "Type here...",
+                        value = text,
                         onValueChange = { newText ->
                         text = newText
                         },
@@ -93,7 +97,7 @@ fun AddPantryItem() {
                     )
                     var text5 by remember { mutableStateOf("Type here")}
                     TextField(
-                        value = "Type here...",
+                        value = text5,
                         onValueChange = { newText ->
                             text5 = newText
                         },
@@ -103,7 +107,7 @@ fun AddPantryItem() {
                     )
                     var text2 by remember { mutableStateOf("Type here")}
                     TextField(
-                        value = "Type here...",
+                        value = text2,
                         onValueChange = { newText ->
                             text2 = newText
                         },
@@ -113,7 +117,7 @@ fun AddPantryItem() {
                     )
                     var text3 by remember { mutableStateOf("Type here")}
                     TextField(
-                        value = "Type here...",
+                        value = text3,
                         onValueChange = { newText ->
                             text3 = newText
                         },
@@ -123,7 +127,7 @@ fun AddPantryItem() {
                     )
                     var text4 by remember { mutableStateOf("Type here")}
                     TextField(
-                        value = "Type here...",
+                        value = text4,
                         onValueChange = { newText ->
                             text4 = newText
                         },
@@ -131,6 +135,9 @@ fun AddPantryItem() {
                             Text(text = "Utløpsdato")
                         }
                     )
+                    Button(onClick = { addPantryItemViewModel.addPantryProduct(text, text5.toInt(), text2.toInt(), text3, text4) }) {
+                        Text(text = "Submit")
+                    }
                 }
             }
         }

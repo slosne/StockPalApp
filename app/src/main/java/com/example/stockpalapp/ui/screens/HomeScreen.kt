@@ -47,9 +47,9 @@ fun PantryCarousel(modifier: Modifier = Modifier) {
         Card {
             LazyRow{
                 items(pantryItems){item ->
-                    Text(text = item.cookingTime)
-                    Text(text = item.vendor)
-                    Text(text = item.eannumber.toString())
+                    //Text(text = item.cookingTime)
+                    //Text(text = item.vendor)
+                    //Text(text = item.eannumber.toString())
                 }
             }
         }
