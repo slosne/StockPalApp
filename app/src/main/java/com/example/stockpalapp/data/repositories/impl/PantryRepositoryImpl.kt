@@ -16,7 +16,7 @@ class PantryRepositoryImpl
 constructor(private val firestore: FirebaseFirestore) : PantryRepository {
 
     override val pantryProduct: Flow<List<PantryProduct>>
-        get() = firestore.collection(PANTRY_COLLECTION).document("55wGgQdBnqyVnA8cIc08").collection("pantryproducts").dataObjects()
+        get() = firestore.collection(PANTRY_COLLECTION).document("LF1QxfWkOZOTX7MqsVOQCVRpC242").collection("pantryproducts").dataObjects()
 
     override val pantry: Flow<List<Pantry>>
         get() = firestore.collection(PANTRY_COLLECTION).dataObjects()
