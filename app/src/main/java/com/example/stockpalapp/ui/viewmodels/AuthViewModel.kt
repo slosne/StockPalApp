@@ -7,6 +7,9 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.stockpalapp.data.repositories.AuthRepository
+import com.example.stockpalapp.data.repositories.PantryRepository
+import com.example.stockpalapp.data.repositories.impl.PantryRepositoryImpl
+import com.example.stockpalapp.model.Pantry
 import com.example.stockpalapp.model.Resource
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +20,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val repository: AuthRepository
+    private val repository: AuthRepository,
+    private val pantryRepository: PantryRepository
 ) : ViewModel() {
 
     private val _loginFlow = MutableStateFlow<Resource<FirebaseUser>?>(null)
@@ -45,6 +49,8 @@ class AuthViewModel @Inject constructor(
         _signupFlow.value = Resource.Loading
         val result = repository.signup(name, email, password)
         _signupFlow.value = result
+
+        createPantryAfterSignUp(name = name)
     }
 
     fun logout() {
@@ -64,6 +70,12 @@ class AuthViewModel @Inject constructor(
 
         return lengthPattern.matches(password) &&
                 digitPattern.matches(password)
+    }
+
+    fun createPantryAfterSignUp(name: String) {
+        viewModelScope.launch {
+            pantryRepository.save(Pantry(id = repository.currentUserId, name = name), itemID = repository.currentUserId)
+        }
     }
 
     fun handleSignUpClick(name: String, email: String, password: String, context: Context) {
