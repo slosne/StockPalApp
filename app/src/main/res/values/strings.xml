@@ -34,4 +34,5 @@
     <string name="signup">Sign Up</string>
     <string name="alreadyRegistered">Allerede registert?</string>
     <string name="name">Navn</string>
+    <string name="closest_expdate">Nærmeste utløpsdatoer</string>
 </resources>

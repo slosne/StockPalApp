@@ -12,22 +12,36 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberImagePainter
+import com.example.stockpalapp.ui.viewmodels.PantryViewModel
+import com.google.firebase.Timestamp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductListItem(
     title: String,
-    description: String,
-    imageUrl: String,
+    description: String?,
+    imageUrl: String?,
+    date: Timestamp?,
     actions: @Composable () -> Unit
 
 )
 {
+
+    val viewModel: PantryViewModel = hiltViewModel()
+
     Column {
         ListItem(
             headlineText = { Text(text = title) },
-            supportingText = { Text(text = description) },
+            supportingText = { Column {
+                if (description != null) {
+                    Text(text = description)
+                }
+                if (date != null) {
+                    Text(text = "Utløpsdato: " + viewModel.convertTimestampToString(date))
+                }
+            } },
             leadingContent = {
                 Box(
                     modifier = Modifier.size(100.dp)

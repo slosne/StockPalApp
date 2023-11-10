@@ -1,23 +1,26 @@
 package com.example.stockpalapp.ui.viewmodels
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.stockpalapp.data.repositories.PantryRepository
-import com.example.stockpalapp.model.PantryProduct
-import com.google.firebase.firestore.DocumentId
+import com.google.firebase.Timestamp
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.launch
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
 class PantryViewModel @Inject constructor(pantryRepository: PantryRepository) : ViewModel() {
 
     val pantryProducts = pantryRepository.pantryProduct
+
+    fun convertTimestampToString(timestamp: Timestamp): String {
+        val instant = Instant.ofEpochSecond(timestamp.seconds)
+        val localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
+        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+        return localDateTime.format(formatter)
+    }
 
     //val pantryProducts: LiveData<<List<PantryProducts>
 

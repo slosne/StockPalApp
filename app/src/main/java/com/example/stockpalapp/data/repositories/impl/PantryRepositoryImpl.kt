@@ -6,7 +6,6 @@ import com.google.firebase.firestore.toObject
 import com.google.firebase.firestore.dataObjects
 import com.example.stockpalapp.model.Pantry
 import com.example.stockpalapp.model.PantryProduct
-import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -16,7 +15,7 @@ class PantryRepositoryImpl
 constructor(private val firestore: FirebaseFirestore) : PantryRepository {
 
     override val pantryProduct: Flow<List<PantryProduct>>
-        get() = firestore.collection(PANTRY_COLLECTION).document("LF1QxfWkOZOTX7MqsVOQCVRpC242").collection("pantryproducts").dataObjects()
+        get() = firestore.collection(PANTRY_COLLECTION).document("6UuNlmI1mfo24VB1Ydv6").collection("pantryproducts").dataObjects()
 
     override val pantry: Flow<List<Pantry>>
         get() = firestore.collection(PANTRY_COLLECTION).dataObjects()
@@ -33,10 +32,10 @@ constructor(private val firestore: FirebaseFirestore) : PantryRepository {
         firestore.collection(PANTRY_COLLECTION).document(itemID).get().await().toObject()
 
     override suspend fun save(item: Pantry): String =
-        firestore.collection(PANTRY_COLLECTION).document("55wGgQdBnqyVnA8cIc08").collection("pantryproducts").add(item).await().id
+        firestore.collection(PANTRY_COLLECTION).document("6UuNlmI1mfo24VB1Ydv6").collection("pantryproducts").add(item).await().id
 
     override suspend fun savePantryProduct(item: PantryProduct): String =
-        firestore.collection(PANTRY_COLLECTION).document("55wGgQdBnqyVnA8cIc08").collection("pantryproducts").add(item).await().id
+        firestore.collection(PANTRY_COLLECTION).document("6UuNlmI1mfo24VB1Ydv6").collection("pantryproducts").add(item).await().id
 
     companion object {
         private const val PANTRY_COLLECTION = "pantry"

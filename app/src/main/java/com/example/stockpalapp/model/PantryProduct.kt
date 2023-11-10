@@ -1,5 +1,6 @@
 package com.example.stockpalapp.model
 
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentId
 
 data class PantryProduct(
@@ -9,5 +10,5 @@ data class PantryProduct(
     val eanNumber: Int = 0,
     val category: String = "",
     val image: String = "",
-    val expDate: String = "",
+    val expDate: Timestamp? = null,
 ) : IProduct
