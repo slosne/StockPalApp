@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
@@ -25,6 +26,8 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -35,6 +38,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.stockpalapp.AppLayout
 import com.example.stockpalapp.R
+import com.example.stockpalapp.ui.components.AlertDialogExample
 import com.example.stockpalapp.ui.components.CategoryTab
 import com.example.stockpalapp.ui.components.ProductListItem
 import com.example.stockpalapp.ui.components.SearchComponent
@@ -56,14 +60,35 @@ fun FoodItemList(modifier: Modifier = Modifier){
             description = item.name,
             imageUrl = item.image,
             date = item.expDate) {
-                IconButton(onClick = { /*TODO*/ }) {
+
+            val openAlertDialog = remember { mutableStateOf(false) }
+
+                IconButton(onClick = { openAlertDialog.value = true }) {
                     Icon(modifier = Modifier.size(40.dp), imageVector = Icons.Default.Delete, contentDescription = "Kjøpt")
                 }
-        }
 
+            if (openAlertDialog.value) {
+                AlertDialogExample(
+                    onDismissRequest = { openAlertDialog.value = false },
+                    onConfirmation = {
+                        openAlertDialog.value = false
+                        println("Confirmation registered") // Add logic here to handle confirmation.
+
+                        //Varen fjernes og legges til i handlevognen
+                        pantryViewModel.removePantryProduct(item.id)
+                    },
+                    dialogTitle = "Vil du fjerne matvaren fra Matskapet?",
+                    dialogText = "Er du helt sikker på at du vill fjerne varen fra Matskapet?",
+                    icon = Icons.Default.Info
+                )
+            }
+
+
+        }
         }
     }
 }
+
 
 @Composable
 fun PantryScreenBtn(){

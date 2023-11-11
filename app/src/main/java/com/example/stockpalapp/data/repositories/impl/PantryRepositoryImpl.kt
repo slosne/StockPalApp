@@ -1,5 +1,6 @@
 package com.example.stockpalapp.data.repositories.impl
 
+import com.example.stockpalapp.data.repositories.AuthRepository
 import com.example.stockpalapp.data.repositories.PantryRepository
 import kotlinx.coroutines.flow.Flow
 import com.google.firebase.firestore.toObject
@@ -12,10 +13,13 @@ import javax.inject.Inject
 
 class PantryRepositoryImpl
 @Inject
-constructor(private val firestore: FirebaseFirestore) : PantryRepository {
+constructor(
+    private val firestore: FirebaseFirestore,
+    private val authRepositoryImpl: AuthRepository
+) : PantryRepository {
 
     override val pantryProduct: Flow<List<PantryProduct>>
-        get() = firestore.collection(PANTRY_COLLECTION).document("6UuNlmI1mfo24VB1Ydv6").collection("pantryproducts").dataObjects()
+        get() = firestore.collection(PANTRY_COLLECTION).document(authRepositoryImpl.currentUserId).collection("pantryproducts").dataObjects()
 
     override val pantry: Flow<List<Pantry>>
         get() = firestore.collection(PANTRY_COLLECTION).dataObjects()
@@ -31,11 +35,18 @@ constructor(private val firestore: FirebaseFirestore) : PantryRepository {
     override suspend fun getPantryItem(itemID: String): Pantry? =
         firestore.collection(PANTRY_COLLECTION).document(itemID).get().await().toObject()
 
-    override suspend fun save(item: Pantry): String =
-        firestore.collection(PANTRY_COLLECTION).document("6UuNlmI1mfo24VB1Ydv6").collection("pantryproducts").add(item).await().id
+    override suspend fun save(item: Pantry, itemID: String): String {
+        firestore.collection(PANTRY_COLLECTION).document(itemID).set(item).await()
+        return itemID
+    }
 
     override suspend fun savePantryProduct(item: PantryProduct): String =
-        firestore.collection(PANTRY_COLLECTION).document("6UuNlmI1mfo24VB1Ydv6").collection("pantryproducts").add(item).await().id
+        firestore.collection(PANTRY_COLLECTION).document(authRepositoryImpl.currentUserId).collection("pantryproducts").add(item).await().id
+
+    override suspend fun deletePantryProduct(itemID: String): String {
+        firestore.collection(PANTRY_COLLECTION).document(authRepositoryImpl.currentUserId).collection("pantryproducts").document(itemID).delete()
+        return itemID
+    }
 
     companion object {
         private const val PANTRY_COLLECTION = "pantry"

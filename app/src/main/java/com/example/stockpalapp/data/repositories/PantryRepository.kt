@@ -12,6 +12,7 @@ interface PantryRepository {
 
     suspend fun getPantryProducts(documentId: String): Flow<List<PantryProduct>>
     suspend fun getPantryItem(itemID: String): Pantry?
-    suspend fun save(item: Pantry): String
+    suspend fun save(item: Pantry, itemID: String): String
     suspend fun savePantryProduct(item: PantryProduct): String
+    suspend fun deletePantryProduct(itemID: String): String
 }
