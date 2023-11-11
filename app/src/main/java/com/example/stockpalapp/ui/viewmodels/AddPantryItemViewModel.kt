@@ -1,5 +1,7 @@
 package com.example.stockpalapp.ui.viewmodels
 
+import android.content.Context
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.stockpalapp.data.repositories.PantryRepository
@@ -15,7 +17,7 @@ import javax.inject.Inject
 class AddPantryItemViewModel @Inject constructor(val pantryRepository: PantryRepository) : ViewModel() {
     val pantry = pantryRepository.pantry
 
-    fun addPantryProduct(name: String, eanNumber: Int, number: Int, category: String, date: String) {
+    fun addPantryProduct(name: String, eanNumber: Int, number: Int, category: String, date: String, context: Context, imgUrl: String) {
         viewModelScope.launch {
             val expDate = convertStringToTimestamp(date)
             pantryRepository.savePantryProduct(PantryProduct(
@@ -23,8 +25,10 @@ class AddPantryItemViewModel @Inject constructor(val pantryRepository: PantryRep
                 eanNumber = eanNumber,
                 number = number,
                 category = category,
-                expDate = expDate))
+                expDate = expDate,
+                image = imgUrl))
         }
+        Toast.makeText(context, "Vare lagt til", Toast.LENGTH_SHORT).show()
     }
 
     fun convertStringToTimestamp(dateAsString: String): Timestamp{

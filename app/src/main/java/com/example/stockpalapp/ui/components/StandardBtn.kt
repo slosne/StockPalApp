@@ -10,10 +10,10 @@ import com.example.stockpalapp.ui.theme.StockPalAppTheme
 @Composable
 fun StandardBtn(
     modifier: Modifier = Modifier,
-    clickHandler: () -> Unit = {},
+    clickHandler: () -> Unit,
     btnText: String)
 {
-    OutlinedButton(onClick = { clickHandler }, modifier = modifier,
+    OutlinedButton(onClick = clickHandler, modifier = modifier,
     ) {
         Text(text = btnText)
     }
@@ -23,6 +23,6 @@ fun StandardBtn(
 @Composable
 fun StandardBtnPreview() {
     StockPalAppTheme {
-        StandardBtn(btnText = "test")
+        StandardBtn(btnText = "test", clickHandler = {})
     }
 }

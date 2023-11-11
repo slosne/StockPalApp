@@ -43,6 +43,7 @@ import com.example.stockpalapp.ui.components.CategoryTab
 import com.example.stockpalapp.ui.components.ProductListItem
 import com.example.stockpalapp.ui.components.SearchComponent
 import com.example.stockpalapp.ui.components.StandardBtn
+import com.example.stockpalapp.ui.model.Routes
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
 import com.example.stockpalapp.ui.viewmodels.PantryViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -57,45 +58,42 @@ fun FoodItemList(modifier: Modifier = Modifier){
     LazyColumn(modifier = modifier){
         items(pantryProducts) { item -> ProductListItem(
             title = item.name,
-            description = item.name,
+            description = null,
             imageUrl = item.image,
-            date = item.expDate) {
-
-            val openAlertDialog = remember { mutableStateOf(false) }
-
+            date = item.expDate,
+            ammount = item.number) {
+                val openAlertDialog = remember { mutableStateOf(false) }
                 IconButton(onClick = { openAlertDialog.value = true }) {
-                    Icon(modifier = Modifier.size(40.dp), imageVector = Icons.Default.Delete, contentDescription = "Kjøpt")
+                    Icon(modifier = Modifier.size(30.dp), imageVector = Icons.Default.Delete, contentDescription = "Kjøpt")
                 }
 
-            if (openAlertDialog.value) {
-                AlertDialogExample(
-                    onDismissRequest = { openAlertDialog.value = false },
-                    onConfirmation = {
-                        openAlertDialog.value = false
-                        println("Confirmation registered") // Add logic here to handle confirmation.
+                if (openAlertDialog.value) {
+                    AlertDialogExample(
+                        onDismissRequest = { openAlertDialog.value = false },
+                        onConfirmation = {
+                            openAlertDialog.value = false
+                            println("Confirmation registered") // Add logic here to handle confirmation.
 
-                        //Varen fjernes og legges til i handlevognen
-                        pantryViewModel.removePantryProduct(item.id)
-                    },
-                    dialogTitle = "Vil du fjerne matvaren fra Matskapet?",
-                    dialogText = "Er du helt sikker på at du vill fjerne varen fra Matskapet?",
-                    icon = Icons.Default.Info
-                )
+                            //Varen fjernes og legges til i handlevognen
+                            pantryViewModel.removePantryProduct(item.id)
+                        },
+                        dialogTitle = "Vil du fjerne matvaren fra Matskapet?",
+                        dialogText = "Er du helt sikker på at du vill fjerne varen fra Matskapet?",
+                        icon = Icons.Default.Info
+                    )
+                }
             }
-
-
-        }
         }
     }
 }
 
 
 @Composable
-fun PantryScreenBtn(){
+fun PantryScreenBtn(navController: NavController){
     Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
         StandardBtn(btnText = "Del matskap", clickHandler = {/*TODO*/})
         Spacer(modifier = Modifier.size(15.dp))
-        StandardBtn(btnText = "Legg til", clickHandler = {/*TODO*/})
+        StandardBtn(btnText = "Legg til", clickHandler = { navController.navigate(Routes().addPantryItem)})
     }
 
 }
@@ -113,7 +111,7 @@ fun PantryScreen(navController: NavController, drawerState: DrawerState, scope: 
               Spacer(modifier = Modifier.size(10.dp))
              FoodItemList()
              Spacer(modifier = Modifier.size(20.dp))
-              PantryScreenBtn()
+              PantryScreenBtn(navController)
      }},
           topAppBarTitle = stringResource(R.string.pantry),
           navigationIcon = Icons.Default.ArrowBack,

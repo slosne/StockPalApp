@@ -51,7 +51,7 @@ fun ShoppingItemList(modifier: Modifier = Modifier){
 
     LazyColumn(modifier = modifier){
         items(shoppingList) { item ->
-            ProductListItem(title = item.title, description = item.cuisine, imageUrl = item.image, date = null) {
+            ProductListItem(title = item.title, description = item.cuisine, imageUrl = item.image, date = null, ammount = null) {
                 Row {
                     IconButton(onClick = { /*TODO*/ }) {
                         Icon(modifier = Modifier.size(40.dp), imageVector = Icons.Default.Check, contentDescription = "Kjøpt")
