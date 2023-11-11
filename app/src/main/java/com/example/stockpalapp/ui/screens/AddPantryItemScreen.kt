@@ -42,6 +42,7 @@ import kotlinx.coroutines.launch
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.stockpalapp.ui.components.FilledBtn
@@ -52,7 +53,6 @@ fun AddPantryItemScanning() {
     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center){
         FilledBtn(clickHandler = { /*TODO*/ }, btnText = stringResource(R.string.scan_item))
     }
-
 }
 
 
@@ -61,6 +61,8 @@ fun AddPantryItemScanning() {
 fun AddPantryItem() {
     val addPantryItemViewModel: AddPantryItemViewModel = hiltViewModel()
     var expandedState by remember { mutableStateOf(true)}
+
+    val context = LocalContext.current
 
     ElevatedCard(
         elevation = CardDefaults.cardElevation(2.dp),
@@ -157,7 +159,7 @@ fun AddPantryItem() {
                     )
                     Spacer(modifier = Modifier.size(15.dp))
                     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()){
-                        FilledBtn(clickHandler = { addPantryItemViewModel.addPantryProduct(text, text5.toInt(), text2.toInt(), text3, text4)
+                        FilledBtn(clickHandler = { addPantryItemViewModel.addPantryProduct(text, text5.toInt(), text2.toInt(), text3, text4, context)
                             text = ""
                             text2 = ""
                             text3 = ""

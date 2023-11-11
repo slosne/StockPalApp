@@ -61,31 +61,27 @@ fun FoodItemList(modifier: Modifier = Modifier){
             description = item.name,
             imageUrl = item.image,
             date = item.expDate) {
-
-            val openAlertDialog = remember { mutableStateOf(false) }
-
+                val openAlertDialog = remember { mutableStateOf(false) }
                 IconButton(onClick = { openAlertDialog.value = true }) {
                     Icon(modifier = Modifier.size(40.dp), imageVector = Icons.Default.Delete, contentDescription = "Kjøpt")
                 }
 
-            if (openAlertDialog.value) {
-                AlertDialogExample(
-                    onDismissRequest = { openAlertDialog.value = false },
-                    onConfirmation = {
-                        openAlertDialog.value = false
-                        println("Confirmation registered") // Add logic here to handle confirmation.
+                if (openAlertDialog.value) {
+                    AlertDialogExample(
+                        onDismissRequest = { openAlertDialog.value = false },
+                        onConfirmation = {
+                            openAlertDialog.value = false
+                            println("Confirmation registered") // Add logic here to handle confirmation.
 
-                        //Varen fjernes og legges til i handlevognen
-                        pantryViewModel.removePantryProduct(item.id)
-                    },
-                    dialogTitle = "Vil du fjerne matvaren fra Matskapet?",
-                    dialogText = "Er du helt sikker på at du vill fjerne varen fra Matskapet?",
-                    icon = Icons.Default.Info
-                )
+                            //Varen fjernes og legges til i handlevognen
+                            pantryViewModel.removePantryProduct(item.id)
+                        },
+                        dialogTitle = "Vil du fjerne matvaren fra Matskapet?",
+                        dialogText = "Er du helt sikker på at du vill fjerne varen fra Matskapet?",
+                        icon = Icons.Default.Info
+                    )
+                }
             }
-
-
-        }
         }
     }
 }
