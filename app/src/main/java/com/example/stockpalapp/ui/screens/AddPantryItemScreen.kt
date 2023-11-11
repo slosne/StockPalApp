@@ -82,7 +82,7 @@ fun AddPantryItem() {
             }
             if(expandedState) {
                 Column {
-                    var text by remember { mutableStateOf("Type here")}
+                    var text by remember { mutableStateOf("")}
                     TextField(
                         value = text,
                         onValueChange = { newText ->
@@ -95,7 +95,7 @@ fun AddPantryItem() {
                             Text(text = "Obligatorisk")
                         }
                     )
-                    var text5 by remember { mutableStateOf("Type here")}
+                    var text5 by remember { mutableStateOf("")}
                     TextField(
                         value = text5,
                         onValueChange = { newText ->
@@ -105,7 +105,7 @@ fun AddPantryItem() {
                             Text(text = "EAN Nummer")
                         }
                     )
-                    var text2 by remember { mutableStateOf("Type here")}
+                    var text2 by remember { mutableStateOf("")}
                     TextField(
                         value = text2,
                         onValueChange = { newText ->
@@ -115,7 +115,7 @@ fun AddPantryItem() {
                             Text(text = "Antall")
                         }
                     )
-                    var text3 by remember { mutableStateOf("Type here")}
+                    var text3 by remember { mutableStateOf("")}
                     TextField(
                         value = text3,
                         onValueChange = { newText ->
@@ -125,7 +125,7 @@ fun AddPantryItem() {
                             Text(text = "Kategori")
                         }
                     )
-                    var text4 by remember { mutableStateOf("Type here")}
+                    var text4 by remember { mutableStateOf("")}
                     TextField(
                         value = text4,
                         onValueChange = { newText ->
@@ -135,7 +135,14 @@ fun AddPantryItem() {
                             Text(text = "Utløpsdato")
                         }
                     )
-                    Button(onClick = { addPantryItemViewModel.addPantryProduct(text, text5.toInt(), text2.toInt(), text3, text4) }) {
+                    Button(onClick = {
+                        addPantryItemViewModel.addPantryProduct(text, text5.toInt(), text2.toInt(), text3, text4)
+                        text = ""
+                        text2 = ""
+                        text3 = ""
+                        text4 = ""
+                        text5 = ""
+                    }) {
                         Text(text = "Submit")
                     }
                 }

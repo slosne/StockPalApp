@@ -43,6 +43,11 @@ constructor(
     override suspend fun savePantryProduct(item: PantryProduct): String =
         firestore.collection(PANTRY_COLLECTION).document(authRepositoryImpl.currentUserId).collection("pantryproducts").add(item).await().id
 
+    override suspend fun deletePantryProduct(itemID: String): String {
+        firestore.collection(PANTRY_COLLECTION).document(authRepositoryImpl.currentUserId).collection("pantryproducts").document(itemID).delete()
+        return itemID
+    }
+
     companion object {
         private const val PANTRY_COLLECTION = "pantry"
     }
