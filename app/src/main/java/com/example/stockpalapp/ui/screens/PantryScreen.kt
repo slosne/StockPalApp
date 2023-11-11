@@ -43,6 +43,7 @@ import com.example.stockpalapp.ui.components.CategoryTab
 import com.example.stockpalapp.ui.components.ProductListItem
 import com.example.stockpalapp.ui.components.SearchComponent
 import com.example.stockpalapp.ui.components.StandardBtn
+import com.example.stockpalapp.ui.model.Routes
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
 import com.example.stockpalapp.ui.viewmodels.PantryViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -91,11 +92,11 @@ fun FoodItemList(modifier: Modifier = Modifier){
 
 
 @Composable
-fun PantryScreenBtn(){
+fun PantryScreenBtn(navController: NavController){
     Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
         StandardBtn(btnText = "Del matskap", clickHandler = {/*TODO*/})
         Spacer(modifier = Modifier.size(15.dp))
-        StandardBtn(btnText = "Legg til", clickHandler = {/*TODO*/})
+        StandardBtn(btnText = "Legg til", clickHandler = { navController.navigate(Routes().addPantryItem)})
     }
 
 }
@@ -113,7 +114,7 @@ fun PantryScreen(navController: NavController, drawerState: DrawerState, scope: 
               Spacer(modifier = Modifier.size(10.dp))
              FoodItemList()
              Spacer(modifier = Modifier.size(20.dp))
-              PantryScreenBtn()
+              PantryScreenBtn(navController)
      }},
           topAppBarTitle = stringResource(R.string.pantry),
           navigationIcon = Icons.Default.ArrowBack,
