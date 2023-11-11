@@ -2,6 +2,7 @@ package com.example.stockpalapp.ui.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -32,6 +33,7 @@ fun SearchComponent(){
     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center){
         OutlinedTextField(
             value = searchValue,
+            modifier = Modifier.height(40.dp),
             onValueChange = { searchValue = it },
             shape = TextFieldDefaults.outlinedShape ,
             trailingIcon = {
@@ -39,7 +41,7 @@ fun SearchComponent(){
                     imageVector = Icons.Default.Search,
                     contentDescription = null,
                     modifier = Modifier
-                        .size(32.dp),
+                        .size(30.dp),
                     tint = Color.Black
                 )
             }

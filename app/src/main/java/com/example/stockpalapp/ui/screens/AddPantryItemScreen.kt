@@ -78,7 +78,7 @@ fun AddPantryItem() {
             expandedState = !expandedState
         }
     ) {
-        Column(modifier = Modifier.padding(30.dp)) {
+        Column(modifier = Modifier.padding(horizontal = 30.dp)) {
             Row (verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     modifier = Modifier
@@ -97,12 +97,12 @@ fun AddPantryItem() {
 
             if(expandedState) {
                 Column {
-                    var text by remember { mutableStateOf("")}
+                    var title by remember { mutableStateOf("")}
                     OutlinedTextField(
-                        value = text,
+                        value = title,
                         shape = TextFieldDefaults.outlinedShape,
-                        onValueChange = { newText ->
-                            text = newText
+                        onValueChange = { newTitle ->
+                            title = newTitle
                         },
                         label = {
                             Text(text = stringResource(R.string.item_name))
@@ -117,13 +117,13 @@ fun AddPantryItem() {
                     )
 
                     Spacer(modifier = Modifier.size(15.dp))
-                    var text5 by remember { mutableStateOf("")}
+                    var ean by remember { mutableStateOf("")}
                     Text(text = stringResource(R.string.required), color = Color.Red, fontSize = 12.sp)
                     OutlinedTextField(
-                        value = text5,
+                        value = ean,
                         shape = TextFieldDefaults.outlinedShape,
-                        onValueChange = { newText ->
-                            text5 = newText
+                        onValueChange = { newEan ->
+                            ean = newEan
                         },
                         label = {
                             Text(text = stringResource(R.string.ean))
@@ -137,12 +137,12 @@ fun AddPantryItem() {
                     )
 
                     Spacer(modifier = Modifier.size(15.dp))
-                    var text2 by remember { mutableStateOf("")}
+                    var ammount by remember { mutableStateOf("")}
                     OutlinedTextField(
-                        value = text2,
+                        value = ammount,
                         shape = TextFieldDefaults.outlinedShape,
-                        onValueChange = { newText ->
-                            text2 = newText
+                        onValueChange = { newAmmount ->
+                            ammount = newAmmount
                         },
                         label = {
                             Text(text = stringResource(R.string.ammount))
@@ -155,13 +155,15 @@ fun AddPantryItem() {
                         singleLine = true,
                     )
 
+
+
                     Spacer(modifier = Modifier.size(15.dp))
-                    var text3 by remember { mutableStateOf("")}
+                    var category by remember { mutableStateOf("")}
                     OutlinedTextField(
-                        value = text3,
+                        value = category,
                         shape = TextFieldDefaults.outlinedShape,
-                        onValueChange = { newText ->
-                            text3 = newText
+                        onValueChange = { newCategory ->
+                            category = newCategory
                         },
                         label = {
                             Text(text = stringResource(R.string.category))
@@ -176,12 +178,12 @@ fun AddPantryItem() {
                     )
 
                     Spacer(modifier = Modifier.size(15.dp))
-                    var text4 by remember { mutableStateOf("")}
+                    var expDate by remember { mutableStateOf("")}
                     OutlinedTextField(
-                        value = text4,
+                        value = expDate,
                         shape = TextFieldDefaults.outlinedShape,
-                        onValueChange = { newText ->
-                            text4 = newText
+                        onValueChange = { newExpDate ->
+                            expDate = newExpDate
                         },
                         label = {
                             Text(text = stringResource(R.string.exp_date))
@@ -189,18 +191,40 @@ fun AddPantryItem() {
                         keyboardOptions = KeyboardOptions(
                             autoCorrect = false,
                             keyboardType = KeyboardType.Number,
+                            imeAction = ImeAction.Next
+                        ),
+                        singleLine = true,
+                    )
+
+                    Spacer(modifier = Modifier.size(15.dp))
+                    var imgUrl by remember { mutableStateOf("")}
+                    Text(text = stringResource(R.string.not_required), color = Color.Green, fontSize = 12.sp)
+                    OutlinedTextField(
+                        value = imgUrl,
+                        shape = TextFieldDefaults.outlinedShape,
+                        onValueChange = { newImgUrl ->
+                            imgUrl = newImgUrl
+                        },
+                        label = {
+                            Text(text = stringResource(R.string.img_url))
+                        },
+                        keyboardOptions = KeyboardOptions(
+                            autoCorrect = true,
+                            keyboardType = KeyboardType.Uri,
                             imeAction = ImeAction.Done
                         ),
                         singleLine = true,
                     )
+
                     Spacer(modifier = Modifier.size(15.dp))
                     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()){
-                        FilledBtn(clickHandler = { addPantryItemViewModel.addPantryProduct(text, text5.toInt(), text2.toInt(), text3, text4, context)
-                            text = ""
-                            text2 = ""
-                            text3 = ""
-                            text4 = ""
-                            text5 = "" }, btnText = stringResource(R.string.save))
+                        FilledBtn(clickHandler = { addPantryItemViewModel.addPantryProduct(title, ean.toInt(), ammount.toInt(), category, expDate, context, imgUrl)
+                            title = ""
+                            ammount = ""
+                            category = ""
+                            expDate = ""
+                            ean = ""
+                            imgUrl = ""}, btnText = stringResource(R.string.save))
                     }
                 }
             }
