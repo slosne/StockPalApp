@@ -38,10 +38,15 @@
     <string name="add_pantryitem">Legg til en matvare</string>
     <string name="item_name">Varenavn</string>
     <string name="ean">EAN-nummer</string>
-    <string name="ammount">Antall</string>
+    <string name="ammount">Antall: </string>
     <string name="category">Kategori</string>
     <string name="exp_date">Utløpsdato DDMMYY</string>
+    <string name="exp_date_title">Utløpsdato: </string>
     <string name="save">Lagre</string>
     <string name="required">Obligatorisk</string>
     <string name="scan_item">Scanne vare</string>
+    <string name="cuisine">"Kjøkken: "</string>
+    <string name="example_icon">Example Icon</string>
+    <string name="yes_remove">Ja, fjern</string>
+    <string name="dont_remove">Nei, ikke fjern</string>
 </resources>

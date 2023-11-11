@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -43,6 +44,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.stockpalapp.ui.components.FilledBtn
@@ -103,6 +107,13 @@ fun AddPantryItem() {
                         label = {
                             Text(text = stringResource(R.string.item_name))
                         },
+                        keyboardOptions = KeyboardOptions(
+                            capitalization = KeyboardCapitalization.Words,
+                            autoCorrect = false,
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Next
+                        ),
+                        singleLine = true,
                     )
 
                     Spacer(modifier = Modifier.size(15.dp))
@@ -116,7 +127,13 @@ fun AddPantryItem() {
                         },
                         label = {
                             Text(text = stringResource(R.string.ean))
-                        }
+                        },
+                        keyboardOptions = KeyboardOptions(
+                            autoCorrect = false,
+                            keyboardType = KeyboardType.Number,
+                            imeAction = ImeAction.Next
+                        ),
+                        singleLine = true,
                     )
 
                     Spacer(modifier = Modifier.size(15.dp))
@@ -129,7 +146,13 @@ fun AddPantryItem() {
                         },
                         label = {
                             Text(text = stringResource(R.string.ammount))
-                        }
+                        },
+                        keyboardOptions = KeyboardOptions(
+                            autoCorrect = false,
+                            keyboardType = KeyboardType.Number,
+                            imeAction = ImeAction.Next
+                        ),
+                        singleLine = true,
                     )
 
                     Spacer(modifier = Modifier.size(15.dp))
@@ -142,7 +165,14 @@ fun AddPantryItem() {
                         },
                         label = {
                             Text(text = stringResource(R.string.category))
-                        }
+                        },
+                        keyboardOptions = KeyboardOptions(
+                            capitalization = KeyboardCapitalization.Words,
+                            autoCorrect = false,
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Next
+                        ),
+                        singleLine = true,
                     )
 
                     Spacer(modifier = Modifier.size(15.dp))
@@ -155,7 +185,13 @@ fun AddPantryItem() {
                         },
                         label = {
                             Text(text = stringResource(R.string.exp_date))
-                        }
+                        },
+                        keyboardOptions = KeyboardOptions(
+                            autoCorrect = false,
+                            keyboardType = KeyboardType.Number,
+                            imeAction = ImeAction.Done
+                        ),
+                        singleLine = true,
                     )
                     Spacer(modifier = Modifier.size(15.dp))
                     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()){

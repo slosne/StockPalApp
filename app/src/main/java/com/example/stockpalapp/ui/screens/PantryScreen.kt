@@ -58,12 +58,13 @@ fun FoodItemList(modifier: Modifier = Modifier){
     LazyColumn(modifier = modifier){
         items(pantryProducts) { item -> ProductListItem(
             title = item.name,
-            description = item.name,
+            description = null,
             imageUrl = item.image,
-            date = item.expDate) {
+            date = item.expDate,
+            ammount = item.number) {
                 val openAlertDialog = remember { mutableStateOf(false) }
                 IconButton(onClick = { openAlertDialog.value = true }) {
-                    Icon(modifier = Modifier.size(40.dp), imageVector = Icons.Default.Delete, contentDescription = "Kjøpt")
+                    Icon(modifier = Modifier.size(30.dp), imageVector = Icons.Default.Delete, contentDescription = "Kjøpt")
                 }
 
                 if (openAlertDialog.value) {

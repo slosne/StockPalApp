@@ -55,7 +55,7 @@ fun PantryCarousel() {
         Text(text = stringResource(R.string.closest_expdate), textAlign = TextAlign.Center)
         Spacer(modifier = Modifier.size(10.dp))
         LazyColumn(modifier = Modifier.fillMaxWidth()){
-            items(sortedList.take(5)){item ->
+            items(sortedList.take(3)){item ->
                 ElevatedCard(modifier = Modifier
                     .height(60.dp)
                     .fillMaxWidth()
