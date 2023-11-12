@@ -1,5 +1,6 @@
 package com.example.stockpalapp.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,6 +24,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
@@ -49,14 +51,81 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.stockpalapp.ui.components.FilledBtn
 import com.example.stockpalapp.ui.viewmodels.AddPantryItemViewModel
+import kotlin.math.log
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddPantryItemScanning() {
-    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center){
-        FilledBtn(clickHandler = { /*TODO*/ }, btnText = stringResource(R.string.scan_item))
+fun AddPantryItemScanningAndSearching() {
+    val addPantryItemViewModel: AddPantryItemViewModel = hiltViewModel()
+    val product by addPantryItemViewModel.product.collectAsState()
+
+    val scannedBarcode by addPantryItemViewModel.scannedBarcode.collectAsState()
+
+    Column (horizontalAlignment = Alignment.CenterHorizontally) {
+        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center){
+            FilledBtn(clickHandler = { addPantryItemViewModel.ScanningAProduct() }, btnText = stringResource(R.string.scan_item))
+        }
+
+        if (scannedBarcode != null) {
+            Text(text = scannedBarcode!!)
     }
+
+        var seachInput by remember { mutableStateOf("")}
+        var seachInputChange by remember { mutableStateOf(0)}
+
+        OutlinedTextField(
+            value = seachInput,
+            shape = TextFieldDefaults.outlinedShape,
+            onValueChange = { newTitle ->
+                seachInput = newTitle
+                seachInputChange = 1
+                if (seachInput != null) {
+                    addPantryItemViewModel.getAPorudctByEanNumber(seachInput)
+                    Log.d("TAG", product.toString())
+                }
+
+            },
+            label = {
+                Text(text = "Søkefelt")
+            },
+            keyboardOptions = KeyboardOptions(
+                capitalization = KeyboardCapitalization.Words,
+                autoCorrect = false,
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Next
+            ),
+            singleLine = true,
+        )
+        // Check if product is not null before accessing its properties
+        if (product != null) {
+            Text(text = product!!.name)
+            // Add other Text or Composables to display other product details
+
+            var title = product!!.name
+            var ean = product!!.eanNumber
+            var ammount = product!!.number
+            var category = product!!.category
+            var expDate = "050398"
+            var context = LocalContext.current
+            var imgUrl = product!!.image
+
+            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()){
+                FilledBtn(clickHandler = { addPantryItemViewModel.addPantryProduct(title, ean.toInt(), ammount.toInt(), category, expDate, context, imgUrl)
+                    title = ""
+                    ammount = 0
+                    category = ""
+                    expDate = ""
+                    ean = ""
+                    imgUrl = ""}, btnText = stringResource(R.string.save))
+            }
+        } else {
+            Text(text = "No product found")
+        }
+    }
+
 }
 
 
@@ -64,7 +133,7 @@ fun AddPantryItemScanning() {
 @Composable
 fun AddPantryItem() {
     val addPantryItemViewModel: AddPantryItemViewModel = hiltViewModel()
-    var expandedState by remember { mutableStateOf(true)}
+    var expandedState by remember { mutableStateOf(false)}
 
     val context = LocalContext.current
 
@@ -240,7 +309,7 @@ fun AddPantryItemScreen(navController: NavController, drawerState: DrawerState, 
             AppLayout(content = { paddingValues ->
                 Column(modifier = Modifier.padding(paddingValues)) {
                     Spacer(modifier = Modifier.size(10.dp))
-                    AddPantryItemScanning()
+                    AddPantryItemScanningAndSearching()
                     AddPantryItem()
                 }
             },
