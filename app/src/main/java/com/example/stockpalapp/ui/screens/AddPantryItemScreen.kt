@@ -62,10 +62,17 @@ fun AddPantryItemScanningAndSearching() {
     val addPantryItemViewModel: AddPantryItemViewModel = hiltViewModel()
     val product by addPantryItemViewModel.product.collectAsState()
 
+    val scannedBarcode by addPantryItemViewModel.scannedBarcode.collectAsState()
+
     Column (horizontalAlignment = Alignment.CenterHorizontally) {
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center){
-            FilledBtn(clickHandler = { /*TODO*/ }, btnText = stringResource(R.string.scan_item))
+            FilledBtn(clickHandler = { addPantryItemViewModel.ScanningAProduct() }, btnText = stringResource(R.string.scan_item))
         }
+
+        if (scannedBarcode != null) {
+            Text(text = scannedBarcode!!)
+    }
+
         var seachInput by remember { mutableStateOf("")}
         var seachInputChange by remember { mutableStateOf(0)}
 

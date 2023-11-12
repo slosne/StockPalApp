@@ -90,4 +90,7 @@ dependencies {
 
     //Coil - image loading library
     implementation("io.coil-kt:coil-compose:1.4.0")
+
+    //Google Scanner
+    implementation("com.google.android.gms:play-services-code-scanner:16.1.0")
 }

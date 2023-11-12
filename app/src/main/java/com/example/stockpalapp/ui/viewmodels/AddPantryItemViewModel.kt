@@ -12,7 +12,12 @@ import com.example.stockpalapp.data.repositories.ProductRepository
 import com.example.stockpalapp.model.PantryProduct
 import com.example.stockpalapp.model.Product
 import com.google.firebase.Timestamp
+import com.google.mlkit.vision.barcode.common.Barcode
+import com.google.mlkit.vision.codescanner.GmsBarcodeScanner
+import com.google.mlkit.vision.codescanner.GmsBarcodeScannerOptions
+import com.google.mlkit.vision.codescanner.GmsBarcodeScanning
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -23,7 +28,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AddPantryItemViewModel @Inject constructor(
     val pantryRepository: PantryRepository,
-    val productRepository: ProductRepository
+    val productRepository: ProductRepository,
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
     val pantry = pantryRepository.pantry
 
@@ -58,4 +64,33 @@ class AddPantryItemViewModel @Inject constructor(
         }
     }
 
+
+    private val _scannedBarcode = MutableStateFlow<String?>(null)
+    val scannedBarcode: StateFlow<String?> = _scannedBarcode
+
+
+    //Scanning funksjonalitet
+    val options = GmsBarcodeScannerOptions.Builder()
+        .setBarcodeFormats(
+            Barcode.FORMAT_ALL_FORMATS
+        )
+        .enableAutoZoom()
+        .build()
+
+    val scanner = GmsBarcodeScanning.getClient(context, options)
+
+    fun ScanningAProduct() {
+        scanner.startScan()
+            .addOnSuccessListener { barcode ->
+                // Task completed successfully
+                Log.d("ScnInp", barcode.toString())
+                _scannedBarcode.value = barcode.rawValue.toString()
+            }
+            .addOnCanceledListener {
+                // Task canceled
+            }
+            .addOnFailureListener { e ->
+                // Task failed with an exception
+            }
+    }
 }
