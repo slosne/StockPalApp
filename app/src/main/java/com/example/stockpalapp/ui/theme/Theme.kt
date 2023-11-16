@@ -1,6 +1,5 @@
 package com.example.stockpalapp.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
@@ -132,13 +131,13 @@ private val DarkColorScheme = darkColorScheme(
 
 @Composable
 fun StockPalAppTheme(
-    useDarkTheme: Boolean = isSystemInDarkTheme(),
+    useDarkTheme: Boolean,
     content: @Composable() () -> Unit
 ) {
-    val colors = if (!useDarkTheme) {
-        LightColorScheme
-    } else {
+    val colors = if (useDarkTheme) {
         DarkColorScheme
+    } else {
+        LightColorScheme
     }
 
     MaterialTheme(

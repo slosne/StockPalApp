@@ -4,19 +4,23 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.runtime.getValue
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
 import com.example.stockpalapp.ui.viewmodels.AuthViewModel
+import com.example.stockpalapp.ui.viewmodels.ThemeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val authViewModel by viewModels<AuthViewModel>()
+    private val themeViewModel by viewModels<ThemeViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            StockPalAppTheme {
-                AppNavigation(authViewModel)
+            val useDarkTheme by themeViewModel.useDarkTheme
+            StockPalAppTheme(useDarkTheme = useDarkTheme) {
+                AppNavigation(authViewModel, themeViewModel)
             }
         }
     }

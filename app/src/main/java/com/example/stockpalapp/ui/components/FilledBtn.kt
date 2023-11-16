@@ -4,8 +4,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.stockpalapp.ui.theme.StockPalAppTheme
 
 @Composable
 fun FilledBtn(
@@ -19,6 +17,7 @@ fun FilledBtn(
         Text(text = btnText)
     }
 }
+/*
 
 @Preview(showBackground = true)
 @Composable
@@ -27,3 +26,5 @@ fun FilledBtnPreview() {
         FilledBtn(btnText = "test", clickHandler = {})
     }
 }
+
+ */

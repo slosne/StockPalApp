@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.stockpalapp.AppLayout
 import com.example.stockpalapp.R
-import com.example.stockpalapp.ui.theme.StockPalAppTheme
 import com.example.stockpalapp.ui.model.Routes
 import com.example.stockpalapp.ui.viewmodels.AuthViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -58,28 +57,27 @@ fun ProfileScreen(
     navController: NavController,
     drawerState: DrawerState,
     scope: CoroutineScope,
-    viewModel: AuthViewModel?){
-    StockPalAppTheme {
-        Surface(tonalElevation = 5.dp) {
-            AppLayout(content = { paddingValues ->
-                Column(modifier = Modifier.padding(paddingValues)) {
-                    viewModel?.currentUser?.let {
-                        ProfileCard(viewModel = viewModel, navController = navController, name = it.displayName.toString(), email = it.email.toString())
-                    }
+    viewModel: AuthViewModel?)
+{
+    Surface(tonalElevation = 5.dp) {
+        AppLayout(content = { paddingValues ->
+            Column(modifier = Modifier.padding(paddingValues)) {
+                viewModel?.currentUser?.let {
+                    ProfileCard(viewModel = viewModel, navController = navController, name = it.displayName.toString(), email = it.email.toString())
                 }
-            },
-                topAppBarTitle = stringResource(R.string.profile),
-                navigationIcon = Icons.Default.ArrowBack,
-                actionIcon = Icons.Default.Menu,
-                navigationContentDescription = stringResource(R.string.navigate_up),
-                actionContentDescription = stringResource(R.string.navigation_drawer),
-                navController = navController,
-                navigationClickHandler = {navController.navigateUp()},
-                scope = scope,
-                drawerState = drawerState,
-                arrowBackClickHandler = {scope.launch { drawerState.open() }}
-            )
-        }
+            }
+        },
+            topAppBarTitle = stringResource(R.string.profile),
+            navigationIcon = Icons.Default.ArrowBack,
+            actionIcon = Icons.Default.Menu,
+            navigationContentDescription = stringResource(R.string.navigate_up),
+            actionContentDescription = stringResource(R.string.navigation_drawer),
+            navController = navController,
+            navigationClickHandler = {navController.navigateUp()},
+            scope = scope,
+            drawerState = drawerState,
+            arrowBackClickHandler = {scope.launch { drawerState.open() }}
+        )
     }
 }
 
