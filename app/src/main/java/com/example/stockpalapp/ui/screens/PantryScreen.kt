@@ -53,7 +53,8 @@ import kotlinx.coroutines.launch
 fun FoodItemList(modifier: Modifier = Modifier){
 
     val pantryViewModel: PantryViewModel = hiltViewModel()
-    val pantryProducts by pantryViewModel.pantryProducts.collectAsState(initial = emptyList())
+    val pantryProducts by pantryViewModel.sortPantryByCategory.collectAsState(initial = emptyList())
+    //val sortedList by pantryViewModel.sortPantryByCategory.collectAsState(initial = emptyList())
 
     LazyColumn(modifier = modifier){
         items(pantryProducts) { item -> ProductListItem(
@@ -125,7 +126,7 @@ fun PantryScreen(navController: NavController, drawerState: DrawerState, scope: 
           arrowBackClickHandler = {scope.launch { drawerState.open() }}
       )
      }
-   }   
+   }
 }
 
 
