@@ -31,12 +31,15 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.stockpalapp.R
 import com.example.stockpalapp.model.Resource
 import com.example.stockpalapp.ui.model.Routes
+import com.example.stockpalapp.ui.theme.StockPalAppTheme
 import com.example.stockpalapp.ui.viewmodels.AuthViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -159,15 +162,14 @@ fun SignupScreen(
         }
 }
 
-/*
+
 @Preview(showBackground = true)
 @Composable
 fun SignUpScreenPreview() {
-    StockPalAppTheme {
+    StockPalAppTheme(useDarkTheme = false) {
         val navController = rememberNavController()
         SignupScreen(viewModel = null, navController)
     }
 }
 
- */
 
