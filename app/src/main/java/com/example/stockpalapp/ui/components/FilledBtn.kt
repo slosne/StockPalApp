@@ -16,7 +16,8 @@ fun FilledBtn(
     btnText: String)
 {
     Button(
-        onClick = clickHandler, modifier = modifier, colors = ButtonDefaults.buttonColors(Color.Blue),
+        onClick = clickHandler, modifier = modifier,
+        colors = ButtonDefaults.buttonColors(Color.Blue),
     ) {
         Text(text = btnText)
     }
