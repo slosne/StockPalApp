@@ -16,7 +16,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -36,7 +35,6 @@ fun FullRecipeCard(
 {
     ElevatedCard(
         elevation = CardDefaults.cardElevation(2.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
         modifier = Modifier
             .fillMaxSize()
             .padding(10.dp)
@@ -60,7 +58,6 @@ fun FullRecipeCard(
                         Text(
                             text = title,
                             fontWeight = FontWeight.Bold,
-                            style = TextStyle(color = Color.White, fontSize = 28.sp)
                         )
 
                     }

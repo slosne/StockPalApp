@@ -16,17 +16,13 @@ import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemColors
-import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -51,18 +47,12 @@ fun BottomNavigation(navController: NavController){
         BottomNavItem.Recipe
     )
 
-    NavigationBar(
-        containerColor = Color.White,
-        contentColor = Color.DarkGray)
+    NavigationBar()
     {
         Row(horizontalArrangement = Arrangement.SpaceBetween) {
             navItems.forEach { item ->
                 val selected = currentRoute == item.screen_route
                 NavigationBarItem(
-                    colors = NavigationBarItemDefaults.colors(
-                        indicatorColor = Color.Blue,
-                        selectedIconColor = Color.White
-                    ),
                     selected = selected,
                     onClick = {
                         navController.navigate(item.screen_route) {
@@ -109,11 +99,6 @@ fun HamburgerMenuContent(navController: NavController, drawerState: DrawerState,
         drawerItems.forEach { item ->
             val selected = currentRoute == item.screen_route
             NavigationDrawerItem(
-                colors = NavigationDrawerItemDefaults.colors(
-                    selectedContainerColor = MaterialTheme.colorScheme.tertiary,
-                    selectedIconColor = MaterialTheme.colorScheme.onTertiary,
-                    selectedTextColor = MaterialTheme.colorScheme.onTertiary
-                ),
                 selected = selected,
                 label = { Text(text = item.label, style = MaterialTheme.typography.labelLarge) },
                 onClick = {
@@ -177,8 +162,7 @@ fun AppLayout(
                                     contentDescription = actionContentDescription
                                 )
                         }
-                    }, colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.White)
-                )
+                    })
             },
         bottomBar = {
                 BottomNavigation(navController)

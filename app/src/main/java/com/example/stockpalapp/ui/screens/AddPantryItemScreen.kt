@@ -24,7 +24,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
@@ -44,14 +43,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.stockpalapp.ui.components.FilledBtn
 import com.example.stockpalapp.ui.viewmodels.AddPantryItemViewModel
 import kotlin.math.log
@@ -139,7 +135,6 @@ fun AddPantryItem() {
 
     ElevatedCard(
         elevation = CardDefaults.cardElevation(2.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
         modifier = Modifier
             .padding(horizontal = 30.dp, vertical = 10.dp),
         shape = RoundedCornerShape(8.dp),
@@ -187,7 +182,7 @@ fun AddPantryItem() {
 
                     Spacer(modifier = Modifier.size(15.dp))
                     var ean by remember { mutableStateOf("")}
-                    Text(text = stringResource(R.string.required), color = Color.Red, fontSize = 12.sp)
+                    Text(text = stringResource(R.string.required))
                     OutlinedTextField(
                         value = ean,
                         shape = TextFieldDefaults.outlinedShape,
@@ -267,7 +262,7 @@ fun AddPantryItem() {
 
                     Spacer(modifier = Modifier.size(15.dp))
                     var imgUrl by remember { mutableStateOf("")}
-                    Text(text = stringResource(R.string.not_required), color = Color.Green, fontSize = 12.sp)
+                    Text(text = stringResource(R.string.not_required))
                     OutlinedTextField(
                         value = imgUrl,
                         shape = TextFieldDefaults.outlinedShape,
