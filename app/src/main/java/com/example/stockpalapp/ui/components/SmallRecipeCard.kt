@@ -1,30 +1,35 @@
 package com.example.stockpalapp.ui.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
+import com.example.compose.md_theme_dark_onPrimaryContainer
+import com.example.compose.md_theme_light_onSecondaryContainer
+import com.example.compose.md_theme_light_primaryContainer
+import com.example.compose.md_theme_light_secondaryContainer
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
+
 
 @Composable
 fun SmallRecipeCard(
@@ -32,51 +37,40 @@ fun SmallRecipeCard(
     imageUrl: String,
     missingIngredients: List<String>)
 {
+
+    val imagePainter = rememberImagePainter(data = imageUrl)
+
     ElevatedCard(
-        elevation = CardDefaults.cardElevation(2.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        shape = RoundedCornerShape(16.dp),
+        elevation = CardDefaults.cardElevation(10.dp),
         modifier = Modifier
-            .fillMaxWidth()
-            .height(350.dp)
+            .height(210.dp)
             .padding(10.dp)
     ) {
-        Column(verticalArrangement = Arrangement.SpaceBetween) {
-            Box(modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)){
-                val imagePainter = rememberImagePainter(data = imageUrl)
+        Row(modifier = Modifier.padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically)
+        {
+            Column(modifier = Modifier
+                .fillMaxSize()
+                .weight(4f), horizontalAlignment = Alignment.CenterHorizontally){
+                Spacer(modifier = Modifier.size(5.dp))
+                Text(text = title, style = MaterialTheme.typography.titleLarge)
+                Spacer(modifier = Modifier.size(7.dp))
+                Text(text = "Du mangler: ", style = MaterialTheme.typography.titleMedium)
+                Spacer(modifier = Modifier.size(7.dp))
+                for (ingredient in missingIngredients) {
+                    Text(text = ingredient, style = MaterialTheme.typography.titleSmall)
+                }
+            }
+            Surface(shape = RoundedCornerShape(16.dp),
+                modifier = Modifier.size(width = 100.dp, height = 140.dp)) {
                 Image(
                     painter = imagePainter,
                     contentDescription = "plate of " + title,
                     contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .fillMaxSize()
                 )
-                Box(modifier = Modifier
-                    .fillMaxSize()
-                    .padding(12.dp), contentAlignment = Alignment.TopCenter){
-                    Column {
-                        Text(
-                            text = title,
-                            fontWeight = FontWeight.Bold,
-                            style = TextStyle(color = Color.White, fontSize = 26.sp)
-                        )
-
-                    }
-                }
-
-            }
-            Column(modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                Spacer(modifier = Modifier.size(10.dp))
-                Text(text = "Du mangler: ", style = TextStyle(fontSize = 16.sp))
-                for (ingredient in missingIngredients) {
-                    Text(text = ingredient + ", ", style = TextStyle(fontSize = 12.sp))
-                }
             }
         }
-
     }
 }
 

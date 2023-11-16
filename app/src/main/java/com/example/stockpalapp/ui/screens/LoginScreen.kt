@@ -107,8 +107,7 @@ fun LoginScreen(viewModel: AuthViewModel?, navController: NavController) {
                 },
             text = stringResource(id = R.string.notRegistered),
             style = MaterialTheme.typography.bodyLarge,
-            textAlign = TextAlign.Center,
-            color = MaterialTheme.colorScheme.onSurface
+            textAlign = TextAlign.Center
         )
 
         //Khan, B. (4. september, 2022). Firebase Authentication using MVVM with Hilt and Coroutines
