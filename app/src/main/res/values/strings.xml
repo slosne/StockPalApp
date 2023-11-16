@@ -51,6 +51,6 @@
     <string name="dont_remove">Nei, ikke fjern</string>
     <string name="img_url">Bilde-URL</string>
     <string name="not_required">Ikke obligatorisk</string>
-    <string name="closest_exp_date">Nærmeste utløpsdato</string>
+    <string name="closest_exp_date">Utløper snart:</string>
     <string name="to_all_items">Se alle varer</string>
 </resources>

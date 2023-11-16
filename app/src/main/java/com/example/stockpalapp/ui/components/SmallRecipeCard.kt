@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -22,7 +24,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
+import com.example.compose.md_theme_dark_onPrimaryContainer
+import com.example.compose.md_theme_light_onSecondaryContainer
+import com.example.compose.md_theme_light_primaryContainer
+import com.example.compose.md_theme_light_secondaryContainer
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
+
 
 @Composable
 fun SmallRecipeCard(
@@ -47,11 +54,10 @@ fun SmallRecipeCard(
                 .fillMaxSize()
                 .weight(4f), horizontalAlignment = Alignment.CenterHorizontally){
                 Spacer(modifier = Modifier.size(5.dp))
-                Text(text = title, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight(
-                    700
-                ))
-                Spacer(modifier = Modifier.size(5.dp))
+                Text(text = title, style = MaterialTheme.typography.titleLarge)
+                Spacer(modifier = Modifier.size(7.dp))
                 Text(text = "Du mangler: ", style = MaterialTheme.typography.titleMedium)
+                Spacer(modifier = Modifier.size(7.dp))
                 for (ingredient in missingIngredients) {
                     Text(text = ingredient, style = MaterialTheme.typography.titleSmall)
                 }

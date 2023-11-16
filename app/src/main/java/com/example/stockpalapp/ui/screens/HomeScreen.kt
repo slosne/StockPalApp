@@ -3,7 +3,9 @@ package com.example.stockpalapp.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -36,67 +38,71 @@ import androidx.navigation.compose.rememberNavController
 import com.example.stockpalapp.AppLayout
 import com.example.stockpalapp.R
 import com.example.stockpalapp.ui.components.FilledBtn
+import com.example.stockpalapp.ui.components.ProductListItem
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
 import com.example.stockpalapp.ui.viewmodels.HomeScreenViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import com.example.stockpalapp.ui.components.SmallRecipeCard
-import com.example.stockpalapp.ui.viewmodels.PantryViewModel
+import com.example.stockpalapp.ui.model.Routes
 
+@Composable
+fun WelcomeSection(name: String){
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally)
+    {
+        Divider()
+        Spacer(modifier = Modifier.size(10.dp))
+        Text(text = "Velkommen, " + name + "!",
+            style = MaterialTheme.typography.titleLarge)
+        Spacer(modifier = Modifier.size(10.dp))
+    }
+}
 
 @Composable
 fun ExpDateSection() {
     val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
 
-    val sortedList by homeScreenViewModel.
-    sortedProductsByExpDate.
+    val sortedList by homeScreenViewModel.sortedProductsByExpDate.
     collectAsState(initial = emptyList())
 
-    val pantryViewModel: PantryViewModel = hiltViewModel()
+    val navController = rememberNavController()
 
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Divider()
-            Spacer(modifier = Modifier.size(20.dp))
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Divider()
+        Spacer(modifier = Modifier.size(10.dp))
+        Row(horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .padding(20.dp)
+                .fillMaxWidth())
+        {
             Text(text = stringResource(R.string.closest_exp_date),
-            style = MaterialTheme.typography.titleMedium)
-            Spacer(modifier = Modifier.size(5.dp))
-            LazyRow() {
-                items(sortedList){item ->
-                    Surface(
-                        modifier = Modifier
-                            .padding(10.dp)
-                            .width(200.dp)
-                            .height(100.dp)) {
-                        Column(
-                            modifier = Modifier
-                                .padding(10.dp),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        )
-                        {
-                            Text(
-                                text = item.name,
-                                style = MaterialTheme.typography.titleMedium
-                            )
-                            Spacer(modifier = Modifier.size(5.dp))
-                            if (item.expDate != null)
-                            {
-                                Text(
-                                    text = pantryViewModel.convertTimestampToString(item.expDate),
-                                    style = MaterialTheme.typography.titleSmall)
-                            }
-                        }
-                    }
+                style = MaterialTheme.typography.titleLarge)
+            FilledBtn(
+                clickHandler = { navController.navigate(Routes().pantry) },
+                btnText = stringResource(R.string.to_all_items))
+        }
+        Spacer(modifier = Modifier.size(5.dp))
+        LazyColumn() {
+            items(sortedList.take(2)){item ->
+                ProductListItem(
+                    title = item.name,
+                    description = null,
+                    ammount = null,
+                    imageUrl = item.image,
+                    date = item.expDate
+                ) {
+
                 }
             }
-            Spacer(modifier = Modifier.size(10.dp))
-            FilledBtn(clickHandler = { /* TODO */ }, btnText = stringResource(R.string.to_all_items))
-            Spacer(modifier = Modifier.size(20.dp))
-            Divider()
         }
+        Divider()
+    }
 }
 
 @Composable
@@ -104,13 +110,25 @@ fun RecommendedRecipeCard(){
     val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
     val recipeList by homeScreenViewModel.recipes.collectAsState(initial = emptyList())
 
+    val navController = rememberNavController()
+
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.padding(10.dp))
     {
         item {
-            Text(text = stringResource(R.string.recommodation),
-                style = MaterialTheme.typography.titleMedium)
+            Row(horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .padding(20.dp)
+                    .fillMaxWidth())
+            {
+                FilledBtn(
+                    clickHandler = { navController.navigate(Routes().recipes) }, 
+                    btnText = "Alle oppskrifter")
+                Text(text = stringResource(R.string.recommodation),
+                    style = MaterialTheme.typography.titleLarge)
+            }
         }
         items(recipeList){recipe ->
             SmallRecipeCard(
@@ -127,15 +145,20 @@ fun RecommendedRecipeCard(){
 fun HomeScreen(
     navController: NavController,
     drawerState: DrawerState,
-    scope: CoroutineScope){
+    scope: CoroutineScope)
+{
+
+    val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
 
     AppLayout(
         content = { paddingValues ->
             Column(modifier = Modifier
                 .padding(paddingValues)) {
                 Spacer(modifier = Modifier.size(20.dp))
+                WelcomeSection(homeScreenViewModel.currentUser.toString())
+                Spacer(modifier = Modifier.size(10.dp))
                 ExpDateSection()
-                Spacer(modifier = Modifier.size(20.dp))
+                Spacer(modifier = Modifier.size(10.dp))
                 RecommendedRecipeCard()
             }
         },

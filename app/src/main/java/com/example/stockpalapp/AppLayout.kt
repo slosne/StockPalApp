@@ -25,7 +25,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.stockpalapp.ui.model.BottomNavItem
 import com.example.stockpalapp.ui.model.DrawerItem
@@ -144,8 +146,9 @@ fun AppLayout(
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
-                    title = { Text(text = topAppBarTitle,
-                        style = MaterialTheme.typography.headlineMedium) },
+                    title = { Text(text = topAppBarTitle.uppercase(),
+                        style = MaterialTheme.typography.headlineSmall,
+                        letterSpacing = 2.sp)},
                     navigationIcon = {
                         IconButton(onClick = {navigationClickHandler()}) {
                             if(navigationIcon != null){
