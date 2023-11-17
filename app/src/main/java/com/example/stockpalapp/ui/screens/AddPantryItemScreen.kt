@@ -299,7 +299,6 @@ fun AddPantryItem() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddPantryItemScreen(navController: NavController, drawerState: DrawerState, scope: CoroutineScope){
-    StockPalAppTheme {
         Surface(tonalElevation = 5.dp) {
             AppLayout(content = { paddingValues ->
                 Column(modifier = Modifier.padding(paddingValues)) {
@@ -320,14 +319,16 @@ fun AddPantryItemScreen(navController: NavController, drawerState: DrawerState, 
                 arrowBackClickHandler = {scope.launch { drawerState.open() }}
             )
         }
-    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun AddPantryItemScreenPreview() {
-    StockPalAppTheme {
+    val useDarkTheme by remember {
+        mutableStateOf(false)
+    }
+    StockPalAppTheme(useDarkTheme = useDarkTheme) {
         val navController = rememberNavController()
         val scope = rememberCoroutineScope()
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)

@@ -23,7 +23,7 @@ fun FilledBtn(
 @Preview(showBackground = true)
 @Composable
 fun FilledBtnPreview() {
-    StockPalAppTheme {
+    StockPalAppTheme(useDarkTheme = false) {
         FilledBtn(btnText = "test", clickHandler = {})
     }
 }

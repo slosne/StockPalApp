@@ -162,12 +162,14 @@ fun SignupScreen(
         }
 }
 
+
 @Preview(showBackground = true)
 @Composable
 fun SignUpScreenPreview() {
-    StockPalAppTheme {
+    StockPalAppTheme(useDarkTheme = false) {
         val navController = rememberNavController()
         SignupScreen(viewModel = null, navController)
     }
 }
+
 

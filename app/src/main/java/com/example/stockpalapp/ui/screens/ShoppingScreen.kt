@@ -25,8 +25,8 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -68,37 +68,36 @@ fun ShoppingItemList(modifier: Modifier = Modifier){
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ShoppingScreen(navController: NavController, drawerState: DrawerState, scope: CoroutineScope) {
-    StockPalAppTheme {
-        Surface(tonalElevation = 5.dp) {
-            AppLayout(
-                content = { paddingValues ->
-                    Column(modifier = Modifier.padding(paddingValues)) {
-                        ShoppingItemList()
-                        Spacer(modifier = Modifier.size(30.dp))
-                        Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
-                            StandardBtn(modifier = Modifier, {}, "Legg til")
-                            Spacer(modifier = Modifier.size(10.dp))
-                            StandardBtn(modifier = Modifier, {}, "Del handleliste")
+fun ShoppingScreen(navController: NavController, drawerState: DrawerState, scope: CoroutineScope)
+{
+    Surface(tonalElevation = 5.dp) {
+        AppLayout(
+            content = { paddingValues ->
+                Column(modifier = Modifier.padding(paddingValues)) {
+                    ShoppingItemList()
+                    Spacer(modifier = Modifier.size(30.dp))
+                    Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
+                        StandardBtn(modifier = Modifier, {}, "Legg til")
+                        Spacer(modifier = Modifier.size(10.dp))
+                        StandardBtn(modifier = Modifier, {}, "Del handleliste")
 
-                        }
                     }
-                },
-                topAppBarTitle = stringResource(R.string.shopping_list),
-                navigationIcon = Icons.Default.ArrowBack,
-                actionIcon = Icons.Default.Menu,
-                navigationContentDescription = stringResource(R.string.navigate_up),
-                actionContentDescription = stringResource(R.string.navigation_drawer),
-                navController = navController,
-                navigationClickHandler = { navController.navigateUp() },
-                arrowBackClickHandler = { scope.launch { drawerState.open() } },
-                drawerState = drawerState,
-                scope = scope,
-
-                )
-        }
+                }
+            },
+            topAppBarTitle = stringResource(R.string.shopping_list),
+            navigationIcon = Icons.Default.ArrowBack,
+            actionIcon = Icons.Default.Menu,
+            navigationContentDescription = stringResource(R.string.navigate_up),
+            actionContentDescription = stringResource(R.string.navigation_drawer),
+            navController = navController,
+            navigationClickHandler = { navController.navigateUp() },
+            arrowBackClickHandler = { scope.launch { drawerState.open() } },
+            drawerState = drawerState,
+            scope = scope
+        )
     }
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(
@@ -117,7 +116,7 @@ fun ShoppingScreen(navController: NavController, drawerState: DrawerState, scope
 
 @Composable
 fun ShoppingScreenPreview() {
-    StockPalAppTheme {
+    StockPalAppTheme(useDarkTheme = false) {
         val navController = rememberNavController()
         val scope = rememberCoroutineScope()
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -125,3 +124,4 @@ fun ShoppingScreenPreview() {
 
     }
 }
+

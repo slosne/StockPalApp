@@ -48,10 +48,11 @@ fun SearchComponent(){
 
 }
 
+
 @Preview(showBackground = true)
 @Composable
 fun PantrySearchPreview() {
-    StockPalAppTheme {
+    StockPalAppTheme(useDarkTheme = false) {
         SearchComponent()
     }
 }

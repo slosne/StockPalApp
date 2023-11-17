@@ -89,12 +89,12 @@ fun RecipeScreen(navController: NavController, drawerState: DrawerState, scope: 
 @Preview(showBackground = true)
 @Composable
 fun RecipeScreenPreview() {
-    StockPalAppTheme {
+    StockPalAppTheme(useDarkTheme = false) {
         val navController = rememberNavController()
         val scope = rememberCoroutineScope()
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
         RecipeScreen(navController, drawerState, scope)
-
     }
 }
+
 

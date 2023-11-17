@@ -6,12 +6,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -20,7 +17,6 @@ import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
@@ -39,12 +35,12 @@ import com.example.stockpalapp.AppLayout
 import com.example.stockpalapp.R
 import com.example.stockpalapp.ui.components.FilledBtn
 import com.example.stockpalapp.ui.components.ProductListItem
-import com.example.stockpalapp.ui.theme.StockPalAppTheme
 import com.example.stockpalapp.ui.viewmodels.HomeScreenViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import com.example.stockpalapp.ui.components.SmallRecipeCard
 import com.example.stockpalapp.ui.model.Routes
+import com.example.stockpalapp.ui.theme.StockPalAppTheme
 
 @Composable
 fun WelcomeSection(name: String){
@@ -61,13 +57,11 @@ fun WelcomeSection(name: String){
 }
 
 @Composable
-fun ExpDateSection() {
+fun ExpDateSection(navController: NavController) {
     val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
 
     val sortedList by homeScreenViewModel.sortedProductsByExpDate.
     collectAsState(initial = emptyList())
-
-    val navController = rememberNavController()
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -106,11 +100,9 @@ fun ExpDateSection() {
 }
 
 @Composable
-fun RecommendedRecipeCard(){
+fun RecommendedRecipeCard(navController: NavController){
     val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
     val recipeList by homeScreenViewModel.recipes.collectAsState(initial = emptyList())
-
-    val navController = rememberNavController()
 
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -157,9 +149,9 @@ fun HomeScreen(
                 Spacer(modifier = Modifier.size(20.dp))
                 WelcomeSection(homeScreenViewModel.currentUser.toString())
                 Spacer(modifier = Modifier.size(10.dp))
-                ExpDateSection()
+                ExpDateSection(navController)
                 Spacer(modifier = Modifier.size(10.dp))
-                RecommendedRecipeCard()
+                RecommendedRecipeCard(navController)
             }
         },
         topAppBarTitle = stringResource(R.string.stockpal),
@@ -178,13 +170,16 @@ fun HomeScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    StockPalAppTheme {
+fun HomeScreenPreview() {
+
+    StockPalAppTheme(useDarkTheme = true) {
         val navController = rememberNavController()
         val scope = rememberCoroutineScope()
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
 
-        HomeScreen(navController, drawerState, scope)
+        HomeScreen(
+            navController = navController,
+            drawerState = drawerState,
+            scope = scope)
     }
 }
-
