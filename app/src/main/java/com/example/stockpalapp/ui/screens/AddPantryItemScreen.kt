@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -61,7 +63,8 @@ fun AddPantryItemScanningAndSearching() {
     val scannedBarcode by addPantryItemViewModel.scannedBarcode.collectAsState()
 
     Column (horizontalAlignment = Alignment.CenterHorizontally) {
-        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center){
+        Box(modifier = Modifier
+            .fillMaxWidth(), contentAlignment = Alignment.Center){
             FilledBtn(clickHandler = { addPantryItemViewModel.ScanningAProduct() }, btnText = stringResource(R.string.scan_item))
         }
 
@@ -142,7 +145,9 @@ fun AddPantryItem() {
             expandedState = !expandedState
         }
     ) {
-        Column(modifier = Modifier.padding(horizontal = 30.dp)) {
+        Column(modifier = Modifier
+            .padding(horizontal = 30.dp)
+            .verticalScroll(rememberScrollState())) {
             Row (verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     modifier = Modifier

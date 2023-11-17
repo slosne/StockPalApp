@@ -11,11 +11,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
@@ -41,6 +45,8 @@ import kotlinx.coroutines.launch
 import com.example.stockpalapp.ui.components.SmallRecipeCard
 import com.example.stockpalapp.ui.model.Routes
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
+import com.example.stockpalapp.ui.viewmodels.PantryViewModel
+
 
 @Composable
 fun WelcomeSection(name: String){
@@ -50,7 +56,7 @@ fun WelcomeSection(name: String){
     {
         Divider()
         Spacer(modifier = Modifier.size(10.dp))
-        Text(text = "Velkommen, " + name + "!",
+        Text(text = "Velkommen, $name!",
             style = MaterialTheme.typography.titleLarge)
         Spacer(modifier = Modifier.size(10.dp))
     }
@@ -59,6 +65,7 @@ fun WelcomeSection(name: String){
 @Composable
 fun ExpDateSection(navController: NavController) {
     val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
+    val pantryViewModel: PantryViewModel = hiltViewModel()
 
     val sortedList by homeScreenViewModel.sortedProductsByExpDate.
     collectAsState(initial = emptyList())
@@ -66,7 +73,8 @@ fun ExpDateSection(navController: NavController) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
-    ) {
+    )
+    {
         Divider()
         Spacer(modifier = Modifier.size(10.dp))
         Row(horizontalArrangement = Arrangement.SpaceBetween,
@@ -82,17 +90,45 @@ fun ExpDateSection(navController: NavController) {
                 btnText = stringResource(R.string.to_all_items))
         }
         Spacer(modifier = Modifier.size(5.dp))
-        LazyColumn() {
+        LazyColumn {
             items(sortedList.take(2)){item ->
+                val daysRemaining = homeScreenViewModel.calculateDaysRemaining(item.expDate)
+
                 ProductListItem(
                     title = item.name,
-                    description = null,
+                    description =
+                    when (daysRemaining) {
+                        in 1..2 -> stringResource(R.string.soon_expired).uppercase()
+                        0 -> stringResource(R.string.expired).uppercase()
+                        else -> null
+                    },
                     ammount = null,
                     imageUrl = item.image,
-                    date = item.expDate
-                ) {
+                    date = item.expDate,
+                    actions = {
+                        when (daysRemaining) {
+                            in 1..2 -> {
+                                IconButton(onClick = { navController.navigate(Routes().pantry) }) {
+                                    Icon(
+                                        imageVector = Icons.Default.Notifications,
+                                        contentDescription = "Expiry date warning icon",
+                                        tint = MaterialTheme.colorScheme.error
+                                    )
+                                }
+                            }
 
-                }
+                            0 -> {
+                                IconButton(onClick = { pantryViewModel.removePantryProduct(item.id) }) {
+                                    Icon(
+                                        imageVector = Icons.Default.Delete,
+                                        contentDescription = "Expired item delete",
+                                        tint = MaterialTheme.colorScheme.error
+                                    )
+                                }
+                            }
+                        }
+                    }
+                )
             }
         }
         Divider()
