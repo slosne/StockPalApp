@@ -17,7 +17,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
@@ -41,8 +40,7 @@ fun SearchComponent(){
                     imageVector = Icons.Default.Search,
                     contentDescription = null,
                     modifier = Modifier
-                        .size(30.dp),
-                    tint = Color.Black
+                        .size(30.dp)
                 )
             }
         )
@@ -50,10 +48,11 @@ fun SearchComponent(){
 
 }
 
+
 @Preview(showBackground = true)
 @Composable
 fun PantrySearchPreview() {
-    StockPalAppTheme {
+    StockPalAppTheme(useDarkTheme = false) {
         SearchComponent()
     }
 }

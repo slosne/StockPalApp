@@ -48,6 +48,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.stockpalapp.AppLayout
 import com.example.stockpalapp.R
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.stockpalapp.ui.components.FilledBtn
 import com.example.stockpalapp.ui.model.categories
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
@@ -139,7 +140,6 @@ fun AddPantryItem() {
 
     ElevatedCard(
         elevation = CardDefaults.cardElevation(2.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
         modifier = Modifier
             .padding(horizontal = 30.dp, vertical = 10.dp),
         shape = RoundedCornerShape(8.dp),
@@ -340,7 +340,6 @@ fun AddPantryItem() {
                     Spacer(modifier = Modifier.size(15.dp))
                     var imgUrl by remember { mutableStateOf("")}
                     var isImgURLError by remember { mutableStateOf(false) }
-                    Text(text = stringResource(R.string.not_required), color = Color.Green, fontSize = 12.sp)
                     OutlinedTextField(
                         value = imgUrl,
                         shape = TextFieldDefaults.outlinedShape,
@@ -388,7 +387,6 @@ fun AddPantryItem() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddPantryItemScreen(navController: NavController, drawerState: DrawerState, scope: CoroutineScope){
-    StockPalAppTheme {
         Surface(tonalElevation = 5.dp) {
             AppLayout(content = { paddingValues ->
                 Column(modifier = Modifier.padding(paddingValues)) {
@@ -409,14 +407,16 @@ fun AddPantryItemScreen(navController: NavController, drawerState: DrawerState, 
                 arrowBackClickHandler = {scope.launch { drawerState.open() }}
             )
         }
-    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun AddPantryItemScreenPreview() {
-    StockPalAppTheme {
+    val useDarkTheme by remember {
+        mutableStateOf(false)
+    }
+    StockPalAppTheme(useDarkTheme = useDarkTheme) {
         val navController = rememberNavController()
         val scope = rememberCoroutineScope()
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
