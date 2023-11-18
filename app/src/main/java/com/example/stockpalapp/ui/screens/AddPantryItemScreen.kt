@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -17,44 +19,42 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberDrawerState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.stockpalapp.AppLayout
 import com.example.stockpalapp.R
+import com.example.stockpalapp.ui.components.FilledBtn
+import com.example.stockpalapp.ui.model.categories
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
+import com.example.stockpalapp.ui.viewmodels.AddPantryItemViewModel
+import com.example.stockpalapp.ui.visualTransformation.DateVisualTransformation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardCapitalization
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.stockpalapp.ui.components.FilledBtn
-import com.example.stockpalapp.ui.viewmodels.AddPantryItemViewModel
-import kotlin.math.log
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -147,7 +147,11 @@ fun AddPantryItem() {
             expandedState = !expandedState
         }
     ) {
-        Column(modifier = Modifier.padding(horizontal = 30.dp)) {
+        Column(
+            modifier = Modifier
+                .padding(horizontal = 30.dp)
+                .verticalScroll(rememberScrollState())
+            ) {
             Row (verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     modifier = Modifier
@@ -160,18 +164,24 @@ fun AddPantryItem() {
                     onClick = { expandedState = !expandedState }) {
                     Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = "Drop-Down Arrow")
                 }
-
             }
             Spacer(modifier = Modifier.size(15.dp))
 
             if(expandedState) {
                 Column {
                     var title by remember { mutableStateOf("")}
+                    var isError by remember { mutableStateOf(false)}
+
+                    fun isValidText(text: String): Boolean {
+                        return text.matches(Regex("[a-zA-Z]+"))
+                    }
+
                     OutlinedTextField(
                         value = title,
                         shape = TextFieldDefaults.outlinedShape,
                         onValueChange = { newTitle ->
                             title = newTitle
+                            isError = !isValidText(title)
                         },
                         label = {
                             Text(text = stringResource(R.string.item_name))
@@ -183,7 +193,19 @@ fun AddPantryItem() {
                             imeAction = ImeAction.Next
                         ),
                         singleLine = true,
+                        isError = title.isNotEmpty() && !isValidText(title),
+                        supportingText = {
+
+                            if (title.isEmpty()) {
+                                Text(text = "Input kan ikke være tom")
+                            } else if (isError && !isValidText(title)) {
+                                Text(text = "Kan ikke inneholde andre tegn en")
+                            }
+                        }
+                        
                     )
+
+
 
                     Spacer(modifier = Modifier.size(15.dp))
                     var ean by remember { mutableStateOf("")}
@@ -227,32 +249,50 @@ fun AddPantryItem() {
 
 
                     Spacer(modifier = Modifier.size(15.dp))
-                    var category by remember { mutableStateOf("")}
-                    OutlinedTextField(
-                        value = category,
-                        shape = TextFieldDefaults.outlinedShape,
-                        onValueChange = { newCategory ->
-                            category = newCategory
-                        },
-                        label = {
-                            Text(text = stringResource(R.string.category))
-                        },
-                        keyboardOptions = KeyboardOptions(
-                            capitalization = KeyboardCapitalization.Words,
-                            autoCorrect = false,
-                            keyboardType = KeyboardType.Text,
-                            imeAction = ImeAction.Next
-                        ),
-                        singleLine = true,
-                    )
+
+                    val options = categories
+                    var category by remember { mutableStateOf(options[0]) }
+                    var expanded by remember { mutableStateOf(false)}
+
+                    ExposedDropdownMenuBox(
+                        expanded = expanded,
+                        onExpandedChange = { expanded = !expanded}
+                    ) {
+                        OutlinedTextField(
+                            modifier = Modifier.menuAnchor(),
+                            readOnly = true,
+                            value = category,
+                            onValueChange = { newCategory ->
+                                category = newCategory
+                            },
+                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)},
+                            colors = ExposedDropdownMenuDefaults.textFieldColors(),
+                        )
+                        ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+                            options.forEach {categorySelect ->
+                                DropdownMenuItem(text = { Text(categorySelect) },
+                                    onClick = {
+                                        category = categorySelect
+                                        expanded = false },
+                                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                                )
+                            }
+                        }
+                    }
 
                     Spacer(modifier = Modifier.size(15.dp))
                     var expDate by remember { mutableStateOf("")}
+                    var expDateShow by remember { mutableStateOf("")}
                     OutlinedTextField(
                         value = expDate,
                         shape = TextFieldDefaults.outlinedShape,
                         onValueChange = { newExpDate ->
-                            expDate = newExpDate
+                            expDateShow = newExpDate.filter { it.isDigit() }
+
+                            expDate = expDateShow.take(6)
+
+                            Log.d("expDateShow", expDateShow)
+                            Log.d("expDate", expDate)
                         },
                         label = {
                             Text(text = stringResource(R.string.exp_date))
@@ -263,7 +303,14 @@ fun AddPantryItem() {
                             imeAction = ImeAction.Next
                         ),
                         singleLine = true,
+                        visualTransformation = DateVisualTransformation()
                     )
+
+                    Spacer(modifier = Modifier.size(15.dp))
+
+                    var expDate2 by remember { mutableStateOf("")}
+
+
 
                     Spacer(modifier = Modifier.size(15.dp))
                     var imgUrl by remember { mutableStateOf("")}
@@ -293,7 +340,7 @@ fun AddPantryItem() {
                             category = ""
                             expDate = ""
                             ean = ""
-                            imgUrl = ""}, btnText = stringResource(R.string.save))
+                            imgUrl = ""}, btnText = stringResource(R.string.save), enabled = !isError)
                     }
                 }
             }
