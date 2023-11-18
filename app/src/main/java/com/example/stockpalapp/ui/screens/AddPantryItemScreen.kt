@@ -170,18 +170,14 @@ fun AddPantryItem() {
             if(expandedState) {
                 Column {
                     var title by remember { mutableStateOf("")}
-                    var isError by remember { mutableStateOf(false)}
-
-                    fun isValidText(text: String): Boolean {
-                        return text.matches(Regex("[a-zA-Z]+"))
-                    }
+                    var isTitleError by remember { mutableStateOf(false)}
 
                     OutlinedTextField(
                         value = title,
                         shape = TextFieldDefaults.outlinedShape,
                         onValueChange = { newTitle ->
                             title = newTitle
-                            isError = !isValidText(title)
+                            isTitleError = !addPantryItemViewModel.isValidProductName(title)
                         },
                         label = {
                             Text(text = stringResource(R.string.item_name))
@@ -193,13 +189,13 @@ fun AddPantryItem() {
                             imeAction = ImeAction.Next
                         ),
                         singleLine = true,
-                        isError = title.isNotEmpty() && !isValidText(title),
+                        isError = title.isNotEmpty() && !addPantryItemViewModel.isValidProductName(title),
                         supportingText = {
 
                             if (title.isEmpty()) {
-                                Text(text = "Input kan ikke være tom")
-                            } else if (isError && !isValidText(title)) {
-                                Text(text = "Kan ikke inneholde andre tegn en")
+                                Text(text = "Obligatorisk - Input kan ikke være tom")
+                            } else if (isTitleError && !addPantryItemViewModel.isValidProductName(title)) {
+                                Text(text = "Kan bare inneholde tall, bokstaver. Og maks 25 karakterer")
                             }
                         }
                         
@@ -209,12 +205,13 @@ fun AddPantryItem() {
 
                     Spacer(modifier = Modifier.size(15.dp))
                     var ean by remember { mutableStateOf("")}
-                    Text(text = stringResource(R.string.required), color = Color.Red, fontSize = 12.sp)
+                    var isEanError by remember { mutableStateOf(false)}
                     OutlinedTextField(
                         value = ean,
                         shape = TextFieldDefaults.outlinedShape,
                         onValueChange = { newEan ->
                             ean = newEan
+                            isEanError = !addPantryItemViewModel.isValidEanNumber(ean)
                         },
                         label = {
                             Text(text = stringResource(R.string.ean))
@@ -225,15 +222,26 @@ fun AddPantryItem() {
                             imeAction = ImeAction.Next
                         ),
                         singleLine = true,
+                        isError = ean.isNotEmpty() && !addPantryItemViewModel.isValidEanNumber(ean),
+                        supportingText = {
+
+                            if (ean.isEmpty()) {
+                                Text(text = "Obligatorisk - Input kan ikke være tom")
+                            } else if (isEanError && !addPantryItemViewModel.isValidEanNumber(ean)) {
+                                Text(text = "Kan bare inneholde tall")
+                            }
+                        }
                     )
 
                     Spacer(modifier = Modifier.size(15.dp))
                     var ammount by remember { mutableStateOf("")}
+                    var isAmmountError by remember { mutableStateOf(false)}
                     OutlinedTextField(
                         value = ammount,
                         shape = TextFieldDefaults.outlinedShape,
                         onValueChange = { newAmmount ->
                             ammount = newAmmount
+                            isAmmountError = !addPantryItemViewModel.isValidAmmount(ammount)
                         },
                         label = {
                             Text(text = stringResource(R.string.ammount))
@@ -244,6 +252,15 @@ fun AddPantryItem() {
                             imeAction = ImeAction.Next
                         ),
                         singleLine = true,
+                        isError = ammount.isNotEmpty() && !addPantryItemViewModel.isValidAmmount(ammount),
+                        supportingText = {
+
+                            if (ammount.isEmpty()) {
+                                Text(text = "Obligatorisk - Input kan ikke være tom")
+                            } else if (isAmmountError && !addPantryItemViewModel.isValidAmmount(ammount)) {
+                                Text(text = "Kan bare inneholde tall")
+                            }
+                        }
                     )
 
 
@@ -283,6 +300,8 @@ fun AddPantryItem() {
                     Spacer(modifier = Modifier.size(15.dp))
                     var expDate by remember { mutableStateOf("")}
                     var expDateShow by remember { mutableStateOf("")}
+                    var isDateError by remember { mutableStateOf(false)}
+                    var isDateLength by remember { mutableStateOf(false)}
                     OutlinedTextField(
                         value = expDate,
                         shape = TextFieldDefaults.outlinedShape,
@@ -293,6 +312,8 @@ fun AddPantryItem() {
 
                             Log.d("expDateShow", expDateShow)
                             Log.d("expDate", expDate)
+                            isDateError = !addPantryItemViewModel.isValidDatePicker(expDate)
+                            isDateLength = expDate.length >= 6
                         },
                         label = {
                             Text(text = stringResource(R.string.exp_date))
@@ -303,23 +324,29 @@ fun AddPantryItem() {
                             imeAction = ImeAction.Next
                         ),
                         singleLine = true,
-                        visualTransformation = DateVisualTransformation()
+                        visualTransformation = DateVisualTransformation(),
+                        isError = expDate.isNotEmpty() && !addPantryItemViewModel.isValidDatePicker(expDate),
+                        supportingText = {
+                            if (expDate.isEmpty()) {
+                                Text(text = "Obligatorisk - Input kan ikke være tom")
+                            } else if (expDate.length != 6 ) {
+                                Text(text = "Dato må være i fromat DD/MM/YY")
+                            }
+                        }
                     )
-
-                    Spacer(modifier = Modifier.size(15.dp))
-
-                    var expDate2 by remember { mutableStateOf("")}
 
 
 
                     Spacer(modifier = Modifier.size(15.dp))
                     var imgUrl by remember { mutableStateOf("")}
+                    var isImgURLError by remember { mutableStateOf(false) }
                     Text(text = stringResource(R.string.not_required), color = Color.Green, fontSize = 12.sp)
                     OutlinedTextField(
                         value = imgUrl,
                         shape = TextFieldDefaults.outlinedShape,
                         onValueChange = { newImgUrl ->
                             imgUrl = newImgUrl
+                            isImgURLError = !addPantryItemViewModel.isValidImageUrl(imgUrl)
                         },
                         label = {
                             Text(text = stringResource(R.string.img_url))
@@ -330,6 +357,13 @@ fun AddPantryItem() {
                             imeAction = ImeAction.Done
                         ),
                         singleLine = true,
+                        isError = imgUrl.isNotEmpty() && !addPantryItemViewModel.isValidImageUrl(imgUrl),
+                        supportingText = {
+
+                            if (isImgURLError && !addPantryItemViewModel.isValidImageUrl(imgUrl)) {
+                                Text(text = "http, https, ftp må brukes. Må være en gyldig url")
+                            }
+                        }
                     )
 
                     Spacer(modifier = Modifier.size(15.dp))
@@ -340,7 +374,10 @@ fun AddPantryItem() {
                             category = ""
                             expDate = ""
                             ean = ""
-                            imgUrl = ""}, btnText = stringResource(R.string.save), enabled = !isError)
+                            imgUrl = ""},
+                            btnText = stringResource(R.string.save),
+                            enabled = !isTitleError && title.isNotEmpty() && !isEanError && ean.isNotEmpty() && !isAmmountError && ammount.isNotEmpty() && !isDateError && isDateLength && !isImgURLError
+                        )
                     }
                 }
             }

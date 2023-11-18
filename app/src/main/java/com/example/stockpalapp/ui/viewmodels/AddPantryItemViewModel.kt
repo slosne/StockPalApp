@@ -96,22 +96,24 @@ class AddPantryItemViewModel @Inject constructor(
     //Input Validation TODO: Kanskje flytt til use cases
 
     fun isValidProductName(text: String): Boolean {
-        return text.matches(Regex("[a-zA-Z0-9,]{1,25}"))
+        return text.matches(Regex("[a-zA-Z0-9,æøåÆØÅ]{1,25}"))
     }
 
     fun isValidEanNumber(text: String): Boolean {
         return text.matches(Regex("[0-9]+"))
     }
 
-    fun isValidNumber(text: String): Boolean {
+    fun isValidAmmount(text: String): Boolean {
         return text.matches(Regex("[0-9]+"))
     }
 
-    fun isValidExpDate(text: String): Boolean {
-        return text.matches(Regex("^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{2}$"))
-    }
-
-    fun isValidDate(text: String): Boolean {
+    fun isValidDatePicker(text: String): Boolean {
         return text.matches(Regex("[0-9/]{1,8}"))
     }
+
+    fun isValidImageUrl(url: String): Boolean {
+        return url.matches(Regex("""^(https?|ftp):\/\/[^\s\/$.?#].[^\s]*$"""))
+    }
+
+
 }
