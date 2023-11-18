@@ -53,4 +53,10 @@
     <string name="not_required">Ikke obligatorisk</string>
     <string name="closest_exp_date">Utløper snart:</string>
     <string name="to_all_items">Se alle varer</string>
+    <string name="mandatoryInput">Obligatorisk - Input kan ikke være tom</string>
+    <string name="titleVal">Kan bare inneholde tall, bokstaver. Og maks 25 karakterer</string>
+    <string name="eanVal">Kan bare inneholde tall</string>
+    <string name="ammountVal">Kan bare inneholde tall</string>
+    <string name="dateVal">Dato må være i fromat DD/MM/YY</string>
+    <string name="urlVal">http, https, ftp må brukes. Må være en gyldig url</string>
 </resources>

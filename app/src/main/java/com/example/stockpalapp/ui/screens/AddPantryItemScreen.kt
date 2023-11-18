@@ -34,7 +34,6 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -42,13 +41,11 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.stockpalapp.AppLayout
 import com.example.stockpalapp.R
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.stockpalapp.ui.components.FilledBtn
 import com.example.stockpalapp.ui.model.categories
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
@@ -193,9 +190,9 @@ fun AddPantryItem() {
                         supportingText = {
 
                             if (title.isEmpty()) {
-                                Text(text = "Obligatorisk - Input kan ikke være tom")
+                                Text(text = stringResource(R.string.mandatoryInput))
                             } else if (isTitleError && !addPantryItemViewModel.isValidProductName(title)) {
-                                Text(text = "Kan bare inneholde tall, bokstaver. Og maks 25 karakterer")
+                                Text(text = stringResource(R.string.titleVal))
                             }
                         }
                         
@@ -226,9 +223,9 @@ fun AddPantryItem() {
                         supportingText = {
 
                             if (ean.isEmpty()) {
-                                Text(text = "Obligatorisk - Input kan ikke være tom")
+                                Text(text = stringResource(R.string.mandatoryInput))
                             } else if (isEanError && !addPantryItemViewModel.isValidEanNumber(ean)) {
-                                Text(text = "Kan bare inneholde tall")
+                                Text(text = stringResource(R.string.eanVal))
                             }
                         }
                     )
@@ -256,9 +253,9 @@ fun AddPantryItem() {
                         supportingText = {
 
                             if (ammount.isEmpty()) {
-                                Text(text = "Obligatorisk - Input kan ikke være tom")
+                                Text(text = stringResource(R.string.mandatoryInput))
                             } else if (isAmmountError && !addPantryItemViewModel.isValidAmmount(ammount)) {
-                                Text(text = "Kan bare inneholde tall")
+                                Text(text = stringResource(R.string.ammountVal))
                             }
                         }
                     )
@@ -328,9 +325,9 @@ fun AddPantryItem() {
                         isError = expDate.isNotEmpty() && !addPantryItemViewModel.isValidDatePicker(expDate),
                         supportingText = {
                             if (expDate.isEmpty()) {
-                                Text(text = "Obligatorisk - Input kan ikke være tom")
+                                Text(text = stringResource(R.string.mandatoryInput))
                             } else if (expDate.length != 6 ) {
-                                Text(text = "Dato må være i fromat DD/MM/YY")
+                                Text(text = stringResource(R.string.dateVal))
                             }
                         }
                     )
@@ -360,7 +357,7 @@ fun AddPantryItem() {
                         supportingText = {
 
                             if (isImgURLError && !addPantryItemViewModel.isValidImageUrl(imgUrl)) {
-                                Text(text = "http, https, ftp må brukes. Må være en gyldig url")
+                                Text(text = stringResource(R.string.urlVal))
                             }
                         }
                     )
