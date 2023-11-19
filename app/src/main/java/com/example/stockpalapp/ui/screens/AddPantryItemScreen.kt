@@ -111,7 +111,7 @@ fun AddPantryItemScanningAndSearching() {
             var imgUrl = product!!.image
 
             Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()){
-                FilledBtn(clickHandler = { addPantryItemViewModel.addPantryProduct(title, ean.toInt(), ammount.toInt(), category, expDate, context, imgUrl)
+                FilledBtn(clickHandler = { addPantryItemViewModel.addPantryProduct(title, ean.toDouble(), ammount, category, expDate, context, imgUrl)
                     title = ""
                     ammount = 0
                     category = ""
@@ -364,7 +364,7 @@ fun AddPantryItem() {
 
                     Spacer(modifier = Modifier.size(15.dp))
                     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()){
-                        FilledBtn(clickHandler = { addPantryItemViewModel.addPantryProduct(title, ean.toInt(), ammount.toInt(), category, expDate, context, imgUrl)
+                        FilledBtn(clickHandler = { addPantryItemViewModel.addPantryProduct(title, ean.toDouble(), ammount.toInt(), category, expDate, context, imgUrl)
                             title = ""
                             ammount = ""
                             category = ""

@@ -2,7 +2,6 @@ package com.example.stockpalapp.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.stockpalapp.data.repositories.PantryRepository
 import com.google.firebase.Timestamp
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,9 +29,5 @@ class PantryViewModel @Inject constructor(val pantryRepository: PantryRepository
             pantryRepository.deletePantryProduct(itemId)
         }
     }
-
-    //val pantryProducts: LiveData<<List<PantryProducts>
-
-    //val pantryProducts = pantryRepository.getPantryProducts("55wGgQdBnqyVnA8cIc08")
 
 }

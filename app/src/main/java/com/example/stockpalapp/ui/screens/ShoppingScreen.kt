@@ -46,12 +46,12 @@ import kotlinx.coroutines.launch
 fun ShoppingItemList(modifier: Modifier = Modifier){
 
     val shoppingScreenViewModel: ShoppingScreenViewModel = hiltViewModel()
-    val shoppingList by shoppingScreenViewModel.recipes.collectAsState(initial = emptyList())
+    val shoppingList by shoppingScreenViewModel.shoppingListProducts.collectAsState(initial = emptyList())
 
 
     LazyColumn(modifier = modifier){
         items(shoppingList) { item ->
-            ProductListItem(title = item.title, description = item.cuisine, imageUrl = item.image, date = null, ammount = null) {
+            ProductListItem(title = item.name, description = item.category, imageUrl = item.image, date = null, ammount = null) {
                 Row {
                     IconButton(onClick = { /*TODO*/ }) {
                         Icon(modifier = Modifier.size(40.dp), imageVector = Icons.Default.Check, contentDescription = "Kjøpt")

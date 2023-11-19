@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.stockpalapp.data.repositories.AuthRepository
 import com.example.stockpalapp.data.repositories.PantryRepository
-import com.example.stockpalapp.data.repositories.impl.PantryRepositoryImpl
 import com.example.stockpalapp.model.Pantry
 import com.example.stockpalapp.model.Resource
 import com.google.firebase.auth.FirebaseUser
@@ -74,7 +73,7 @@ class AuthViewModel @Inject constructor(
 
     fun createPantryAfterSignUp(name: String) {
         viewModelScope.launch {
-            pantryRepository.save(Pantry(id = repository.currentUserId, name = name), itemID = repository.currentUserId)
+            pantryRepository.savePantry(Pantry(id = repository.currentUserId, name = name), itemID = repository.currentUserId)
         }
     }
 

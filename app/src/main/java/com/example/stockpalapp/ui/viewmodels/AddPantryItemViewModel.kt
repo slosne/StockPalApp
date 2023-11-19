@@ -30,7 +30,7 @@ class AddPantryItemViewModel @Inject constructor(
 ) : ViewModel() {
     val pantry = pantryRepository.pantry
 
-    fun addPantryProduct(name: String, eanNumber: Int, number: Int, category: String, date: String, context: Context, imgUrl: String) {
+    fun addPantryProduct(name: String, eanNumber: Double, number: Int, category: String, date: String, context: Context, imgUrl: String) {
         viewModelScope.launch {
             val expDate = convertStringToTimestamp(date)
             pantryRepository.savePantryProduct(PantryProduct(
