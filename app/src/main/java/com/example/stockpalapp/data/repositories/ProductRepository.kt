@@ -7,6 +7,6 @@ interface ProductRepository {
     val product: Flow<List<Product>>
 
     suspend fun getProduct(itemID: String): Product?
-    suspend fun getProductByEanNumber(eanNumber: String): Product?
+    suspend fun getProductByEanNumber(eanNumber: Long): Product?
     suspend fun saveProduct(item: Product): String
 }

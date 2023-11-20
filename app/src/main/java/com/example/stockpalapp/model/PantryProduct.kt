@@ -7,7 +7,7 @@ data class PantryProduct(
     @DocumentId val id: String = "",
     override val name: String = "",
     override val number: Int = 0,
-    val eanNumber: Int = 0,
+    val eanNumber: Long = 0,
     val category: String = "",
     val image: String = "",
     val expDate: Timestamp? = null,

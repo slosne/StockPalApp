@@ -11,10 +11,12 @@ import com.example.stockpalapp.ui.theme.StockPalAppTheme
 fun FilledBtn(
     modifier: Modifier = Modifier,
     clickHandler: () -> Unit,
-    btnText: String)
+    btnText: String,
+    enabled: Boolean = true
+    )
 {
     Button(
-        onClick = clickHandler, modifier = modifier
+        onClick = clickHandler, modifier = modifier, enabled = enabled
     ) {
         Text(text = btnText)
     }

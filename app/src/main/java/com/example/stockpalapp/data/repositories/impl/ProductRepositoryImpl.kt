@@ -19,7 +19,7 @@ class ProductRepositoryImpl @Inject constructor(
     override suspend fun getProduct(itemID: String): Product? =
         firestore.collection("Products").document(itemID).get().await().toObject()
 
-    override suspend fun getProductByEanNumber(eanNumber: String): Product? {
+    override suspend fun getProductByEanNumber(eanNumber: Long): Product? {
         val querySnapshot = firestore.collection("products")
             .whereEqualTo("eanNumber", eanNumber)
             .get()
