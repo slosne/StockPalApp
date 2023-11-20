@@ -4,6 +4,7 @@ import com.example.stockpalapp.data.repositories.AuthRepository
 import com.example.stockpalapp.data.repositories.PantryRepository
 import com.example.stockpalapp.model.Pantry
 import com.example.stockpalapp.model.PantryProduct
+import com.example.stockpalapp.model.Product
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.toObject
@@ -34,6 +35,26 @@ constructor(
 
     override suspend fun savePantryProduct(item: PantryProduct): String =
         firestore.collection(PANTRY_COLLECTION).document(authRepositoryImpl.currentUserId).collection("pantryproducts").add(item).await().id
+
+    override suspend fun saveMultiplePantryProducts(items: List<Product>): String {
+        val batch = firestore.batch()
+        val productIds = mutableListOf<String>()
+
+        val userId = authRepositoryImpl.currentUserId
+        val collectionReference = firestore.collection(PANTRY_COLLECTION)
+            .document(userId)
+            .collection("pantryproducts")
+
+        for (item in items) {
+            val documentReference = collectionReference.document()
+            batch.set(documentReference, item)
+            productIds.add(documentReference.id)
+        }
+
+        batch.commit().await()
+
+        return productIds.toString()
+    }
 
     override suspend fun deletePantryProduct(itemID: String): String {
         firestore.collection(PANTRY_COLLECTION).document(authRepositoryImpl.currentUserId).collection("pantryproducts").document(itemID).delete()
