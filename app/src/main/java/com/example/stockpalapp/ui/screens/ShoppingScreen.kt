@@ -41,6 +41,7 @@ import com.example.stockpalapp.R
 import com.example.stockpalapp.ui.components.AlertDialogExample
 import com.example.stockpalapp.ui.components.ProductListItem
 import com.example.stockpalapp.ui.components.StandardBtn
+import com.example.stockpalapp.ui.model.Routes
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
 import com.example.stockpalapp.ui.viewmodels.ShoppingScreenViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -114,7 +115,7 @@ fun ShoppingScreen(navController: NavController, drawerState: DrawerState, scope
                     ShoppingItemList()
                     Spacer(modifier = Modifier.size(30.dp))
                     Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
-                        StandardBtn(modifier = Modifier, {}, "Legg til")
+                        StandardBtn(modifier = Modifier, {navController.navigate(Routes().addPantryItem)}, "Legg til")
                         Spacer(modifier = Modifier.size(10.dp))
                         StandardBtn(modifier = Modifier, {}, "Del handleliste")
 

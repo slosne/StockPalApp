@@ -55,10 +55,10 @@ fun WelcomeSection(name: String){
         horizontalAlignment = Alignment.CenterHorizontally)
     {
         Divider()
-        Spacer(modifier = Modifier.size(10.dp))
+        Spacer(modifier = Modifier.size(30.dp))
         Text(text = "Velkommen, $name!",
             style = MaterialTheme.typography.titleLarge)
-        Spacer(modifier = Modifier.size(10.dp))
+        Spacer(modifier = Modifier.size(30.dp))
     }
 }
 
@@ -90,45 +90,47 @@ fun ExpDateSection(navController: NavController) {
                 btnText = stringResource(R.string.to_all_items))
         }
         Spacer(modifier = Modifier.size(5.dp))
-        LazyColumn {
-            items(sortedList.take(2)){item ->
-                val daysRemaining = homeScreenViewModel.calculateDaysRemaining(item.expDate)
-
-                ProductListItem(
-                    title = item.name,
-                    description =
-                    when (daysRemaining) {
-                        in 1..2 -> stringResource(R.string.soon_expired).uppercase()
-                        0 -> stringResource(R.string.expired).uppercase()
+        Column {
+            sortedList.take(3).map { item ->
+                if(item.expDate != null){
+                    val daysRemaining = homeScreenViewModel.calculateDaysRemaining(item.expDate)
+                    val warningMessage = when {
+                        daysRemaining in 1..2 -> stringResource(R.string.soon_expired).uppercase()
+                        (daysRemaining ?: 0) <= 0 -> stringResource(R.string.expired).uppercase()
                         else -> null
-                    },
-                    ammount = null,
-                    imageUrl = item.image,
-                    date = item.expDate,
-                    actions = {
-                        when (daysRemaining) {
-                            in 1..2 -> {
-                                IconButton(onClick = { navController.navigate(Routes().pantry) }) {
-                                    Icon(
-                                        imageVector = Icons.Default.Notifications,
-                                        contentDescription = "Expiry date warning icon",
-                                        tint = MaterialTheme.colorScheme.error
-                                    )
-                                }
-                            }
+                    }
 
-                            0 -> {
-                                IconButton(onClick = { pantryViewModel.removePantryProduct(item.id) }) {
-                                    Icon(
-                                        imageVector = Icons.Default.Delete,
-                                        contentDescription = "Expired item delete",
-                                        tint = MaterialTheme.colorScheme.error
-                                    )
+                    ProductListItem(
+                        title = item.name,
+                        description = warningMessage,
+                        ammount = null,
+                        imageUrl = item.image,
+                        date = item.expDate,
+                        actions = {
+                            when {
+                                daysRemaining in 1..2 -> {
+                                    IconButton(onClick = { navController.navigate(Routes().pantry) }) {
+                                        Icon(
+                                            imageVector = Icons.Default.Notifications,
+                                            contentDescription = "Expiry date warning icon",
+                                            tint = MaterialTheme.colorScheme.error
+                                        )
+                                    }
+                                }
+
+                                daysRemaining!! <= 0 -> {
+                                    IconButton(onClick = { pantryViewModel.removePantryProduct(item.id) }) {
+                                        Icon(
+                                            imageVector = Icons.Default.Delete,
+                                            contentDescription = "Expired item delete",
+                                            tint = MaterialTheme.colorScheme.error
+                                        )
+                                    }
                                 }
                             }
                         }
-                    }
-                )
+                    )
+                }
             }
         }
         Divider()
@@ -136,27 +138,30 @@ fun ExpDateSection(navController: NavController) {
 }
 
 @Composable
-fun RecommendedRecipeCard(navController: NavController){
+fun HomeLayout(navController: NavController) {
+
     val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
     val recipeList by homeScreenViewModel.recipes.collectAsState(initial = emptyList())
+    val currentUser = homeScreenViewModel.currentUser.toString()
 
-    LazyColumn(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.padding(10.dp))
-    {
+    LazyColumn {
         item {
-            Row(horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
+            WelcomeSection(currentUser)
+            ExpDateSection(navController)
+            Spacer(modifier = Modifier.size(20.dp))
+            Row(verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .padding(20.dp)
-                    .fillMaxWidth())
+                    .fillMaxWidth()
+                    .padding(10.dp))
             {
                 FilledBtn(
-                    clickHandler = { navController.navigate(Routes().recipes) }, 
+                    clickHandler = { navController.navigate(Routes().recipes) },
                     btnText = "Alle oppskrifter")
+                Spacer(modifier = Modifier.padding(10.dp))
                 Text(text = stringResource(R.string.recommodation),
                     style = MaterialTheme.typography.titleLarge)
             }
+
         }
         items(recipeList){recipe ->
             SmallRecipeCard(
@@ -164,6 +169,7 @@ fun RecommendedRecipeCard(navController: NavController){
                 recipe.image,
                 recipe.ingredients)
         }
+
     }
 }
 
@@ -176,18 +182,11 @@ fun HomeScreen(
     scope: CoroutineScope)
 {
 
-    val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
-
     AppLayout(
         content = { paddingValues ->
             Column(modifier = Modifier
                 .padding(paddingValues)) {
-                Spacer(modifier = Modifier.size(20.dp))
-                WelcomeSection(homeScreenViewModel.currentUser.toString())
-                Spacer(modifier = Modifier.size(10.dp))
-                ExpDateSection(navController)
-                Spacer(modifier = Modifier.size(10.dp))
-                RecommendedRecipeCard(navController)
+                HomeLayout(navController)
             }
         },
         topAppBarTitle = stringResource(R.string.stockpal),

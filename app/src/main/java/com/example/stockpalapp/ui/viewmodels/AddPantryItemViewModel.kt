@@ -153,7 +153,7 @@ class AddPantryItemViewModel @Inject constructor(
     //Input Validation TODO: Kanskje flytt til use cases
 
     fun isValidProductName(text: String): Boolean {
-        return text.matches(Regex("[a-zA-Z0-9,æøåÆØÅ]{1,25}"))
+        return text.matches(Regex("[a-zA-Z0-9,æøåÆØÅ\\s]{1,25}"))
     }
 
     fun isValidEanNumber(text: String): Boolean {
