@@ -56,14 +56,14 @@
     <string name="soon_expired">Utløper snart!</string>
     <string name="expired">Utgått!</string>
     <string name="mandatoryInput">Obligatorisk - Input kan ikke være tom</string>
-    <string name="titleVal">Kan bare inneholde tall, bokstaver. Og maks 25 karakterer</string>
+    <string name="titleVal">Maks 25 karakterer bestående av bokstaver og tall</string>
     <string name="eanVal">Kan bare inneholde tall</string>
-    <string name="dateVal">Dato må være i fromat DD/MM/YY</string>
+    <string name="dateVal">Dato må være i format DD/MM/YY</string>
     <string name="urlVal">http, https, ftp må brukes. Må være en gyldig url</string>
-    <string name="mandatoryExpDate">Utløpsdato er obligatorisk om du skal legge varen i matskapet</string>
+    <string name="mandatoryExpDate">Ikke obligatorisk for handleliste</string>
     <string name="plate_of">"plate of "</string>
-    <string name="cuisine_headline">"Cuisine: "</string>
-    <string name="cooking_time_headline">"Cooking Time: "</string>
-    <string name="ingredients_headline">"Ingredients: "</string>
-    <string name="instructions_headline">"Instructions: "</string>
+    <string name="cuisine_headline">"Kjøkken: "</string>
+    <string name="cooking_time_headline">"Tid: "</string>
+    <string name="ingredients_headline">"Ingredienser: "</string>
+    <string name="instructions_headline">"Instruksjoner: "</string>
 </resources>
