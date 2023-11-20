@@ -8,10 +8,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -46,7 +46,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.stockpalapp.AppLayout
 import com.example.stockpalapp.R
+import com.example.stockpalapp.model.Product
 import com.example.stockpalapp.ui.components.FilledBtn
+import com.example.stockpalapp.ui.components.ProductListItem
 import com.example.stockpalapp.ui.model.categories
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
 import com.example.stockpalapp.ui.viewmodels.AddPantryItemViewModel
@@ -68,7 +70,7 @@ fun AddPantryItemScanningAndSearching() {
         }
 
         if (scannedBarcode != null) {
-            Text(text = scannedBarcode!!)
+            Text(text = scannedBarcode.toString())
     }
 
         var seachInput by remember { mutableStateOf("")}
@@ -81,8 +83,12 @@ fun AddPantryItemScanningAndSearching() {
                 seachInput = newTitle
                 seachInputChange = 1
                 if (seachInput != null) {
-                    addPantryItemViewModel.getAPorudctByEanNumber(seachInput)
-                    Log.d("TAG", product.toString())
+                    try {
+                        addPantryItemViewModel.getAProductByEanNumber(seachInput.toLong())
+                        Log.d("TAG", product.toString())
+                    } catch (e: Exception) {
+
+                    }
                 }
 
             },
@@ -110,15 +116,18 @@ fun AddPantryItemScanningAndSearching() {
             var context = LocalContext.current
             var imgUrl = product!!.image
 
-            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()){
-                FilledBtn(clickHandler = { addPantryItemViewModel.addPantryProduct(title, ean.toInt(), ammount.toInt(), category, expDate, context, imgUrl)
-                    title = ""
-                    ammount = 0
-                    category = ""
-                    expDate = ""
-                    ean = ""
-                    imgUrl = ""}, btnText = stringResource(R.string.save))
+            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()) {
+                FilledBtn(clickHandler = { addPantryItemViewModel.addProductToList(Product(
+                    name = title,
+                    number = ammount,
+                    eanNumber = ean,
+                    category = category,
+                    expDate = addPantryItemViewModel.convertStringToTimestamp(expDate),
+                    image = imgUrl
+                ))
+                }, btnText = stringResource(R.string.save))
             }
+
         } else {
             Text(text = "No product found")
         }
@@ -147,7 +156,6 @@ fun AddPantryItem() {
         Column(
             modifier = Modifier
                 .padding(horizontal = 30.dp)
-                .verticalScroll(rememberScrollState())
             ) {
             Row (verticalAlignment = Alignment.CenterVertically) {
                 Text(
@@ -364,19 +372,63 @@ fun AddPantryItem() {
 
                     Spacer(modifier = Modifier.size(15.dp))
                     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()){
-                        FilledBtn(clickHandler = { addPantryItemViewModel.addPantryProduct(title, ean.toInt(), ammount.toInt(), category, expDate, context, imgUrl)
+                        FilledBtn(clickHandler = { addPantryItemViewModel.addPantryProduct(title, ean.toLong(), ammount.toInt(), category, expDate, context, imgUrl)
                             title = ""
                             ammount = ""
                             category = ""
                             expDate = ""
                             ean = ""
                             imgUrl = ""},
-                            btnText = stringResource(R.string.save),
+                            btnText = "Lagre til Matskap",
                             enabled = !isTitleError && title.isNotEmpty() && !isEanError && ean.isNotEmpty() && !isAmmountError && ammount.isNotEmpty() && !isDateError && isDateLength && !isImgURLError
-                        )
-                    }
+                        )}
+                    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()){
+                        FilledBtn(clickHandler = { addPantryItemViewModel.addShoppingListProduct(title, ean.toLong(), ammount.toInt(), category, context, imgUrl)
+                            title = ""
+                            ammount = ""
+                            category = ""
+                            expDate = ""
+                            ean = ""
+                            imgUrl = ""},
+                            btnText = "Lagre til Handleliste",
+                            enabled = !isTitleError && title.isNotEmpty() && !isEanError && ean.isNotEmpty() && !isAmmountError && ammount.isNotEmpty() && !isImgURLError
+                        )}
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun scrollingFunct() {
+
+    val addPantryItemViewModel: AddPantryItemViewModel = hiltViewModel()
+    val productList by addPantryItemViewModel.productList.collectAsState(emptyList())
+
+    LazyColumn {
+        item {
+            AddPantryItemScanningAndSearching()
+            AddPantryItem()
+        }
+        items(productList) { product -> ProductListItem(
+            title = product.name,
+            description = null,
+            ammount = product.number,
+            imageUrl = product.image,
+            date = null
+        ) {} }
+
+        item {
+            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()){
+                FilledBtn(clickHandler = { addPantryItemViewModel.addMultipleShoppingListProduct() },
+                    btnText = "Lagre til Handleliste",
+                    enabled = !productList.isEmpty()
+                )}
+            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()){
+                FilledBtn(clickHandler = { addPantryItemViewModel.addMultiplePantryProduct() },
+                    btnText = "Lagre til Matskapet",
+                    enabled = !productList.isEmpty()
+                )}
         }
     }
 }
@@ -388,8 +440,7 @@ fun AddPantryItemScreen(navController: NavController, drawerState: DrawerState, 
             AppLayout(content = { paddingValues ->
                 Column(modifier = Modifier.padding(paddingValues)) {
                     Spacer(modifier = Modifier.size(10.dp))
-                    AddPantryItemScanningAndSearching()
-                    AddPantryItem()
+                    scrollingFunct()
                 }
             },
                 topAppBarTitle = stringResource(R.string.add_pantryitem),
