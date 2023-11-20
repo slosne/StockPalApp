@@ -78,6 +78,7 @@ class AddPantryItemViewModel @Inject constructor(
         viewModelScope.launch {
             shoppingListRepository.saveMultipleShoppingListProducts(_productList.value)
             _productList.value = emptyList()
+            Toast.makeText(context, "Produktene er lagt til matskapet", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -85,6 +86,7 @@ class AddPantryItemViewModel @Inject constructor(
         viewModelScope.launch {
             pantryRepository.saveMultiplePantryProducts(_productList.value)
             _productList.value = emptyList()
+            Toast.makeText(context, "Produktene er lagt til matskapet", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -100,8 +102,6 @@ class AddPantryItemViewModel @Inject constructor(
     fun getAProductByEanNumber(seachInput: Long) {
         viewModelScope.launch {
             _product.value = productRepository.getProductByEanNumber(seachInput)
-            Log.d("ViewModelProduct", _product.value.toString())
-            Log.d("Test1", _product.value?.name.toString())
         }
     }
 
@@ -110,6 +110,8 @@ class AddPantryItemViewModel @Inject constructor(
             var productFromData = productRepository.getProductByEanNumber(seachInput)
             if (productFromData !=null) {
                 addProductToList(productFromData)
+            } else {
+                Toast.makeText(context, "Produktet finnes ikke i Databasen", Toast.LENGTH_SHORT).show()
             }
         }
     }
