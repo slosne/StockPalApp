@@ -417,6 +417,18 @@ fun ScrollingBox() {
             imageUrl = product.image,
             date = null
         ) {} }
+        item {
+            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()){
+                FilledBtn(clickHandler = { addPantryItemViewModel.addMultipleShoppingListProduct() },
+                    btnText = "Lagre Scannede varer til Handleliste",
+                    enabled = !productList.isEmpty()
+                )}
+            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()){
+                FilledBtn(clickHandler = { addPantryItemViewModel.addMultiplePantryProduct() },
+                    btnText = "Lagre Scannede varer til Matskapet",
+                    enabled = !productList.isEmpty()
+                )}
+        }
 
     }
 }
