@@ -72,8 +72,8 @@ fun ShoppingItemList(modifier: Modifier = Modifier){
                                 //Varen fjernes og legges til i Matskapet
                                 shoppingScreenViewModel.AddShoppingListProductToPantry(item)
                             },
-                            dialogTitle = "Vil du legge til produktet i Matskapet?",
-                            dialogText = "Er du helt sikker på at du vil du legge til produktet i Matskapet?",
+                            dialogTitle = stringResource(R.string.add_to_pantry),
+                            dialogText = stringResource(R.string.pantry_add_conf),
                             icon = Icons.Default.Info
                         )
                     }
@@ -93,8 +93,8 @@ fun ShoppingItemList(modifier: Modifier = Modifier){
                                 //Varen fjernes fra Handlelisten
                                 shoppingScreenViewModel.removeShoppingListProduct(item.id)
                             },
-                            dialogTitle = "Vil du fjerne varen?",
-                            dialogText = "Er du helt sikker på at du vil du vill fjerne varen fra Handlelisten?",
+                            dialogTitle = stringResource(R.string.shoppinglist_rem),
+                            dialogText = stringResource(R.string.shopping_list_rem_conf),
                             icon = Icons.Default.Info
                         )
                     }

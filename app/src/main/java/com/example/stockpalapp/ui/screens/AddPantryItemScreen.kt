@@ -129,7 +129,7 @@ fun AddPantryItemScanningAndSearching() {
             }
 
         } else {
-            Text(text = "No product found")
+            Text(text = stringResource(R.string.no_products_found))
         }
     }
 

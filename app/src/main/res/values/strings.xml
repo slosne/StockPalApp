@@ -47,8 +47,8 @@
     <string name="scan_item">Scanne vare</string>
     <string name="cuisine">"Kjøkken: "</string>
     <string name="example_icon">Example Icon</string>
-    <string name="yes_remove">Ja, fjern</string>
-    <string name="dont_remove">Nei, ikke fjern</string>
+    <string name="yes_remove">Ja takk</string>
+    <string name="dont_remove">Nei takk</string>
     <string name="img_url">Bilde-URL</string>
     <string name="not_required">Ikke obligatorisk</string>
     <string name="closest_exp_date">Nærmeste utløpsdatoer</string>
@@ -66,4 +66,9 @@
     <string name="cooking_time_headline">"Tid: "</string>
     <string name="ingredients_headline">"Ingredienser: "</string>
     <string name="instructions_headline">"Instruksjoner: "</string>
+    <string name="shopping_list_rem_conf">Er du helt sikker på at du vil du fjerne varen fra Handlelisten?</string>
+    <string name="shoppinglist_rem">Vil du fjerne varen?</string>
+    <string name="add_to_pantry">Vil du legge til produktet i matskapet?</string>
+    <string name="pantry_add_conf">Er du sikker på at du vil du legge til produktet i matskapet?</string>
+    <string name="no_products_found">Fant ingen produkter</string>
 </resources>
