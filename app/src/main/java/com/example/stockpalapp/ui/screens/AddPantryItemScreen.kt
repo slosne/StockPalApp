@@ -129,7 +129,7 @@ fun AddPantryItemScanningAndSearching() {
             }
 
         } else {
-            Text(text = "No product found")
+            Text(text = stringResource(R.string.no_products_found))
         }
     }
 
@@ -263,7 +263,7 @@ fun AddPantryItem() {
                             if (ammount.isEmpty()) {
                                 Text(text = stringResource(R.string.mandatoryInput))
                             } else if (isAmmountError && !addPantryItemViewModel.isValidAmmount(ammount)) {
-                                Text(text = stringResource(R.string.ammountVal))
+                                Text(text = stringResource(R.string.eanVal))
                             }
                         }
                     )
@@ -333,7 +333,7 @@ fun AddPantryItem() {
                         isError = expDate.isNotEmpty() && !addPantryItemViewModel.isValidDatePicker(expDate),
                         supportingText = {
                             if (expDate.isEmpty()) {
-                                Text(text = stringResource(R.string.mandatoryInput))
+                                Text(text = stringResource(R.string.mandatoryExpDate))
                             } else if (expDate.length != 6 ) {
                                 Text(text = stringResource(R.string.dateVal))
                             }
@@ -400,7 +400,7 @@ fun AddPantryItem() {
 }
 
 @Composable
-fun scrollingFunct() {
+fun ScrollingBox() {
 
     val addPantryItemViewModel: AddPantryItemViewModel = hiltViewModel()
     val productList by addPantryItemViewModel.productList.collectAsState(emptyList())
@@ -418,18 +418,6 @@ fun scrollingFunct() {
             date = null
         ) {} }
 
-        item {
-            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()){
-                FilledBtn(clickHandler = { addPantryItemViewModel.addMultipleShoppingListProduct() },
-                    btnText = "Lagre til Handleliste",
-                    enabled = !productList.isEmpty()
-                )}
-            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()){
-                FilledBtn(clickHandler = { addPantryItemViewModel.addMultiplePantryProduct() },
-                    btnText = "Lagre til Matskapet",
-                    enabled = !productList.isEmpty()
-                )}
-        }
     }
 }
 
@@ -440,7 +428,7 @@ fun AddPantryItemScreen(navController: NavController, drawerState: DrawerState, 
             AppLayout(content = { paddingValues ->
                 Column(modifier = Modifier.padding(paddingValues)) {
                     Spacer(modifier = Modifier.size(10.dp))
-                    scrollingFunct()
+                    ScrollingBox()
                 }
             },
                 topAppBarTitle = stringResource(R.string.add_pantryitem),

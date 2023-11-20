@@ -43,7 +43,7 @@ fun ProductListItem(
             headlineText = { Text(text = title) },
             supportingText = { Column {
                 if (description != null) {
-                    Text(text = stringResource(R.string.cuisine) + description)
+                    Text(text = description)
                 }
                 if (ammount != null){
                     Text(text = stringResource(R.string.ammount) + ammount.toString())
