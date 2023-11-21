@@ -5,11 +5,8 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -22,21 +19,33 @@ import com.example.stockpalapp.ui.viewmodels.PantryViewModel
 fun CategoryTab(){
 
     val pantryViewModel: PantryViewModel = hiltViewModel()
+    val pantryProducts by pantryViewModel.sortPantryByCategory.collectAsState(initial = emptyList())
+    pantryViewModel.updateList(pantryProducts)
+    val sortedList = pantryViewModel.sortedList.collectAsState().value
 
-    var state by remember {
-        mutableStateOf(0)
-    }
 
-    //; pantryViewModel.changeCategory(newCategory)
-    LaunchedEffect(state) {
 
-    }
+    val selectedIndex =
+        if (pantryViewModel.category.collectAsState().value == "Frozen") {
+            0
+        }
+        else  if (pantryViewModel.category.collectAsState().value == "Refrigerated") {
+            1
+        }
+        else if (pantryViewModel.category.collectAsState().value == "Dry") {
+        2
+        }
+        else {
+        3
+        }
+
+
     Column {
-        TabRow(selectedTabIndex = state) {
+        TabRow(selectedTabIndex = selectedIndex) {
             categories.forEachIndexed { index, category ->
                 Tab(
-                    selected = state == index,
-                    onClick = { state = index; pantryViewModel.convertStateToCategory(state);  },
+                    selected = selectedIndex == index,
+                    onClick = { pantryViewModel.convertStateToCategory(index); pantryViewModel.updatePantryCategorisation(); pantryViewModel.updateList(sortedList)},
                     text = { Text(text = category, maxLines = 2, overflow = TextOverflow.Ellipsis,) }
                 )
             }

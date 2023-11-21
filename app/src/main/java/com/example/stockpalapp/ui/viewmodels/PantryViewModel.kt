@@ -2,9 +2,8 @@ package com.example.stockpalapp.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.stockpalapp.data.repositories.PantryRepository
-import com.example.stockpalapp.ui.model.categories
+import com.example.stockpalapp.model.PantryProduct
 import com.google.firebase.Timestamp
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,14 +22,31 @@ class PantryViewModel @Inject constructor(val pantryRepository: PantryRepository
 
     val pantryProducts = pantryRepository.pantryProduct
 
+    private val _sortedList: MutableStateFlow<List<PantryProduct>> = MutableStateFlow(emptyList())
+    var sortedList: StateFlow<List<PantryProduct>> = _sortedList.asStateFlow()
+
     private val _category = MutableStateFlow("Frozen")
     var category: StateFlow<String> = _category.asStateFlow()
 
-    val sortPantryByCategory = pantryProducts.map { pantryList ->
-        pantryList.filter { it.category == category.value }
-        //pantryList.sortedBy { it.expDate?.seconds }
+    private val _searchValue = MutableStateFlow("")
+    var searchValue: StateFlow<String> = _searchValue.asStateFlow()
+
+    fun updateList(list: List<PantryProduct>) {
+        _sortedList.value = list
     }
 
+    fun updateSearch(search: String) {
+        _searchValue.value = search
+    }
+
+    var sortPantryByCategory = pantryProducts.map { pantryList ->
+        pantryList.filter { it.category == category.value;  }
+    }
+
+    fun updatePantryCategorisation() {
+        sortPantryByCategory = pantryProducts.map { pantryList ->
+            pantryList.filter { it.category == category.value && (it.name.lowercase().contains(searchValue.value.lowercase())) }}
+    }
 
     fun convertStateToCategory(index: Int) {
         if (index == 0) {
