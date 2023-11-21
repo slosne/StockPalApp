@@ -22,7 +22,7 @@ fun StandardBtn(
 @Preview(showBackground = true)
 @Composable
 fun StandardBtnPreview() {
-    StockPalAppTheme {
+    StockPalAppTheme(useDarkTheme = false) {
         StandardBtn(btnText = "test", clickHandler = {})
     }
 }

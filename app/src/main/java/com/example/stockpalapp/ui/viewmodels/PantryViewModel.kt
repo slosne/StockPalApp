@@ -76,8 +76,4 @@ class PantryViewModel @Inject constructor(val pantryRepository: PantryRepository
         }
     }
 
-    //val pantryProducts: LiveData<<List<PantryProducts>
-
-    //val pantryProducts = pantryRepository.getPantryProducts("55wGgQdBnqyVnA8cIc08")
-
 }

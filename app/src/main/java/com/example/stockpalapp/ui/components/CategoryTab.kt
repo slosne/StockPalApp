@@ -56,7 +56,7 @@ fun CategoryTab(){
 @Preview(showBackground = true)
 @Composable
 fun TabPreview() {
-    StockPalAppTheme {
+    StockPalAppTheme(useDarkTheme = false) {
         CategoryTab()
     }
 }

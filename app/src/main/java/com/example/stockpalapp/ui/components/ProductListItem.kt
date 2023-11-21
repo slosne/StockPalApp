@@ -1,17 +1,19 @@
 package com.example.stockpalapp.ui.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -41,7 +43,7 @@ fun ProductListItem(
             headlineText = { Text(text = title) },
             supportingText = { Column {
                 if (description != null) {
-                    Text(text = stringResource(R.string.cuisine) + description)
+                    Text(text = description)
                 }
                 if (ammount != null){
                     Text(text = stringResource(R.string.ammount) + ammount.toString())
@@ -51,14 +53,16 @@ fun ProductListItem(
                 }
             } },
             leadingContent = {
-                Box(
-                    modifier = Modifier.size(100.dp)
+                Surface(
+                    modifier = Modifier.size(70.dp),
+                    shape = RoundedCornerShape(20)
                 ) {
                     val imagePainter = rememberImagePainter(data = imageUrl)
                     Image(
                         painter = imagePainter,
                         contentDescription = title,
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop
                     )
                 }
             },

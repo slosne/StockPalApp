@@ -99,7 +99,7 @@ fun PantryScreenBtn(navController: NavController){
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PantryScreen(navController: NavController, drawerState: DrawerState, scope: CoroutineScope,){
+fun PantryScreen(navController: NavController, drawerState: DrawerState, scope: CoroutineScope){
    StockPalAppTheme {
      Surface(tonalElevation = 5.dp) {
       AppLayout(content = { paddingValues ->
@@ -141,13 +141,13 @@ fun PantryScreen(navController: NavController, drawerState: DrawerState, scope: 
     showSystemUi = true,
     uiMode = UI_MODE_NIGHT_YES,
     name = "DarkModePreview"
-        )
+)
 
 
 @Preview(showBackground = true)
 @Composable
 fun PantryScreenPreview() {
-    StockPalAppTheme {
+    StockPalAppTheme() {
         val navController = rememberNavController()
         val scope = rememberCoroutineScope()
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)

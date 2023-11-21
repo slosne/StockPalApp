@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -17,44 +19,42 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberDrawerState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.stockpalapp.AppLayout
 import com.example.stockpalapp.R
+import com.example.stockpalapp.model.Product
+import com.example.stockpalapp.ui.components.FilledBtn
+import com.example.stockpalapp.ui.components.ProductListItem
+import com.example.stockpalapp.ui.model.categories
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
+import com.example.stockpalapp.ui.viewmodels.AddPantryItemViewModel
+import com.example.stockpalapp.ui.visualTransformation.DateVisualTransformation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardCapitalization
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.stockpalapp.ui.components.FilledBtn
-import com.example.stockpalapp.ui.viewmodels.AddPantryItemViewModel
-import kotlin.math.log
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -70,7 +70,7 @@ fun AddPantryItemScanningAndSearching() {
         }
 
         if (scannedBarcode != null) {
-            Text(text = scannedBarcode!!)
+            Text(text = scannedBarcode.toString())
     }
 
         var seachInput by remember { mutableStateOf("")}
@@ -83,8 +83,12 @@ fun AddPantryItemScanningAndSearching() {
                 seachInput = newTitle
                 seachInputChange = 1
                 if (seachInput != null) {
-                    addPantryItemViewModel.getAPorudctByEanNumber(seachInput)
-                    Log.d("TAG", product.toString())
+                    try {
+                        addPantryItemViewModel.getAProductByEanNumber(seachInput.toLong())
+                        Log.d("TAG", product.toString())
+                    } catch (e: Exception) {
+
+                    }
                 }
 
             },
@@ -112,17 +116,20 @@ fun AddPantryItemScanningAndSearching() {
             var context = LocalContext.current
             var imgUrl = product!!.image
 
-            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()){
-                FilledBtn(clickHandler = { addPantryItemViewModel.addPantryProduct(title, ean.toInt(), ammount.toInt(), category, expDate, context, imgUrl)
-                    title = ""
-                    ammount = 0
-                    category = ""
-                    expDate = ""
-                    ean = ""
-                    imgUrl = ""}, btnText = stringResource(R.string.save))
+            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()) {
+                FilledBtn(clickHandler = { addPantryItemViewModel.addProductToList(Product(
+                    name = title,
+                    number = ammount,
+                    eanNumber = ean,
+                    category = category,
+                    expDate = addPantryItemViewModel.convertStringToTimestamp(expDate),
+                    image = imgUrl
+                ))
+                }, btnText = stringResource(R.string.save))
             }
+
         } else {
-            Text(text = "No product found")
+            Text(text = stringResource(R.string.no_products_found))
         }
     }
 
@@ -139,7 +146,6 @@ fun AddPantryItem() {
 
     ElevatedCard(
         elevation = CardDefaults.cardElevation(2.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
         modifier = Modifier
             .padding(horizontal = 30.dp, vertical = 10.dp),
         shape = RoundedCornerShape(8.dp),
@@ -147,7 +153,10 @@ fun AddPantryItem() {
             expandedState = !expandedState
         }
     ) {
-        Column(modifier = Modifier.padding(horizontal = 30.dp)) {
+        Column(
+            modifier = Modifier
+                .padding(horizontal = 30.dp)
+            ) {
             Row (verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     modifier = Modifier
@@ -160,18 +169,20 @@ fun AddPantryItem() {
                     onClick = { expandedState = !expandedState }) {
                     Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = "Drop-Down Arrow")
                 }
-
             }
             Spacer(modifier = Modifier.size(15.dp))
 
             if(expandedState) {
                 Column {
                     var title by remember { mutableStateOf("")}
+                    var isTitleError by remember { mutableStateOf(false)}
+
                     OutlinedTextField(
                         value = title,
                         shape = TextFieldDefaults.outlinedShape,
                         onValueChange = { newTitle ->
                             title = newTitle
+                            isTitleError = !addPantryItemViewModel.isValidProductName(title)
                         },
                         label = {
                             Text(text = stringResource(R.string.item_name))
@@ -183,16 +194,29 @@ fun AddPantryItem() {
                             imeAction = ImeAction.Next
                         ),
                         singleLine = true,
+                        isError = title.isNotEmpty() && !addPantryItemViewModel.isValidProductName(title),
+                        supportingText = {
+
+                            if (title.isEmpty()) {
+                                Text(text = stringResource(R.string.mandatoryInput))
+                            } else if (isTitleError && !addPantryItemViewModel.isValidProductName(title)) {
+                                Text(text = stringResource(R.string.titleVal))
+                            }
+                        }
+                        
                     )
+
+
 
                     Spacer(modifier = Modifier.size(15.dp))
                     var ean by remember { mutableStateOf("")}
-                    Text(text = stringResource(R.string.required), color = Color.Red, fontSize = 12.sp)
+                    var isEanError by remember { mutableStateOf(false)}
                     OutlinedTextField(
                         value = ean,
                         shape = TextFieldDefaults.outlinedShape,
                         onValueChange = { newEan ->
                             ean = newEan
+                            isEanError = !addPantryItemViewModel.isValidEanNumber(ean)
                         },
                         label = {
                             Text(text = stringResource(R.string.ean))
@@ -203,15 +227,26 @@ fun AddPantryItem() {
                             imeAction = ImeAction.Next
                         ),
                         singleLine = true,
+                        isError = ean.isNotEmpty() && !addPantryItemViewModel.isValidEanNumber(ean),
+                        supportingText = {
+
+                            if (ean.isEmpty()) {
+                                Text(text = stringResource(R.string.mandatoryInput))
+                            } else if (isEanError && !addPantryItemViewModel.isValidEanNumber(ean)) {
+                                Text(text = stringResource(R.string.eanVal))
+                            }
+                        }
                     )
 
                     Spacer(modifier = Modifier.size(15.dp))
                     var ammount by remember { mutableStateOf("")}
+                    var isAmmountError by remember { mutableStateOf(false)}
                     OutlinedTextField(
                         value = ammount,
                         shape = TextFieldDefaults.outlinedShape,
                         onValueChange = { newAmmount ->
                             ammount = newAmmount
+                            isAmmountError = !addPantryItemViewModel.isValidAmmount(ammount)
                         },
                         label = {
                             Text(text = stringResource(R.string.ammount))
@@ -222,37 +257,68 @@ fun AddPantryItem() {
                             imeAction = ImeAction.Next
                         ),
                         singleLine = true,
+                        isError = ammount.isNotEmpty() && !addPantryItemViewModel.isValidAmmount(ammount),
+                        supportingText = {
+
+                            if (ammount.isEmpty()) {
+                                Text(text = stringResource(R.string.mandatoryInput))
+                            } else if (isAmmountError && !addPantryItemViewModel.isValidAmmount(ammount)) {
+                                Text(text = stringResource(R.string.eanVal))
+                            }
+                        }
                     )
 
 
 
                     Spacer(modifier = Modifier.size(15.dp))
-                    var category by remember { mutableStateOf("")}
-                    OutlinedTextField(
-                        value = category,
-                        shape = TextFieldDefaults.outlinedShape,
-                        onValueChange = { newCategory ->
-                            category = newCategory
-                        },
-                        label = {
-                            Text(text = stringResource(R.string.category))
-                        },
-                        keyboardOptions = KeyboardOptions(
-                            capitalization = KeyboardCapitalization.Words,
-                            autoCorrect = false,
-                            keyboardType = KeyboardType.Text,
-                            imeAction = ImeAction.Next
-                        ),
-                        singleLine = true,
-                    )
+
+                    val options = categories
+                    var category by remember { mutableStateOf(options[0]) }
+                    var expanded by remember { mutableStateOf(false)}
+
+                    ExposedDropdownMenuBox(
+                        expanded = expanded,
+                        onExpandedChange = { expanded = !expanded}
+                    ) {
+                        OutlinedTextField(
+                            modifier = Modifier.menuAnchor(),
+                            readOnly = true,
+                            value = category,
+                            onValueChange = { newCategory ->
+                                category = newCategory
+                            },
+                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)},
+                            colors = ExposedDropdownMenuDefaults.textFieldColors(),
+                        )
+                        ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+                            options.forEach {categorySelect ->
+                                DropdownMenuItem(text = { Text(categorySelect) },
+                                    onClick = {
+                                        category = categorySelect
+                                        expanded = false },
+                                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                                )
+                            }
+                        }
+                    }
 
                     Spacer(modifier = Modifier.size(15.dp))
                     var expDate by remember { mutableStateOf("")}
+                    var expDateShow by remember { mutableStateOf("")}
+                    var isDateError by remember { mutableStateOf(false)}
+                    var isDateLength by remember { mutableStateOf(false)}
                     OutlinedTextField(
                         value = expDate,
                         shape = TextFieldDefaults.outlinedShape,
                         onValueChange = { newExpDate ->
-                            expDate = newExpDate
+                            expDateShow = newExpDate.filter { it.isDigit() }
+
+                            expDate = expDateShow.take(6)
+
+                            Log.d("expDateShow", expDateShow)
+                            Log.d("expDate", expDate)
+                            isDateError = !addPantryItemViewModel.isValidDatePicker(expDate)
+                            isDateLength = expDate.length >= 6
                         },
                         label = {
                             Text(text = stringResource(R.string.exp_date))
@@ -263,16 +329,28 @@ fun AddPantryItem() {
                             imeAction = ImeAction.Next
                         ),
                         singleLine = true,
+                        visualTransformation = DateVisualTransformation(),
+                        isError = expDate.isNotEmpty() && !addPantryItemViewModel.isValidDatePicker(expDate),
+                        supportingText = {
+                            if (expDate.isEmpty()) {
+                                Text(text = stringResource(R.string.mandatoryExpDate))
+                            } else if (expDate.length != 6 ) {
+                                Text(text = stringResource(R.string.dateVal))
+                            }
+                        }
                     )
+
+
 
                     Spacer(modifier = Modifier.size(15.dp))
                     var imgUrl by remember { mutableStateOf("")}
-                    Text(text = stringResource(R.string.not_required), color = Color.Green, fontSize = 12.sp)
+                    var isImgURLError by remember { mutableStateOf(false) }
                     OutlinedTextField(
                         value = imgUrl,
                         shape = TextFieldDefaults.outlinedShape,
                         onValueChange = { newImgUrl ->
                             imgUrl = newImgUrl
+                            isImgURLError = !addPantryItemViewModel.isValidImageUrl(imgUrl)
                         },
                         label = {
                             Text(text = stringResource(R.string.img_url))
@@ -283,34 +361,86 @@ fun AddPantryItem() {
                             imeAction = ImeAction.Done
                         ),
                         singleLine = true,
+                        isError = imgUrl.isNotEmpty() && !addPantryItemViewModel.isValidImageUrl(imgUrl),
+                        supportingText = {
+
+                            if (isImgURLError && !addPantryItemViewModel.isValidImageUrl(imgUrl)) {
+                                Text(text = stringResource(R.string.urlVal))
+                            }
+                        }
                     )
 
                     Spacer(modifier = Modifier.size(15.dp))
                     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()){
-                        FilledBtn(clickHandler = { addPantryItemViewModel.addPantryProduct(title, ean.toInt(), ammount.toInt(), category, expDate, context, imgUrl)
+                        FilledBtn(clickHandler = { addPantryItemViewModel.addPantryProduct(title, ean.toLong(), ammount.toInt(), category, expDate, context, imgUrl)
                             title = ""
                             ammount = ""
                             category = ""
                             expDate = ""
                             ean = ""
-                            imgUrl = ""}, btnText = stringResource(R.string.save))
-                    }
+                            imgUrl = ""},
+                            btnText = "Lagre til Matskap",
+                            enabled = !isTitleError && title.isNotEmpty() && !isEanError && ean.isNotEmpty() && !isAmmountError && ammount.isNotEmpty() && !isDateError && isDateLength && !isImgURLError
+                        )}
+                    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()){
+                        FilledBtn(clickHandler = { addPantryItemViewModel.addShoppingListProduct(title, ean.toLong(), ammount.toInt(), category, context, imgUrl)
+                            title = ""
+                            ammount = ""
+                            category = ""
+                            expDate = ""
+                            ean = ""
+                            imgUrl = ""},
+                            btnText = "Lagre til Handleliste",
+                            enabled = !isTitleError && title.isNotEmpty() && !isEanError && ean.isNotEmpty() && !isAmmountError && ammount.isNotEmpty() && !isImgURLError
+                        )}
                 }
             }
         }
     }
 }
 
+@Composable
+fun ScrollingBox() {
+
+    val addPantryItemViewModel: AddPantryItemViewModel = hiltViewModel()
+    val productList by addPantryItemViewModel.productList.collectAsState(emptyList())
+
+    LazyColumn {
+        item {
+            AddPantryItemScanningAndSearching()
+            AddPantryItem()
+        }
+        items(productList) { product -> ProductListItem(
+            title = product.name,
+            description = null,
+            ammount = product.number,
+            imageUrl = product.image,
+            date = null
+        ) {} }
+        item {
+            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()){
+                FilledBtn(clickHandler = { addPantryItemViewModel.addMultipleShoppingListProduct() },
+                    btnText = "Lagre Scannede varer til Handleliste",
+                    enabled = !productList.isEmpty()
+                )}
+            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()){
+                FilledBtn(clickHandler = { addPantryItemViewModel.addMultiplePantryProduct() },
+                    btnText = "Lagre Scannede varer til Matskapet",
+                    enabled = !productList.isEmpty()
+                )}
+        }
+
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddPantryItemScreen(navController: NavController, drawerState: DrawerState, scope: CoroutineScope){
-    StockPalAppTheme {
         Surface(tonalElevation = 5.dp) {
             AppLayout(content = { paddingValues ->
                 Column(modifier = Modifier.padding(paddingValues)) {
                     Spacer(modifier = Modifier.size(10.dp))
-                    AddPantryItemScanningAndSearching()
-                    AddPantryItem()
+                    ScrollingBox()
                 }
             },
                 topAppBarTitle = stringResource(R.string.add_pantryitem),
@@ -325,14 +455,16 @@ fun AddPantryItemScreen(navController: NavController, drawerState: DrawerState, 
                 arrowBackClickHandler = {scope.launch { drawerState.open() }}
             )
         }
-    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun AddPantryItemScreenPreview() {
-    StockPalAppTheme {
+    val useDarkTheme by remember {
+        mutableStateOf(false)
+    }
+    StockPalAppTheme(useDarkTheme = useDarkTheme) {
         val navController = rememberNavController()
         val scope = rememberCoroutineScope()
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)

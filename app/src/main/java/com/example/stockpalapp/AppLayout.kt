@@ -11,6 +11,7 @@ import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationBar
@@ -19,14 +20,13 @@ import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.stockpalapp.ui.model.BottomNavItem
 import com.example.stockpalapp.ui.model.DrawerItem
@@ -48,7 +48,8 @@ fun BottomNavigation(navController: NavController){
         BottomNavItem.Recipe
     )
 
-    NavigationBar {
+    NavigationBar()
+    {
         Row(horizontalArrangement = Arrangement.SpaceBetween) {
             navItems.forEach { item ->
                 val selected = currentRoute == item.screen_route
@@ -79,7 +80,8 @@ fun HamburgerMenuContent(navController: NavController, drawerState: DrawerState,
         DrawerItem.Pantry,
         DrawerItem.Shoppinglist,
         DrawerItem.Recipe,
-        DrawerItem.Profile
+        DrawerItem.Profile,
+        DrawerItem.Settings
     )
 
     val currentRoute = navController.currentBackStackEntry?.destination?.route
@@ -93,14 +95,14 @@ fun HamburgerMenuContent(navController: NavController, drawerState: DrawerState,
             contentAlignment = Alignment.Center
         )
         {
-            Text(text = stringResource(R.string.stockpal))
+            Text(text = stringResource(R.string.stockpal), style = MaterialTheme.typography.headlineSmall)
         }
 
         drawerItems.forEach { item ->
             val selected = currentRoute == item.screen_route
             NavigationDrawerItem(
                 selected = selected,
-                label = { Text(text = item.label) },
+                label = { Text(text = item.label, style = MaterialTheme.typography.labelLarge) },
                 onClick = {
                     navController.navigate(item.screen_route) {
                         navController.graph.startDestinationRoute?.let { screen_route ->
@@ -144,7 +146,9 @@ fun AppLayout(
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
-                    title = { Text(text = topAppBarTitle) },
+                    title = { Text(text = topAppBarTitle.uppercase(),
+                        style = MaterialTheme.typography.headlineSmall,
+                        letterSpacing = 2.sp)},
                     navigationIcon = {
                         IconButton(onClick = {navigationClickHandler()}) {
                             if(navigationIcon != null){
@@ -161,8 +165,7 @@ fun AppLayout(
                                     contentDescription = actionContentDescription
                                 )
                         }
-                    }, colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xE7F0F5ff))
-                )
+                    })
             },
         bottomBar = {
                 BottomNavigation(navController)
