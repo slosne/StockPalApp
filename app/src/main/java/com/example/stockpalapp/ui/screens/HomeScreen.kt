@@ -103,7 +103,7 @@ fun ExpDateSection(navController: NavController) {
                     ProductListItem(
                         title = item.name,
                         description = warningMessage,
-                        ammount = null,
+                        amount = null,
                         imageUrl = item.image,
                         date = item.expDate,
                         actions = {

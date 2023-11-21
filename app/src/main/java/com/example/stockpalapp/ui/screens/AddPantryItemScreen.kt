@@ -413,7 +413,7 @@ fun ScrollingBox() {
         items(productList) { product -> ProductListItem(
             title = product.name,
             description = null,
-            ammount = product.number,
+            amount = product.number,
             imageUrl = product.image,
             date = null
         ) {} }

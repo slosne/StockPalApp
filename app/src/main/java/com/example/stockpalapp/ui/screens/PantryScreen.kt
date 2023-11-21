@@ -25,7 +25,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -53,15 +52,15 @@ import kotlinx.coroutines.launch
 fun FoodItemList(modifier: Modifier = Modifier){
 
     val pantryViewModel: PantryViewModel = hiltViewModel()
-    val pantryProducts by pantryViewModel.pantryProducts.collectAsState(initial = emptyList())
+    val sortedList = pantryViewModel.sortedList.collectAsState().value
 
     LazyColumn(modifier = modifier){
-        items(pantryProducts) { item -> ProductListItem(
+        items(sortedList) { item -> ProductListItem(
             title = item.name,
             description = null,
             imageUrl = item.image,
             date = item.expDate,
-            ammount = item.number) {
+            amount = item.number) {
                 val openAlertDialog = remember { mutableStateOf(false) }
                 IconButton(onClick = { openAlertDialog.value = true }) {
                     Icon(modifier = Modifier.size(30.dp), imageVector = Icons.Default.Delete, contentDescription = "Kjøpt")
@@ -101,6 +100,7 @@ fun PantryScreenBtn(navController: NavController){
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PantryScreen(navController: NavController, drawerState: DrawerState, scope: CoroutineScope){
+   StockPalAppTheme(useDarkTheme = false) {
      Surface(tonalElevation = 5.dp) {
       AppLayout(content = { paddingValues ->
           Column(modifier = Modifier.padding(paddingValues)) {
@@ -124,6 +124,7 @@ fun PantryScreen(navController: NavController, drawerState: DrawerState, scope: 
           arrowBackClickHandler = {scope.launch { drawerState.open() }}
       )
      }
+   }
 }
 
 
@@ -146,7 +147,7 @@ fun PantryScreen(navController: NavController, drawerState: DrawerState, scope: 
 @Preview(showBackground = true)
 @Composable
 fun PantryScreenPreview() {
-    StockPalAppTheme(useDarkTheme = true) {
+    StockPalAppTheme(useDarkTheme = false) {
         val navController = rememberNavController()
         val scope = rememberCoroutineScope()
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)

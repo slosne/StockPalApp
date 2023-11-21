@@ -11,6 +11,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,11 +20,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
+import com.example.stockpalapp.ui.viewmodels.PantryViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchComponent(){
+
+    val pantryViewModel: PantryViewModel = hiltViewModel()
+    val pantryProducts by pantryViewModel.sortPantryByCategory.collectAsState(initial = emptyList())
+    pantryViewModel.updateList(pantryProducts)
 
     var searchValue by remember {
         mutableStateOf("")
@@ -33,7 +40,7 @@ fun SearchComponent(){
         OutlinedTextField(
             value = searchValue,
             modifier = Modifier.height(40.dp),
-            onValueChange = { searchValue = it },
+            onValueChange = { searchValue = it ; pantryViewModel.updateSearch(searchValue); pantryViewModel.updatePantryCategorisation(); pantryViewModel.updateList(pantryProducts)},
             shape = TextFieldDefaults.outlinedShape ,
             trailingIcon = {
                 Icon(

@@ -56,7 +56,7 @@ fun ShoppingItemList(modifier: Modifier = Modifier){
 
     LazyColumn(modifier = modifier){
         items(shoppingList) { item ->
-            ProductListItem(title = item.name, description = item.category, imageUrl = item.image, date = null, ammount = null) {
+            ProductListItem(title = item.name, description = item.category, imageUrl = item.image, date = null, amount = null) {
                 Row {
                     val openAlertDialog1 = remember { mutableStateOf(false)}
                     IconButton(onClick = { openAlertDialog1.value = true }) {
