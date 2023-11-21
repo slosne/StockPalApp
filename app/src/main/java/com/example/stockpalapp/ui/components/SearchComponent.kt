@@ -31,7 +31,6 @@ fun SearchComponent(){
     val pantryViewModel: PantryViewModel = hiltViewModel()
     val pantryProducts by pantryViewModel.sortPantryByCategory.collectAsState(initial = emptyList())
     pantryViewModel.updateList(pantryProducts)
-    val sortedList = pantryViewModel.sortedList.collectAsState().value
 
     var searchValue by remember {
         mutableStateOf("")
@@ -41,7 +40,7 @@ fun SearchComponent(){
         OutlinedTextField(
             value = searchValue,
             modifier = Modifier.height(40.dp),
-            onValueChange = { searchValue = it ; pantryViewModel.updateSearch(searchValue); pantryViewModel.updatePantryCategorisation(); pantryViewModel.updateList(sortedList)},
+            onValueChange = { searchValue = it ; pantryViewModel.updateSearch(searchValue); pantryViewModel.updatePantryCategorisation(); pantryViewModel.updateList(pantryProducts)},
             shape = TextFieldDefaults.outlinedShape ,
             trailingIcon = {
                 Icon(

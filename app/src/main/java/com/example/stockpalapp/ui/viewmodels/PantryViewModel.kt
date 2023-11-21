@@ -40,11 +40,11 @@ class PantryViewModel @Inject constructor(val pantryRepository: PantryRepository
     }
 
     var sortPantryByCategory = pantryProducts.map { pantryList ->
-        pantryList.filter { it.category == category.value;  }
+        pantryList.filter { it.category == category.value && (it.name.lowercase().contains(searchValue.value.lowercase()))  }
     }
 
     fun updatePantryCategorisation() {
-        sortPantryByCategory = pantryProducts.map { pantryList ->
+         sortPantryByCategory = pantryProducts.map { pantryList ->
             pantryList.filter { it.category == category.value && (it.name.lowercase().contains(searchValue.value.lowercase())) }}
     }
 
@@ -75,5 +75,9 @@ class PantryViewModel @Inject constructor(val pantryRepository: PantryRepository
             pantryRepository.deletePantryProduct(itemId)
         }
     }
+
+    //val pantryProducts: LiveData<<List<PantryProducts>
+
+    //val pantryProducts = pantryRepository.getPantryProducts("55wGgQdBnqyVnA8cIc08")
 
 }

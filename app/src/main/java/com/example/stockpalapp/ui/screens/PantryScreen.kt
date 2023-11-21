@@ -60,7 +60,7 @@ fun FoodItemList(modifier: Modifier = Modifier){
             description = null,
             imageUrl = item.image,
             date = item.expDate,
-            ammount = item.number) {
+            amount = item.number) {
                 val openAlertDialog = remember { mutableStateOf(false) }
                 IconButton(onClick = { openAlertDialog.value = true }) {
                     Icon(modifier = Modifier.size(30.dp), imageVector = Icons.Default.Delete, contentDescription = "Kjøpt")
@@ -100,7 +100,7 @@ fun PantryScreenBtn(navController: NavController){
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PantryScreen(navController: NavController, drawerState: DrawerState, scope: CoroutineScope){
-   StockPalAppTheme {
+   StockPalAppTheme(useDarkTheme = false) {
      Surface(tonalElevation = 5.dp) {
       AppLayout(content = { paddingValues ->
           Column(modifier = Modifier.padding(paddingValues)) {
@@ -147,7 +147,7 @@ fun PantryScreen(navController: NavController, drawerState: DrawerState, scope: 
 @Preview(showBackground = true)
 @Composable
 fun PantryScreenPreview() {
-    StockPalAppTheme() {
+    StockPalAppTheme(useDarkTheme = false) {
         val navController = rememberNavController()
         val scope = rememberCoroutineScope()
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)

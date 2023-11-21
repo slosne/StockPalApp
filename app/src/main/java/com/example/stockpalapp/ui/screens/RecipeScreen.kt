@@ -47,7 +47,7 @@ fun RecipePage(){
     LazyColumn {
 
         item {
-            SearchComponent()
+            SearchComponent ()
             Column(horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth()) {
                 Spacer(modifier = Modifier.size(15.dp))

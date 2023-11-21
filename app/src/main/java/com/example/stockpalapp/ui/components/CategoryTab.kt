@@ -21,7 +21,7 @@ fun CategoryTab(){
     val pantryViewModel: PantryViewModel = hiltViewModel()
     val pantryProducts by pantryViewModel.sortPantryByCategory.collectAsState(initial = emptyList())
     pantryViewModel.updateList(pantryProducts)
-    val sortedList = pantryViewModel.sortedList.collectAsState().value
+
 
 
 
@@ -33,10 +33,10 @@ fun CategoryTab(){
             1
         }
         else if (pantryViewModel.category.collectAsState().value == "Dry") {
-        2
+            2
         }
         else {
-        3
+            3
         }
 
 
@@ -45,7 +45,7 @@ fun CategoryTab(){
             categories.forEachIndexed { index, category ->
                 Tab(
                     selected = selectedIndex == index,
-                    onClick = { pantryViewModel.convertStateToCategory(index); pantryViewModel.updatePantryCategorisation(); pantryViewModel.updateList(sortedList)},
+                    onClick = { pantryViewModel.convertStateToCategory(index); pantryViewModel.updatePantryCategorisation(); pantryViewModel.updateList(pantryProducts)},
                     text = { Text(text = category, maxLines = 2, overflow = TextOverflow.Ellipsis,) }
                 )
             }

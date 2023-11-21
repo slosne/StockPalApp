@@ -27,7 +27,7 @@ import com.google.firebase.Timestamp
 fun ProductListItem(
     title: String,
     description: String?,
-    ammount: Number?,
+    amount: Number?,
     imageUrl: String?,
     date: Timestamp?,
     actions: @Composable () -> Unit
@@ -45,8 +45,8 @@ fun ProductListItem(
                 if (description != null) {
                     Text(text = description)
                 }
-                if (ammount != null){
-                    Text(text = stringResource(R.string.ammount) + ammount.toString())
+                if (amount != null){
+                    Text(text = stringResource(R.string.ammount) + amount.toString())
                 }
                 if (date != null) {
                     Text(text = stringResource(R.string.exp_date_title) + viewModel.convertTimestampToString(date))
