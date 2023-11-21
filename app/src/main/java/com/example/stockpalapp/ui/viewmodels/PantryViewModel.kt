@@ -50,16 +50,16 @@ class PantryViewModel @Inject constructor(val pantryRepository: PantryRepository
 
     fun convertStateToCategory(index: Int) {
         if (index == 0) {
-            _category.value = "Frozen"
+            _category.value = "Frysevarer"
         }
         if (index == 1) {
-            _category.value = "Refrigerated"
+            _category.value = "Kjølevarer"
         }
         if (index == 2) {
-            _category.value = "Dry"
+            _category.value = "Tørrvarer"
         }
         if (index == 3) {
-            _category.value = "Other"
+            _category.value = "Annet"
         }
     }
 
