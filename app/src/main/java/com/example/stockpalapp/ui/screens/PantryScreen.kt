@@ -21,6 +21,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.DismissValue
@@ -174,26 +176,23 @@ fun FoodItemList2(modifier: Modifier = Modifier){
                         imageUrl = item.image,
                         date = item.expDate,
                         amount = item.number) {
-                        val openAlertDialog = remember { mutableStateOf(false) }
-                        IconButton(onClick = { openAlertDialog.value = true }) {
-                            Icon(modifier = Modifier.size(30.dp), imageVector = Icons.Default.Delete, contentDescription = "Kjøpt")
+
+                        Row {
+                            Column {
+                                IconButton(onClick = {
+                                    pantryViewModel.updatePantryProductByAddingANumber(item.id, item)
+                                }) {
+                                    Icon(imageVector = Icons.Default.KeyboardArrowUp, contentDescription = "Add")
+                                }
+                                IconButton(onClick = {
+                                    pantryViewModel.updatePantryProductBySubtractingAnumber(item.id, item)
+                                }) {
+                                    Icon(imageVector = Icons.Default.KeyboardArrowDown, contentDescription = "Remove")
+                                }
+                            }
                         }
 
-                        if (openAlertDialog.value) {
-                            AlertDialogExample(
-                                onDismissRequest = { openAlertDialog.value = false },
-                                onConfirmation = {
-                                    openAlertDialog.value = false
-                                    println("Confirmation registered") // Add logic here to handle confirmation.
 
-                                    //Varen fjernes og legges til i handlevognen
-                                    pantryViewModel.removePantryProduct(item.id)
-                                },
-                                dialogTitle = "Vil du fjerne matvaren fra Matskapet?",
-                                dialogText = "Er du helt sikker på at du vill fjerne varen fra Matskapet?",
-                                icon = Icons.Default.Info
-                            )
-                        }
                     }
                 })
         }

@@ -15,4 +15,5 @@ interface PantryRepository {
     suspend fun savePantryProduct(item: PantryProduct): String
     suspend fun saveMultiplePantryProducts(items: List<Product>): String
     suspend fun deletePantryProduct(itemID: String): String
+    suspend fun updatePantryProduct(itemID: String, updatedProduct: PantryProduct): String
 }

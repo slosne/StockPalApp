@@ -1,5 +1,6 @@
 package com.example.stockpalapp.ui.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.stockpalapp.data.repositories.PantryRepository
@@ -80,6 +81,33 @@ class PantryViewModel @Inject constructor(val pantryRepository: PantryRepository
         viewModelScope.launch {
             pantryRepository.savePantryProduct(item)
         }
+    }
+
+    fun updatePantryProduct(itemId: String, updatedProduct: PantryProduct) {
+        viewModelScope.launch {
+            pantryRepository.updatePantryProduct(itemId, updatedProduct)
+        }
+    }
+
+    fun updatePantryProductByAddingANumber(itemId: String, product: PantryProduct) {
+        Log.d("Tasting", product.number.toString())
+        var editingProduct = product
+
+        editingProduct.number = editingProduct.number + 1
+        Log.d("Tasting", editingProduct.number.toString())
+
+        updatePantryProduct(itemId, editingProduct)
+
+    }
+
+    fun updatePantryProductBySubtractingAnumber(itemId: String, product: PantryProduct){
+        Log.d("Tasting", product.number.toString())
+        var editingProduct = product
+
+        editingProduct.number = editingProduct.number - 1
+        Log.d("Tasting", editingProduct.number.toString())
+
+        updatePantryProduct(itemId, editingProduct)
     }
 
     //val pantryProducts: LiveData<<List<PantryProducts>
