@@ -40,8 +40,8 @@ fun ProductListItem(
     Column {
         ListItem(
             modifier = Modifier.height(100.dp),
-            headlineText = { Text(text = title) },
-            supportingText = { Column {
+            headlineContent = { Text(text = title) },
+            supportingContent = { Column {
                 if (description != null) {
                     Text(text = description)
                 }

@@ -61,6 +61,28 @@ constructor(
         return itemID
     }
 
+    override suspend fun updatePantryProduct(
+        itemID: String,
+        updatedProduct: PantryProduct
+    ): String {
+        val userId = authRepositoryImpl.currentUserId
+        val collectionReference = firestore.collection(PANTRY_COLLECTION)
+            .document(userId)
+            .collection("pantryproducts")
+
+        // Check if the item with the given ID exists before attempting to update
+        val documentSnapshot = collectionReference.document(itemID).get().await()
+        if (documentSnapshot.exists()) {
+            // Update the existing pantry product
+            collectionReference.document(itemID).set(updatedProduct).await()
+            return itemID
+        } else {
+            // Handle the case where the item does not exist
+            throw NoSuchElementException("Pantry product with ID $itemID not found")
+        }
+    }
+
+
     companion object {
         private const val PANTRY_COLLECTION = "pantry"
     }
