@@ -170,22 +170,27 @@ fun FoodItemList2(modifier: Modifier = Modifier){
                     }
                 },
                 dismissContent = {
+
+                    val numberUI = remember { mutableStateOf(item.number)}
                     ProductListItem(
                         title = item.name,
                         description = null,
                         imageUrl = item.image,
                         date = item.expDate,
-                        amount = item.number) {
+                        amount = numberUI.value) {
+
 
                         Row {
                             Column {
                                 IconButton(onClick = {
                                     pantryViewModel.updatePantryProductByAddingANumber(item.id, item)
+                                    numberUI.value = numberUI.value + 1
                                 }) {
                                     Icon(imageVector = Icons.Default.KeyboardArrowUp, contentDescription = "Add")
                                 }
                                 IconButton(onClick = {
                                     pantryViewModel.updatePantryProductBySubtractingAnumber(item.id, item)
+                                    numberUI.value = numberUI.value - 1
                                 }) {
                                     Icon(imageVector = Icons.Default.KeyboardArrowDown, contentDescription = "Remove")
                                 }
