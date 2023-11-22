@@ -36,7 +36,6 @@ import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
-import androidx.compose.material3.Surface
 import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.rememberDismissState
 import androidx.compose.material3.rememberDrawerState
@@ -230,11 +229,8 @@ fun PantryScreenBtn(navController: NavController){
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PantryScreen(navController: NavController, drawerState: DrawerState, scope: CoroutineScope){
-   StockPalAppTheme(useDarkTheme = false) {
-     Surface(tonalElevation = 5.dp) {
       AppLayout(content = { paddingValues ->
           Column(modifier = Modifier.padding(paddingValues)) {
               CategoryTab()
@@ -256,8 +252,6 @@ fun PantryScreen(navController: NavController, drawerState: DrawerState, scope: 
           drawerState = drawerState,
           arrowBackClickHandler = {scope.launch { drawerState.open() }}
       )
-     }
-   }
 }
 
 

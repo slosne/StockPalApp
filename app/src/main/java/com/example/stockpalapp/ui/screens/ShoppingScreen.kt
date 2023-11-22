@@ -21,7 +21,6 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Surface
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -39,6 +38,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.stockpalapp.AppLayout
 import com.example.stockpalapp.R
 import com.example.stockpalapp.ui.components.AlertDialogExample
+import com.example.stockpalapp.ui.components.FilledBtn
 import com.example.stockpalapp.ui.components.ProductListItem
 import com.example.stockpalapp.ui.components.StandardBtn
 import com.example.stockpalapp.ui.model.Routes
@@ -108,14 +108,13 @@ fun ShoppingItemList(modifier: Modifier = Modifier){
 @Composable
 fun ShoppingScreen(navController: NavController, drawerState: DrawerState, scope: CoroutineScope)
 {
-    Surface(tonalElevation = 5.dp) {
         AppLayout(
             content = { paddingValues ->
                 Column(modifier = Modifier.padding(paddingValues)) {
                     ShoppingItemList()
                     Spacer(modifier = Modifier.size(30.dp))
                     Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
-                        StandardBtn(modifier = Modifier, {navController.navigate(Routes().addPantryItem)}, "Legg til")
+                        FilledBtn(modifier = Modifier, {navController.navigate(Routes().addPantryItem)}, "Legg til")
                         Spacer(modifier = Modifier.size(10.dp))
                         StandardBtn(modifier = Modifier, {}, "Del handleliste")
 
@@ -133,11 +132,9 @@ fun ShoppingScreen(navController: NavController, drawerState: DrawerState, scope
             drawerState = drawerState,
             scope = scope
         )
-    }
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview(
     showBackground = true,
     showSystemUi = true,

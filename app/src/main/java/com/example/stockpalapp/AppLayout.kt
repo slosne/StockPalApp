@@ -19,6 +19,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -145,30 +146,35 @@ fun AppLayout(
     ){
         Scaffold(
             topBar = {
-                CenterAlignedTopAppBar(
-                    title = { Text(text = topAppBarTitle.uppercase(),
-                        style = MaterialTheme.typography.headlineSmall,
-                        letterSpacing = 2.sp)},
-                    navigationIcon = {
-                        IconButton(onClick = {navigationClickHandler()}) {
-                            if(navigationIcon != null){
-                                Icon(
-                                    imageVector = navigationIcon,
-                                    contentDescription = navigationContentDescription
-                                )
+                Surface(tonalElevation = 5.dp){
+                    CenterAlignedTopAppBar(
+                        title = { Text(text = topAppBarTitle.uppercase(),
+                            style = MaterialTheme.typography.headlineSmall,
+                            letterSpacing = 2.sp)},
+                        navigationIcon = {
+                            IconButton(onClick = {navigationClickHandler()}) {
+                                if(navigationIcon != null){
+                                    Icon(
+                                        imageVector = navigationIcon,
+                                        contentDescription = navigationContentDescription
+                                    )
+                                }
                             }
-                        }
-                    }, actions = {
-                        IconButton(onClick = {arrowBackClickHandler()}) {
+                        }, actions = {
+                            IconButton(onClick = {arrowBackClickHandler()}) {
                                 Icon(
                                     imageVector = actionIcon,
                                     contentDescription = actionContentDescription
                                 )
-                        }
-                    })
+                            }
+                        })
+                }
+
             },
         bottomBar = {
+            Surface(tonalElevation = 5.dp) {
                 BottomNavigation(navController)
+            }
 
         },
          content = { paddingValues ->

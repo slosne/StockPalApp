@@ -11,7 +11,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
@@ -65,7 +64,6 @@ fun ProfileScreen(
     scope: CoroutineScope,
     viewModel: AuthViewModel?)
 {
-    Surface(tonalElevation = 5.dp) {
         AppLayout(content = { paddingValues ->
             Column(modifier = Modifier.padding(paddingValues)) {
                 viewModel?.currentUser?.let {
@@ -84,7 +82,6 @@ fun ProfileScreen(
             drawerState = drawerState,
             arrowBackClickHandler = {scope.launch { drawerState.open() }}
         )
-    }
 }
 
 

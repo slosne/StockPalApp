@@ -45,7 +45,7 @@ class ShoppingScreenViewModel @Inject constructor(
                 image = item.image
             ))
             removeShoppingListProduct(item.id)
-            Toast.makeText(context, "Produktet ble lagt til i Marskapet", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Produktet ble lagt til i Matskapet", Toast.LENGTH_SHORT).show()
         }
     }
 
