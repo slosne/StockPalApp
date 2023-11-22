@@ -17,11 +17,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -41,7 +40,6 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.example.stockpalapp.R
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FullRecipeCard(
     title: String,
@@ -50,11 +48,10 @@ fun FullRecipeCard(
     cookingTime: String,
     ingredients: List<String>,
     instructions: List<String>
-)
-{
+) {
 
     var expandedState by remember {
-    mutableStateOf(false)
+        mutableStateOf(false)
     }
 
     val rotationState by animateFloatAsState(
@@ -65,89 +62,89 @@ fun FullRecipeCard(
     //Sahu, R (9. August, 2023). Expandable Card with Animation in Jetpack Compose
     //https://www.c-sharpcorner.com/article/expandable-card-with-animation-in-jetpack-compose/
 
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(10.dp)
-            .animateContentSize(
-                animationSpec = tween(
-                    durationMillis = 300,
-                    easing = LinearOutSlowInEasing
-                )
-            ),
-        onClick = {expandedState = !expandedState}
-    )
-    {
-
-
-
-    Column(verticalArrangement = Arrangement.SpaceBetween)
-    {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
-        )
-        {
-            val imagePainter = rememberImagePainter(data = imageUrl)
-            Image(
-                painter = imagePainter,
-                contentDescription = stringResource(R.string.plate_of) + title,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxSize()
+    Surface(modifier = Modifier
+        .fillMaxWidth()
+        .padding(10.dp)
+        .animateContentSize(
+            animationSpec = tween(
+                durationMillis = 300,
+                easing = LinearOutSlowInEasing
             )
+        ),
+        shadowElevation = 15.dp,
+        tonalElevation = 2.dp,
+        onClick = { expandedState = !expandedState }) {
+
+
+        Column(verticalArrangement = Arrangement.SpaceBetween)
+        {
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(12.dp),
-                contentAlignment = Alignment.TopCenter
+                    .fillMaxWidth()
+                    .height(250.dp)
             )
             {
-                Text(
-                    text = title,
-                    fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.headlineMedium,
-                    color = Color.White
-                )
-            }
-        }
-
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp)
-        )
-        {
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp)
-            ) {
-                Text(
-                    text = cuisine,
-                    style = MaterialTheme.typography.headlineSmall
-                )
-                IconButton(
+                val imagePainter = rememberImagePainter(data = imageUrl)
+                Image(
+                    painter = imagePainter,
+                    contentDescription = stringResource(R.string.plate_of) + title,
+                    contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .alpha(0.2f)
-                        .rotate(rotationState),
-                    onClick = {
-                        expandedState = !expandedState
-                    }) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowDropDown,
-                        contentDescription = "Drop-Down Arrow"
+                        .fillMaxSize()
+                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(12.dp),
+                    contentAlignment = Alignment.TopCenter
+                )
+                {
+                    Text(
+                        text = title,
+                        fontWeight = FontWeight.Bold,
+                        style = MaterialTheme.typography.headlineMedium,
+                        color = Color.White
                     )
                 }
             }
 
-                if (expandedState) {
-                    Column(modifier = Modifier
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
+            )
+            {
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
                         .fillMaxWidth()
-                        .padding(10.dp)) {
+                        .padding(10.dp)
+                ) {
+                    Text(
+                        text = cuisine,
+                        style = MaterialTheme.typography.headlineSmall
+                    )
+                    IconButton(
+                        modifier = Modifier
+                            .alpha(0.2f)
+                            .rotate(rotationState),
+                        onClick = {
+                            expandedState = !expandedState
+                        }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowDropDown,
+                            contentDescription = "Drop-Down Arrow"
+                        )
+                    }
+                }
+
+                if (expandedState) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(10.dp)
+                    ) {
                         Text(
                             text = cookingTime,
                             style = MaterialTheme.typography.titleLarge

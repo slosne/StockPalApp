@@ -35,7 +35,7 @@
     <string name="alreadyRegistered">Allerede registert?</string>
     <string name="name">Navn</string>
     <string name="closest_expdate">Nærmeste utløpsdatoer</string>
-    <string name="add_pantryitem">Legg til en matvare</string>
+    <string name="add_pantryitem">Ny Matvare</string>
     <string name="item_name">Varenavn</string>
     <string name="ean">EAN-nummer</string>
     <string name="ammount">Antall: </string>

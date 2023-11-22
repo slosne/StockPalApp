@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -33,38 +32,44 @@ fun SmallRecipeCard(
 
     val imagePainter = rememberImagePainter(data = imageUrl)
 
-    ElevatedCard(
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(10.dp),
+    Surface(
         modifier = Modifier
             .height(210.dp)
-            .padding(10.dp)
+            .padding(10.dp),
+        shape = RoundedCornerShape(10.dp),
+        shadowElevation = 7.dp
     ) {
-        Row(modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically)
-        {
-            Column(modifier = Modifier
+        ElevatedCard(
+            modifier = Modifier
                 .fillMaxSize()
-                .weight(4f), horizontalAlignment = Alignment.CenterHorizontally){
-                Spacer(modifier = Modifier.size(5.dp))
-                Text(text = title, style = MaterialTheme.typography.titleLarge)
-                Spacer(modifier = Modifier.size(7.dp))
-                Text(text = "Du mangler: ", style = MaterialTheme.typography.titleMedium)
-                Spacer(modifier = Modifier.size(7.dp))
-                for (ingredient in missingIngredients) {
-                    Text(text = ingredient, style = MaterialTheme.typography.titleSmall)
+        ) {
+            Row(modifier = Modifier.padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically)
+            {
+                Column(modifier = Modifier
+                    .fillMaxSize()
+                    .weight(4f), horizontalAlignment = Alignment.CenterHorizontally){
+                    Spacer(modifier = Modifier.size(5.dp))
+                    Text(text = title, style = MaterialTheme.typography.titleLarge)
+                    Spacer(modifier = Modifier.size(7.dp))
+                    Text(text = "Du mangler: ", style = MaterialTheme.typography.titleMedium)
+                    Spacer(modifier = Modifier.size(7.dp))
+                    for (ingredient in missingIngredients) {
+                        Text(text = ingredient, style = MaterialTheme.typography.titleSmall)
+                    }
                 }
-            }
-            Surface(shape = RoundedCornerShape(16.dp),
-                modifier = Modifier.size(width = 100.dp, height = 140.dp)) {
-                Image(
-                    painter = imagePainter,
-                    contentDescription = "plate of " + title,
-                    contentScale = ContentScale.Crop,
-                )
+                Surface(shape = RoundedCornerShape(16.dp),
+                    modifier = Modifier.size(width = 100.dp, height = 140.dp)) {
+                    Image(
+                        painter = imagePainter,
+                        contentDescription = "plate of " + title,
+                        contentScale = ContentScale.Crop,
+                    )
+                }
             }
         }
     }
+
 }
 
 
@@ -86,3 +91,4 @@ fun SmallRecipeCardPreview() {
         )
     }
 }
+

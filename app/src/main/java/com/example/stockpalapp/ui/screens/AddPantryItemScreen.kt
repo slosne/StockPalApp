@@ -27,7 +27,7 @@ import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Surface
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberDrawerState
@@ -56,7 +56,6 @@ import com.example.stockpalapp.ui.visualTransformation.DateVisualTransformation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddPantryItemScanningAndSearching() {
     val addPantryItemViewModel: AddPantryItemViewModel = hiltViewModel()
@@ -78,7 +77,7 @@ fun AddPantryItemScanningAndSearching() {
 
         OutlinedTextField(
             value = seachInput,
-            shape = TextFieldDefaults.outlinedShape,
+            shape = OutlinedTextFieldDefaults.shape,
             onValueChange = { newTitle ->
                 seachInput = newTitle
                 seachInputChange = 1
@@ -179,7 +178,7 @@ fun AddPantryItem() {
 
                     OutlinedTextField(
                         value = title,
-                        shape = TextFieldDefaults.outlinedShape,
+                        shape = OutlinedTextFieldDefaults.shape,
                         onValueChange = { newTitle ->
                             title = newTitle
                             isTitleError = !addPantryItemViewModel.isValidProductName(title)
@@ -213,7 +212,7 @@ fun AddPantryItem() {
                     var isEanError by remember { mutableStateOf(false)}
                     OutlinedTextField(
                         value = ean,
-                        shape = TextFieldDefaults.outlinedShape,
+                        shape = OutlinedTextFieldDefaults.shape,
                         onValueChange = { newEan ->
                             ean = newEan
                             isEanError = !addPantryItemViewModel.isValidEanNumber(ean)
@@ -243,7 +242,7 @@ fun AddPantryItem() {
                     var isAmmountError by remember { mutableStateOf(false)}
                     OutlinedTextField(
                         value = ammount,
-                        shape = TextFieldDefaults.outlinedShape,
+                        shape = OutlinedTextFieldDefaults.shape,
                         onValueChange = { newAmmount ->
                             ammount = newAmmount
                             isAmmountError = !addPantryItemViewModel.isValidAmmount(ammount)
@@ -309,7 +308,7 @@ fun AddPantryItem() {
                     var isDateLength by remember { mutableStateOf(false)}
                     OutlinedTextField(
                         value = expDate,
-                        shape = TextFieldDefaults.outlinedShape,
+                        shape = OutlinedTextFieldDefaults.shape,
                         onValueChange = { newExpDate ->
                             expDateShow = newExpDate.filter { it.isDigit() }
 
@@ -347,7 +346,7 @@ fun AddPantryItem() {
                     var isImgURLError by remember { mutableStateOf(false) }
                     OutlinedTextField(
                         value = imgUrl,
-                        shape = TextFieldDefaults.outlinedShape,
+                        shape = OutlinedTextFieldDefaults.shape,
                         onValueChange = { newImgUrl ->
                             imgUrl = newImgUrl
                             isImgURLError = !addPantryItemViewModel.isValidImageUrl(imgUrl)
@@ -436,28 +435,25 @@ fun ScrollingBox() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddPantryItemScreen(navController: NavController, drawerState: DrawerState, scope: CoroutineScope){
-        Surface(tonalElevation = 5.dp) {
-            AppLayout(content = { paddingValues ->
-                Column(modifier = Modifier.padding(paddingValues)) {
-                    Spacer(modifier = Modifier.size(10.dp))
-                    ScrollingBox()
-                }
-            },
-                topAppBarTitle = stringResource(R.string.add_pantryitem),
-                navigationIcon = Icons.Default.ArrowBack,
-                actionIcon = Icons.Default.Menu,
-                navigationContentDescription = stringResource(R.string.navigate_up),
-                actionContentDescription = stringResource(R.string.navigation_drawer),
-                navController = navController,
-                navigationClickHandler = {navController.navigateUp()},
-                scope = scope,
-                drawerState = drawerState,
-                arrowBackClickHandler = {scope.launch { drawerState.open() }}
-            )
+    AppLayout(content = { paddingValues ->
+        Column(modifier = Modifier.padding(paddingValues)) {
+            Spacer(modifier = Modifier.size(10.dp))
+            ScrollingBox()
         }
+    },
+        topAppBarTitle = stringResource(R.string.add_pantryitem),
+        navigationIcon = Icons.Default.ArrowBack,
+        actionIcon = Icons.Default.Menu,
+        navigationContentDescription = stringResource(R.string.navigate_up),
+        actionContentDescription = stringResource(R.string.navigation_drawer),
+        navController = navController,
+        navigationClickHandler = {navController.navigateUp()},
+        scope = scope,
+        drawerState = drawerState,
+        arrowBackClickHandler = {scope.launch { drawerState.open() }}
+    )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun AddPantryItemScreenPreview() {
