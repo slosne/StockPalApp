@@ -29,6 +29,11 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Surface
 import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.rememberDismissState
@@ -105,6 +110,9 @@ fun FoodItemList2(modifier: Modifier = Modifier){
     val pantryViewModel: PantryViewModel = hiltViewModel()
     val sortedList = pantryViewModel.sortedList.collectAsState().value
 
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+
     LazyColumn(
         state = rememberLazyListState(),
         modifier = modifier
@@ -117,6 +125,24 @@ fun FoodItemList2(modifier: Modifier = Modifier){
                         // Remove Produkt Here
                         Log.d("Swipe", "Produkt was swaped and state handled")
                         pantryViewModel.removePantryProduct(item.id)
+
+                        scope.launch {
+                            var result = snackbarHostState.showSnackbar(
+                                message = "${item.name} er fjernet",
+                                actionLabel = "Angre",
+                                withDismissAction = true,
+                                duration = SnackbarDuration.Long
+                            )
+                            when(result) {
+                            SnackbarResult.Dismissed -> {
+
+                            }
+                            SnackbarResult.ActionPerformed -> {
+                                pantryViewModel.addPantryProduct(item)
+                            }
+                        }
+                        }
+
                     }
                     true
                 }
@@ -133,7 +159,8 @@ fun FoodItemList2(modifier: Modifier = Modifier){
                         DismissDirection.StartToEnd-> Color.Transparent
                         null-> Color.Transparent
                     }
-                    Box(modifier = Modifier.fillMaxSize()
+                    Box(modifier = Modifier
+                        .fillMaxSize()
                         .background(color)
                     ){
                         Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete",
@@ -170,6 +197,21 @@ fun FoodItemList2(modifier: Modifier = Modifier){
                     }
                 })
         }
+    }
+
+
+
+    Scaffold(snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+    ) {padding ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding),
+            contentAlignment = Alignment.Center
+        ){
+
+        }
+
     }
 }
 
