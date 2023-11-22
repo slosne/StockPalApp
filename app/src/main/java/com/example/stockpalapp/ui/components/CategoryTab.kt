@@ -26,13 +26,13 @@ fun CategoryTab(){
 
 
     val selectedIndex =
-        if (pantryViewModel.category.collectAsState().value == "Frozen") {
+        if (pantryViewModel.category.collectAsState().value == "Frysevarer") {
             0
         }
-        else  if (pantryViewModel.category.collectAsState().value == "Refrigerated") {
+        else  if (pantryViewModel.category.collectAsState().value == "Kjølevarer") {
             1
         }
-        else if (pantryViewModel.category.collectAsState().value == "Dry") {
+        else if (pantryViewModel.category.collectAsState().value == "Tørrvarer") {
             2
         }
         else {
