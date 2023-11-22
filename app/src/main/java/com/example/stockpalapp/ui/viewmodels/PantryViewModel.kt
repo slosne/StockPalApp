@@ -25,7 +25,7 @@ class PantryViewModel @Inject constructor(val pantryRepository: PantryRepository
     private val _sortedList: MutableStateFlow<List<PantryProduct>> = MutableStateFlow(emptyList())
     var sortedList: StateFlow<List<PantryProduct>> = _sortedList.asStateFlow()
 
-    private val _category = MutableStateFlow("Frozen")
+    private val _category = MutableStateFlow("Frysevarer")
     var category: StateFlow<String> = _category.asStateFlow()
 
     private val _searchValue = MutableStateFlow("")
