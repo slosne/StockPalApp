@@ -1,9 +1,7 @@
 package com.example.stockpalapp.ui.screens
 
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -17,7 +15,6 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -51,13 +48,14 @@ import com.example.stockpalapp.ui.viewmodels.PantryViewModel
 
 
 @Composable
-fun WelcomeSection(name: String){
+fun WelcomeSection(name: String) {
+
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally)
     {
         Spacer(modifier = Modifier.size(30.dp))
-        Text(text = "Hei, $name!",
+        Text(text = stringResource(R.string.hello) + name,
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold)
     }
@@ -65,6 +63,7 @@ fun WelcomeSection(name: String){
 
 @Composable
 fun ExpDateSection(navController: NavController) {
+
     val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
     val pantryViewModel: PantryViewModel = hiltViewModel()
 
@@ -72,23 +71,35 @@ fun ExpDateSection(navController: NavController) {
     collectAsState(initial = emptyList())
 
 
-    Surface(tonalElevation = 2.dp, shape = RoundedCornerShape(10.dp), shadowElevation = 10.dp,
+    Surface(tonalElevation = 2.dp,
+        shape = RoundedCornerShape(10.dp),
+        shadowElevation = 10.dp,
         modifier = Modifier.padding(start = 10.dp, end = 10.dp)) {
+
         Column(modifier = Modifier
-            .padding(start=5.dp, top=5.dp, end = 5.dp, bottom = 40.dp)) {
-            Row(modifier = Modifier
+            .padding(
+                start=5.dp,
+                top=5.dp,
+                end=5.dp,
+                bottom=40.dp))
+        {
+
+            Column(modifier = Modifier
                 .fillMaxWidth()
                 .padding(10.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically)
+                horizontalAlignment = Alignment.CenterHorizontally)
             {
                 Text(text = stringResource(R.string.closest_exp_date),
                     style = MaterialTheme.typography.titleMedium)
+                Spacer(modifier = Modifier.padding(10.dp))
                 FilledBtn(
                     clickHandler = { navController.navigate(Routes().pantry) },
-                    btnText = stringResource(R.string.to_all_items))
-
+                    btnText = stringResource(R.string.to_all_items)
+                )
             }
+
+            //Varer fra matskapet får tekst og varselikon
+            //dersom det er mindre enn 3 dager til de utløper
 
             sortedList.take(3).map { item ->
                 if(item.expDate != null){
@@ -111,7 +122,7 @@ fun ExpDateSection(navController: NavController) {
                                     IconButton(onClick = { navController.navigate(Routes().pantry) }) {
                                         Icon(
                                             imageVector = Icons.Default.Notifications,
-                                            contentDescription = "Expiry date warning icon",
+                                            contentDescription = stringResource(R.string.expiry_date_warning_icon),
                                             tint = MaterialTheme.colorScheme.error
                                         )
                                     }
@@ -121,7 +132,7 @@ fun ExpDateSection(navController: NavController) {
                                     IconButton(onClick = { pantryViewModel.removePantryProduct(item.id) }) {
                                         Icon(
                                             imageVector = Icons.Default.Delete,
-                                            contentDescription = "Expired item delete",
+                                            contentDescription = stringResource(R.string.expired_item_delete),
                                             tint = MaterialTheme.colorScheme.error
                                         )
                                     }
@@ -133,7 +144,6 @@ fun ExpDateSection(navController: NavController) {
             }
         }
     }
-
 }
 
 @Composable
@@ -143,37 +153,40 @@ fun HomeLayout(navController: NavController) {
     val recipeList by homeScreenViewModel.recipes.collectAsState(initial = emptyList())
     val currentUser = homeScreenViewModel.currentUser.toString()
 
-    LazyColumn(modifier = Modifier.padding(start = 10.dp, end = 10.dp)) {
+    LazyColumn(modifier = Modifier.padding(
+        start = 10.dp,
+        end = 10.dp))
+    {
         item {
             WelcomeSection(currentUser)
             Spacer(modifier = Modifier.size(40.dp))
             ExpDateSection(navController)
             Spacer(modifier = Modifier.size(40.dp))
-            Row(verticalAlignment = Alignment.CenterVertically,
+
+            Column(horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(10.dp))
-            {
-                FilledBtn(
-                    clickHandler = { navController.navigate(Routes().recipes) },
-                    btnText = "Alle oppskrifter")
-                Spacer(modifier = Modifier.padding(10.dp))
+                    .padding(10.dp)) {
                 Text(text = stringResource(R.string.recommodation),
                     style = MaterialTheme.typography.titleMedium)
+                Spacer(modifier = Modifier.padding(10.dp))
+                FilledBtn(
+                    clickHandler = { navController.navigate(Routes().recipes) },
+                    btnText = stringResource(R.string.all_recipes)
+                )
             }
         }
         items(recipeList){recipe ->
             SmallRecipeCard(
                 recipe.title,
                 recipe.image,
-                recipe.ingredients)
+                recipe.ingredients,
+                navController)
         }
-
     }
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     navController: NavController,
@@ -183,8 +196,7 @@ fun HomeScreen(
     AppLayout(
         content = { paddingValues ->
             Column(
-                modifier = Modifier
-                    .padding(paddingValues)
+                modifier = Modifier.padding(paddingValues)
             ) {
                 HomeLayout(navController)
             }
@@ -201,8 +213,6 @@ fun HomeScreen(
     )
 }
 
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {

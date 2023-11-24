@@ -11,7 +11,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DrawerState
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
@@ -34,7 +33,6 @@ fun ToggleThemeSwitch(
     useDarkTheme: Boolean,
     onThemeChanged: (Boolean) -> Unit
 ){
-
     Switch(
         checked = useDarkTheme,
         onCheckedChange = {
@@ -43,15 +41,12 @@ fun ToggleThemeSwitch(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingScreen(
     navController: NavController,
     drawerState: DrawerState,
     scope: CoroutineScope,
-    themeViewModel: ThemeViewModel
-)
-{
+    themeViewModel: ThemeViewModel) {
 
     val useDarkTheme by themeViewModel.useDarkTheme
 
@@ -60,7 +55,8 @@ fun SettingScreen(
             Column(modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally){
+                horizontalAlignment = Alignment.CenterHorizontally)
+            {
                 Surface(
                     shape = RoundedCornerShape(10.dp),
                     shadowElevation = 10.dp,
@@ -72,16 +68,18 @@ fun SettingScreen(
                             .fillMaxWidth()
                             .padding(10.dp),
                         horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(text = "Endre innstillinger",
-                            style = MaterialTheme.typography.headlineMedium)
+                        Text(
+                            text = "Endre innstillinger",
+                            style = MaterialTheme.typography.headlineMedium
+                        )
                         Spacer(modifier = Modifier.size(20.dp))
                         if(useDarkTheme){
                             Text(
-                                text = "Bytt til light mode",
+                                text = stringResource(R.string.chng_to_light),
                                 style = MaterialTheme.typography.titleLarge)}
                         else{
                             Text(
-                                text = "Bytt til dark mode",
+                                text = stringResource(R.string.chng_to_dark),
                                 style = MaterialTheme.typography.titleLarge)
                         }
                         Spacer(modifier = Modifier.height(8.dp))
@@ -94,7 +92,7 @@ fun SettingScreen(
                     }
                 }
             }} ,
-        topAppBarTitle = "Settings",
+        topAppBarTitle = stringResource(R.string.settings),
         navigationIcon = null,
         actionIcon = Icons.Default.Menu,
         navigationContentDescription = stringResource(R.string.navigation_drawer),

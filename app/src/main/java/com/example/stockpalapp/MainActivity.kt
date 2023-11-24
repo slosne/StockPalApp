@@ -17,7 +17,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
+        setContent{
             val useDarkTheme by themeViewModel.useDarkTheme
             StockPalAppTheme(useDarkTheme = useDarkTheme) {
                 AppNavigation(authViewModel, themeViewModel)
@@ -25,17 +25,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-/*
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    StockPalAppTheme {
-        AppNavigation()
-    }
-}
-
- */
 
 
 
@@ -52,4 +41,8 @@ fun GreetingPreview() {
 * https://www.youtube.com/watch?v=2pGTSiqnW90
 *
 * https://developer.android.com/
+*
+* Chat GPT som sparringspartner ved bugs
+*
+*
 * */

@@ -55,10 +55,10 @@ fun FullRecipeCard(
     }
 
     val rotationState by animateFloatAsState(
-        targetValue = if (expandedState) 180f else 0f
+        targetValue = if (expandedState) 180f else 0f, label = ""
     )
 
-    //Animation inspired by
+    //Animation reference
     //Sahu, R (9. August, 2023). Expandable Card with Animation in Jetpack Compose
     //https://www.c-sharpcorner.com/article/expandable-card-with-animation-in-jetpack-compose/
 
@@ -73,9 +73,8 @@ fun FullRecipeCard(
         ),
         shadowElevation = 15.dp,
         tonalElevation = 2.dp,
-        onClick = { expandedState = !expandedState }) {
-
-
+        onClick = { expandedState = !expandedState })
+    {
         Column(verticalArrangement = Arrangement.SpaceBetween)
         {
             Box(
@@ -87,7 +86,7 @@ fun FullRecipeCard(
                 val imagePainter = rememberImagePainter(data = imageUrl)
                 Image(
                     painter = imagePainter,
-                    contentDescription = stringResource(R.string.plate_of) + title,
+                    contentDescription = title,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .fillMaxSize()
@@ -144,7 +143,8 @@ fun FullRecipeCard(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(10.dp)
-                    ) {
+                    )
+                    {
                         Text(
                             text = cookingTime,
                             style = MaterialTheme.typography.titleLarge
@@ -179,7 +179,6 @@ fun FullRecipeCard(
                             )
                         }
                     }
-
                 }
             }
         }

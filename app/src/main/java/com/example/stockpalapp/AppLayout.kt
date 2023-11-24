@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -33,8 +34,6 @@ import com.example.stockpalapp.ui.model.BottomNavItem
 import com.example.stockpalapp.ui.model.DrawerItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-
-
 
 @Composable
 fun BottomNavigation(navController: NavController){
@@ -64,17 +63,26 @@ fun BottomNavigation(navController: NavController){
                             launchSingleTop = true
                             restoreState = true}
                     },
-                    icon = { Icon(imageVector = item.icon, contentDescription = item.title) },
-                    label = { Text(item.title) }
+                    icon = {
+                        Icon(imageVector = item.icon,
+                        contentDescription = item.title)
+                           },
+                    label = { Text(item.title,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.labelSmall)
+                    }
                 )
             }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HamburgerMenuContent(navController: NavController, drawerState: DrawerState, scope: CoroutineScope){
+fun HamburgerMenuContent(
+    navController: NavController,
+    drawerState: DrawerState,
+    scope: CoroutineScope){
 
     val drawerItems = listOf(
         DrawerItem.Home,
@@ -96,14 +104,22 @@ fun HamburgerMenuContent(navController: NavController, drawerState: DrawerState,
             contentAlignment = Alignment.Center
         )
         {
-            Text(text = stringResource(R.string.stockpal), style = MaterialTheme.typography.headlineSmall)
+            Text(text = stringResource(R.string.stockpal),
+                style = MaterialTheme.typography.headlineSmall)
         }
 
         drawerItems.forEach { item ->
+
             val selected = currentRoute == item.screen_route
+
             NavigationDrawerItem(
                 selected = selected,
-                label = { Text(text = item.label, style = MaterialTheme.typography.labelLarge) },
+                label = {
+                    Text(
+                        text = item.label,
+                        style = MaterialTheme.typography.labelLarge
+                    )
+                        },
                 onClick = {
                     navController.navigate(item.screen_route) {
                         navController.graph.startDestinationRoute?.let { screen_route ->
@@ -113,7 +129,12 @@ fun HamburgerMenuContent(navController: NavController, drawerState: DrawerState,
                         restoreState = true}
                     scope.launch { drawerState.close() }
                 },
-                icon = { Icon(imageVector = item.icon, contentDescription = item.label) },
+                icon = {
+                    Icon(
+                    imageVector = item.icon,
+                    contentDescription = item.label
+                    )
+                       },
                 modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
             )
         }
@@ -148,9 +169,12 @@ fun AppLayout(
             topBar = {
                 Surface(tonalElevation = 5.dp){
                     CenterAlignedTopAppBar(
-                        title = { Text(text = topAppBarTitle.uppercase(),
-                            style = MaterialTheme.typography.headlineSmall,
-                            letterSpacing = 2.sp)},
+                        title = {
+                            Text(
+                                text = topAppBarTitle.uppercase(),
+                                style = MaterialTheme.typography.headlineSmall,
+                                letterSpacing = 2.sp
+                            )},
                         navigationIcon = {
                             IconButton(onClick = {navigationClickHandler()}) {
                                 if(navigationIcon != null){
@@ -167,7 +191,8 @@ fun AppLayout(
                                     contentDescription = actionContentDescription
                                 )
                             }
-                        })
+                        }
+                    )
                 }
 
             },
@@ -179,7 +204,6 @@ fun AppLayout(
         },
          content = { paddingValues ->
             content(paddingValues)
-        },
-    )
-
-}}
+        },)
+    }
+}

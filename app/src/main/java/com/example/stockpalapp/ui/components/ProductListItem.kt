@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -22,7 +21,6 @@ import com.example.stockpalapp.R
 import com.example.stockpalapp.ui.viewmodels.PantryViewModel
 import com.google.firebase.Timestamp
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductListItem(
     title: String,
@@ -32,8 +30,7 @@ fun ProductListItem(
     date: Timestamp?,
     actions: @Composable () -> Unit
 
-)
-{
+) {
 
     val viewModel: PantryViewModel = hiltViewModel()
 
@@ -41,17 +38,18 @@ fun ProductListItem(
         ListItem(
             modifier = Modifier.height(100.dp),
             headlineContent = { Text(text = title) },
-            supportingContent = { Column {
-                if (description != null) {
-                    Text(text = description)
+            supportingContent = {
+                Column {
+                    description?.let { Text(text = description) }
+                    amount?.let { Text(text = stringResource(R.string.ammount) +
+                            amount.toString())
+                    }
+                    date?.let {
+                        Text(text = stringResource(R.string.exp_date_title) +
+                                viewModel.convertTimestampToString(date))
+                    }
                 }
-                if (amount != null){
-                    Text(text = stringResource(R.string.ammount) + amount.toString())
-                }
-                if (date != null) {
-                    Text(text = stringResource(R.string.exp_date_title) + viewModel.convertTimestampToString(date))
-                }
-            } },
+            },
             leadingContent = {
                 Surface(
                     modifier = Modifier.size(70.dp),

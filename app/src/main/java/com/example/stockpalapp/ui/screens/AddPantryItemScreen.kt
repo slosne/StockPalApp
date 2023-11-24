@@ -1,6 +1,7 @@
 package com.example.stockpalapp.ui.screens
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,7 +30,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -63,17 +63,27 @@ fun AddPantryItemScanningAndSearching() {
 
     val scannedBarcode by addPantryItemViewModel.scannedBarcode.collectAsState()
 
-    Column (horizontalAlignment = Alignment.CenterHorizontally) {
-        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center){
-            FilledBtn(clickHandler = { addPantryItemViewModel.ScanningAProduct() }, btnText = stringResource(R.string.scan_item))
+    Column(horizontalAlignment = Alignment.CenterHorizontally)
+    {
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        )
+        {
+            FilledBtn(
+                clickHandler = { addPantryItemViewModel.ScanningAProduct() },
+                btnText = stringResource(R.string.scan_item)
+            )
         }
 
         if (scannedBarcode != null) {
             Text(text = scannedBarcode.toString())
-    }
+        }
 
-        var seachInput by remember { mutableStateOf("")}
-        var seachInputChange by remember { mutableStateOf(0)}
+        var seachInput by remember { mutableStateOf("") }
+        var seachInputChange by remember { mutableStateOf(0) }
+
+        val context = LocalContext.current
 
         OutlinedTextField(
             value = seachInput,
@@ -84,15 +94,13 @@ fun AddPantryItemScanningAndSearching() {
                 if (seachInput != null) {
                     try {
                         addPantryItemViewModel.getAProductByEanNumber(seachInput.toLong())
-                        Log.d("TAG", product.toString())
                     } catch (e: Exception) {
-
+                        Toast.makeText(context, "Error retreiving product", Toast.LENGTH_SHORT).show()
                     }
                 }
-
             },
             label = {
-                Text(text = "Søkefelt")
+                Text(text = stringResource(R.string.ean_number))
             },
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Words,
@@ -105,26 +113,33 @@ fun AddPantryItemScanningAndSearching() {
         // Check if product is not null before accessing its properties
         if (product != null) {
             Text(text = product!!.name)
+
             // Add other Text or Composables to display other product details
+            val title = product!!.name
+            val ean = product!!.eanNumber
+            val ammount = product!!.number
+            val category = product!!.category
+            val expDate = "050398"
+            val imgUrl = product!!.image
 
-            var title = product!!.name
-            var ean = product!!.eanNumber
-            var ammount = product!!.number
-            var category = product!!.category
-            var expDate = "050398"
-            var context = LocalContext.current
-            var imgUrl = product!!.image
-
-            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()) {
-                FilledBtn(clickHandler = { addPantryItemViewModel.addProductToList(Product(
-                    name = title,
-                    number = ammount,
-                    eanNumber = ean,
-                    category = category,
-                    expDate = addPantryItemViewModel.convertStringToTimestamp(expDate),
-                    image = imgUrl
-                ))
-                }, btnText = stringResource(R.string.save))
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                FilledBtn(
+                    clickHandler = {
+                        addPantryItemViewModel.addProductToList(
+                            Product(
+                                name = title,
+                                number = ammount,
+                                eanNumber = ean,
+                                category = category,
+                                expDate = addPantryItemViewModel.convertStringToTimestamp(expDate),
+                                image = imgUrl
+                            )
+                        )
+                    }, btnText = stringResource(R.string.save)
+                )
             }
 
         } else {
@@ -139,14 +154,13 @@ fun AddPantryItemScanningAndSearching() {
 @Composable
 fun AddPantryItem() {
     val addPantryItemViewModel: AddPantryItemViewModel = hiltViewModel()
-    var expandedState by remember { mutableStateOf(false)}
+    var expandedState by remember { mutableStateOf(false) }
 
     val context = LocalContext.current
 
     ElevatedCard(
         elevation = CardDefaults.cardElevation(2.dp),
-        modifier = Modifier
-            .padding(horizontal = 30.dp, vertical = 10.dp),
+        modifier = Modifier.padding(horizontal = 30.dp, vertical = 10.dp),
         shape = RoundedCornerShape(8.dp),
         onClick = {
             expandedState = !expandedState
@@ -155,26 +169,27 @@ fun AddPantryItem() {
         Column(
             modifier = Modifier
                 .padding(horizontal = 30.dp)
-            ) {
-            Row (verticalAlignment = Alignment.CenterVertically) {
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    modifier = Modifier
-                        .weight(6f),
+                    modifier = Modifier.weight(6f),
                     text = stringResource(R.string.add_pantryitem)
                 )
                 IconButton(
-                    modifier = Modifier
-                        .weight(1f),
+                    modifier = Modifier.weight(1f),
                     onClick = { expandedState = !expandedState }) {
-                    Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = "Drop-Down Arrow")
+                    Icon(
+                        imageVector = Icons.Default.ArrowDropDown,
+                        contentDescription = "Drop-Down Arrow"
+                    )
                 }
             }
             Spacer(modifier = Modifier.size(15.dp))
 
-            if(expandedState) {
+            if (expandedState) {
                 Column {
-                    var title by remember { mutableStateOf("")}
-                    var isTitleError by remember { mutableStateOf(false)}
+                    var title by remember { mutableStateOf("") }
+                    var isTitleError by remember { mutableStateOf(false) }
 
                     OutlinedTextField(
                         value = title,
@@ -193,23 +208,25 @@ fun AddPantryItem() {
                             imeAction = ImeAction.Next
                         ),
                         singleLine = true,
-                        isError = title.isNotEmpty() && !addPantryItemViewModel.isValidProductName(title),
+                        isError = title.isNotEmpty() && !addPantryItemViewModel
+                            .isValidProductName(title),
                         supportingText = {
 
                             if (title.isEmpty()) {
                                 Text(text = stringResource(R.string.mandatoryInput))
-                            } else if (isTitleError && !addPantryItemViewModel.isValidProductName(title)) {
+                            } else if (isTitleError && !addPantryItemViewModel
+                                    .isValidProductName(title)
+                            ) {
                                 Text(text = stringResource(R.string.titleVal))
                             }
                         }
-                        
                     )
 
 
 
                     Spacer(modifier = Modifier.size(15.dp))
-                    var ean by remember { mutableStateOf("")}
-                    var isEanError by remember { mutableStateOf(false)}
+                    var ean by remember { mutableStateOf("") }
+                    var isEanError by remember { mutableStateOf(false) }
                     OutlinedTextField(
                         value = ean,
                         shape = OutlinedTextFieldDefaults.shape,
@@ -226,7 +243,8 @@ fun AddPantryItem() {
                             imeAction = ImeAction.Next
                         ),
                         singleLine = true,
-                        isError = ean.isNotEmpty() && !addPantryItemViewModel.isValidEanNumber(ean),
+                        isError = ean.isNotEmpty() && !addPantryItemViewModel
+                            .isValidEanNumber(ean),
                         supportingText = {
 
                             if (ean.isEmpty()) {
@@ -238,8 +256,8 @@ fun AddPantryItem() {
                     )
 
                     Spacer(modifier = Modifier.size(15.dp))
-                    var ammount by remember { mutableStateOf("")}
-                    var isAmmountError by remember { mutableStateOf(false)}
+                    var ammount by remember { mutableStateOf("") }
+                    var isAmmountError by remember { mutableStateOf(false) }
                     OutlinedTextField(
                         value = ammount,
                         shape = OutlinedTextFieldDefaults.shape,
@@ -256,28 +274,30 @@ fun AddPantryItem() {
                             imeAction = ImeAction.Next
                         ),
                         singleLine = true,
-                        isError = ammount.isNotEmpty() && !addPantryItemViewModel.isValidAmmount(ammount),
+                        isError = ammount.isNotEmpty() && !addPantryItemViewModel.isValidAmmount(
+                            ammount
+                        ),
                         supportingText = {
-
                             if (ammount.isEmpty()) {
                                 Text(text = stringResource(R.string.mandatoryInput))
-                            } else if (isAmmountError && !addPantryItemViewModel.isValidAmmount(ammount)) {
+                            } else if (isAmmountError && !addPantryItemViewModel.isValidAmmount(
+                                    ammount
+                                )
+                            ) {
                                 Text(text = stringResource(R.string.eanVal))
                             }
                         }
                     )
 
-
-
                     Spacer(modifier = Modifier.size(15.dp))
 
                     val options = categories
                     var category by remember { mutableStateOf(options[0]) }
-                    var expanded by remember { mutableStateOf(false)}
+                    var expanded by remember { mutableStateOf(false) }
 
                     ExposedDropdownMenuBox(
                         expanded = expanded,
-                        onExpandedChange = { expanded = !expanded}
+                        onExpandedChange = { expanded = !expanded }
                     ) {
                         OutlinedTextField(
                             modifier = Modifier.menuAnchor(),
@@ -286,15 +306,20 @@ fun AddPantryItem() {
                             onValueChange = { newCategory ->
                                 category = newCategory
                             },
-                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)},
+                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(
+                                expanded = expanded) },
                             colors = ExposedDropdownMenuDefaults.textFieldColors(),
                         )
-                        ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-                            options.forEach {categorySelect ->
-                                DropdownMenuItem(text = { Text(categorySelect) },
+                        ExposedDropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false }) {
+                            options.forEach { categorySelect ->
+                                DropdownMenuItem(
+                                    text = { Text(categorySelect) },
                                     onClick = {
                                         category = categorySelect
-                                        expanded = false },
+                                        expanded = false
+                                    },
                                     contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
                                 )
                             }
@@ -302,10 +327,10 @@ fun AddPantryItem() {
                     }
 
                     Spacer(modifier = Modifier.size(15.dp))
-                    var expDate by remember { mutableStateOf("")}
-                    var expDateShow by remember { mutableStateOf("")}
-                    var isDateError by remember { mutableStateOf(false)}
-                    var isDateLength by remember { mutableStateOf(false)}
+                    var expDate by remember { mutableStateOf("") }
+                    var expDateShow by remember { mutableStateOf("") }
+                    var isDateError by remember { mutableStateOf(false) }
+                    var isDateLength by remember { mutableStateOf(false) }
                     OutlinedTextField(
                         value = expDate,
                         shape = OutlinedTextFieldDefaults.shape,
@@ -329,20 +354,20 @@ fun AddPantryItem() {
                         ),
                         singleLine = true,
                         visualTransformation = DateVisualTransformation(),
-                        isError = expDate.isNotEmpty() && !addPantryItemViewModel.isValidDatePicker(expDate),
+                        isError = expDate.isNotEmpty() && !addPantryItemViewModel.isValidDatePicker(
+                            expDate
+                        ),
                         supportingText = {
                             if (expDate.isEmpty()) {
                                 Text(text = stringResource(R.string.mandatoryExpDate))
-                            } else if (expDate.length != 6 ) {
+                            } else if (expDate.length != 6) {
                                 Text(text = stringResource(R.string.dateVal))
                             }
                         }
                     )
 
-
-
                     Spacer(modifier = Modifier.size(15.dp))
-                    var imgUrl by remember { mutableStateOf("")}
+                    var imgUrl by remember { mutableStateOf("") }
                     var isImgURLError by remember { mutableStateOf(false) }
                     OutlinedTextField(
                         value = imgUrl,
@@ -360,9 +385,10 @@ fun AddPantryItem() {
                             imeAction = ImeAction.Done
                         ),
                         singleLine = true,
-                        isError = imgUrl.isNotEmpty() && !addPantryItemViewModel.isValidImageUrl(imgUrl),
+                        isError = imgUrl.isNotEmpty() && !addPantryItemViewModel.isValidImageUrl(
+                            imgUrl
+                        ),
                         supportingText = {
-
                             if (isImgURLError && !addPantryItemViewModel.isValidImageUrl(imgUrl)) {
                                 Text(text = stringResource(R.string.urlVal))
                             }
@@ -370,28 +396,51 @@ fun AddPantryItem() {
                     )
 
                     Spacer(modifier = Modifier.size(15.dp))
-                    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()){
-                        FilledBtn(clickHandler = { addPantryItemViewModel.addPantryProduct(title, ean.toLong(), ammount.toInt(), category, expDate, context, imgUrl)
-                            title = ""
-                            ammount = ""
-                            category = ""
-                            expDate = ""
-                            ean = ""
-                            imgUrl = ""},
-                            btnText = "Lagre til Matskap",
+                    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()) {
+                        FilledBtn(
+                            clickHandler = {
+                                addPantryItemViewModel.addPantryProduct(
+                                    title,
+                                    ean.toLong(),
+                                    ammount.toInt(),
+                                    category,
+                                    expDate,
+                                    context,
+                                    imgUrl
+                                )
+                                title = ""
+                                ammount = ""
+                                category = ""
+                                expDate = ""
+                                ean = ""
+                                imgUrl = ""
+                            },
+                            btnText = stringResource(R.string.save_to_pantry),
                             enabled = !isTitleError && title.isNotEmpty() && !isEanError && ean.isNotEmpty() && !isAmmountError && ammount.isNotEmpty() && !isDateError && isDateLength && !isImgURLError
-                        )}
-                    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()){
-                        FilledBtn(clickHandler = { addPantryItemViewModel.addShoppingListProduct(title, ean.toLong(), ammount.toInt(), category, context, imgUrl)
-                            title = ""
-                            ammount = ""
-                            category = ""
-                            expDate = ""
-                            ean = ""
-                            imgUrl = ""},
-                            btnText = "Lagre til Handleliste",
+                        )
+                    }
+                    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()) {
+                        FilledBtn(
+                            clickHandler = {
+                                addPantryItemViewModel.addShoppingListProduct(
+                                    title,
+                                    ean.toLong(),
+                                    ammount.toInt(),
+                                    category,
+                                    context,
+                                    imgUrl
+                                )
+                                title = ""
+                                ammount = ""
+                                category = ""
+                                expDate = ""
+                                ean = ""
+                                imgUrl = ""
+                            },
+                            btnText = stringResource(R.string.save_to_list),
                             enabled = !isTitleError && title.isNotEmpty() && !isEanError && ean.isNotEmpty() && !isAmmountError && ammount.isNotEmpty() && !isImgURLError
-                        )}
+                        )
+                    }
                 }
             }
         }
@@ -409,32 +458,42 @@ fun ScrollingBox() {
             AddPantryItemScanningAndSearching()
             AddPantryItem()
         }
-        items(productList) { product -> ProductListItem(
-            title = product.name,
-            description = null,
-            amount = product.number,
-            imageUrl = product.image,
-            date = null
-        ) {} }
-        item {
-            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()){
-                FilledBtn(clickHandler = { addPantryItemViewModel.addMultipleShoppingListProduct() },
-                    btnText = "Lagre Scannede varer til Handleliste",
-                    enabled = !productList.isEmpty()
-                )}
-            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()){
-                FilledBtn(clickHandler = { addPantryItemViewModel.addMultiplePantryProduct() },
-                    btnText = "Lagre Scannede varer til Matskapet",
-                    enabled = !productList.isEmpty()
-                )}
+        items(productList) { product ->
+            ProductListItem(
+                title = product.name,
+                description = null,
+                amount = product.number,
+                imageUrl = product.image,
+                date = null
+            ) {}
         }
-
+        item {
+            Box(contentAlignment = Alignment.Center,
+                modifier = Modifier.fillMaxWidth())
+            {
+                FilledBtn(
+                    clickHandler = { addPantryItemViewModel.addMultipleShoppingListProduct() },
+                    btnText = stringResource(R.string.save_scanned_to_list),
+                    enabled = !productList.isEmpty()
+                )
+            }
+            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()) {
+                FilledBtn(
+                    clickHandler = { addPantryItemViewModel.addMultiplePantryProduct() },
+                    btnText = stringResource(R.string.save_scanned_to_pantry),
+                    enabled = !productList.isEmpty()
+                )
+            }
+        }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddPantryItemScreen(navController: NavController, drawerState: DrawerState, scope: CoroutineScope){
+fun AddPantryItemScreen(
+    navController: NavController,
+    drawerState: DrawerState,
+    scope: CoroutineScope
+) {
     AppLayout(content = { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues)) {
             Spacer(modifier = Modifier.size(10.dp))
@@ -447,10 +506,10 @@ fun AddPantryItemScreen(navController: NavController, drawerState: DrawerState, 
         navigationContentDescription = stringResource(R.string.navigate_up),
         actionContentDescription = stringResource(R.string.navigation_drawer),
         navController = navController,
-        navigationClickHandler = {navController.navigateUp()},
+        navigationClickHandler = { navController.navigateUp() },
         scope = scope,
         drawerState = drawerState,
-        arrowBackClickHandler = {scope.launch { drawerState.open() }}
+        arrowBackClickHandler = { scope.launch { drawerState.open() } }
     )
 }
 

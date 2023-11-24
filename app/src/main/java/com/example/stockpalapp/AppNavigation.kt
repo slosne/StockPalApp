@@ -1,7 +1,6 @@
 package com.example.stockpalapp
 
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -21,18 +20,20 @@ import com.example.stockpalapp.ui.screens.SignupScreen
 import com.example.stockpalapp.ui.viewmodels.AuthViewModel
 import com.example.stockpalapp.ui.viewmodels.ThemeViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavigation(
     authViewModel: AuthViewModel,
-    themeViewModel: ThemeViewModel
-) {
+    themeViewModel: ThemeViewModel) {
+
     val routes = Routes()
     val navController = rememberNavController()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    NavHost(navController, startDestination = routes.login) {
+    NavHost(
+        navController,
+        startDestination = routes.login) {
+
         composable(routes.home) { HomeScreen(navController, drawerState, scope) }
         composable(routes.signup) { SignupScreen(authViewModel, navController) }
         composable(routes.login) { LoginScreen(authViewModel, navController) }
