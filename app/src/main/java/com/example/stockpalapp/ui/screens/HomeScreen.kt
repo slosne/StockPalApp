@@ -80,8 +80,8 @@ fun ExpDateSection(navController: NavController) {
             .padding(
                 start=5.dp,
                 top=5.dp,
-                end = 5.dp,
-                bottom = 40.dp))
+                end=5.dp,
+                bottom=40.dp))
         {
 
             Column(modifier = Modifier
@@ -97,6 +97,9 @@ fun ExpDateSection(navController: NavController) {
                     btnText = stringResource(R.string.to_all_items)
                 )
             }
+
+            //Varer fra matskapet får tekst og varselikon
+            //dersom det er mindre enn 3 dager til de utløper
 
             sortedList.take(3).map { item ->
                 if(item.expDate != null){

@@ -41,6 +41,10 @@ import com.example.stockpalapp.ui.model.Routes
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
 import com.example.stockpalapp.ui.viewmodels.AuthViewModel
 
+//Khan, B. (4. september, 2022). Firebase Authentication using MVVM with Hilt and Coroutines
+//https://www.simplifiedcoding.net/firebase-authentication-using-mvvm/
+
+
 @Composable
 fun LoginScreen(
     viewModel: AuthViewModel?,
@@ -110,9 +114,6 @@ fun LoginScreen(
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center
         )
-
-        //Khan, B. (4. september, 2022). Firebase Authentication using MVVM with Hilt and Coroutines
-        //https://www.simplifiedcoding.net/firebase-authentication-using-mvvm/
 
         val context = LocalContext.current
 

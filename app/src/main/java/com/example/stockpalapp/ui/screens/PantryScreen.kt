@@ -2,7 +2,6 @@ package com.example.stockpalapp.ui.screens
 
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -87,8 +86,6 @@ fun FoodItemList(modifier: Modifier = Modifier){
             val state = rememberDismissState(
                 confirmValueChange = {
                     if (it == DismissValue.DismissedToStart){
-                        // Remove Produkt Here
-                        Log.d("Swipe", "Produkt was swaped and state handled")
                         pantryViewModel.removePantryProduct(item.id)
 
                         scope.launch {
@@ -157,8 +154,6 @@ fun FoodItemList(modifier: Modifier = Modifier){
                                 }
                             }
                         }
-
-
                     }
                 }
             )
@@ -220,9 +215,14 @@ fun PantrySearch(){
 }
 
 @Composable
-fun PantryScreen(navController: NavController, drawerState: DrawerState, scope: CoroutineScope){
-      AppLayout(content = { paddingValues ->
-          Column(modifier = Modifier.padding(paddingValues)) {
+fun PantryScreen(
+    navController: NavController,
+    drawerState: DrawerState,
+    scope: CoroutineScope){
+
+    AppLayout(content = { paddingValues ->
+          Column(modifier = Modifier.padding(paddingValues))
+          {
               CategoryTab()
               Spacer(modifier = Modifier.size(30.dp))
               PantrySearch()
@@ -230,18 +230,18 @@ fun PantryScreen(navController: NavController, drawerState: DrawerState, scope: 
               FoodItemList()
               Spacer(modifier = Modifier.size(20.dp))
               PantryScreenBtn(navController)
-     }},
-          topAppBarTitle = stringResource(R.string.pantry),
-          navigationIcon = Icons.Default.ArrowBack,
-          actionIcon = Icons.Default.Menu,
-          navigationContentDescription = stringResource(R.string.navigate_up),
-          actionContentDescription = stringResource(R.string.navigation_drawer),
-          navController = navController,
-          navigationClickHandler = {navController.navigateUp()},
-          scope = scope,
-          drawerState = drawerState,
-          arrowBackClickHandler = {scope.launch { drawerState.open() }}
-      )
+          }},
+      topAppBarTitle = stringResource(R.string.pantry),
+      navigationIcon = Icons.Default.ArrowBack,
+      actionIcon = Icons.Default.Menu,
+      navigationContentDescription = stringResource(R.string.navigate_up),
+      actionContentDescription = stringResource(R.string.navigation_drawer),
+      navController = navController,
+      navigationClickHandler = {navController.navigateUp()},
+      scope = scope,
+      drawerState = drawerState,
+      arrowBackClickHandler = {scope.launch { drawerState.open() }}
+    )
 }
 
 

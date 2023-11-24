@@ -33,7 +33,6 @@ fun ToggleThemeSwitch(
     useDarkTheme: Boolean,
     onThemeChanged: (Boolean) -> Unit
 ){
-
     Switch(
         checked = useDarkTheme,
         onCheckedChange = {
