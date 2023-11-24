@@ -1,6 +1,6 @@
 package com.example.stockpalapp.ui.screens
 
-import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -24,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -41,12 +41,10 @@ import com.example.stockpalapp.ui.model.Routes
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
 import com.example.stockpalapp.ui.viewmodels.AuthViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
     viewModel: AuthViewModel?,
-    navController: NavController)
-{
+    navController: NavController) {
 
     var email by remember {
         mutableStateOf("")
@@ -61,16 +59,17 @@ fun LoginScreen(
     Column(
         Modifier
             .fillMaxSize()
-            .padding(10.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+            .padding(10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center)
+    {
         Text(text = stringResource(R.string.login), fontSize = 32.sp)
         OutlinedTextField(
             value = email,
-            onValueChange = {
-                email = it
-            },
+            onValueChange = { email = it },
             label = {
                 Text(text = stringResource(id = R.string.email))
-            },
+                    },
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.None,
                 autoCorrect = false,
@@ -82,9 +81,7 @@ fun LoginScreen(
 
         OutlinedTextField(
             value = password,
-            onValueChange = {
-                password = it
-            },
+            onValueChange = { password = it },
             label = {
                 Text(text = stringResource(id = R.string.password))
             },
@@ -97,7 +94,8 @@ fun LoginScreen(
             )
         )
         Spacer(modifier = Modifier.size(12.dp))
-        Button(onClick = { viewModel?.loginUser(email, password) }) {
+        Button(onClick = { viewModel?.loginUser(email, password) })
+        {
             Text(text = "Log In")
         }
         Spacer(modifier = Modifier.size(12.dp))
@@ -116,10 +114,12 @@ fun LoginScreen(
         //Khan, B. (4. september, 2022). Firebase Authentication using MVVM with Hilt and Coroutines
         //https://www.simplifiedcoding.net/firebase-authentication-using-mvvm/
 
+        val context = LocalContext.current
+
         authResource?.value?.let {
             when (it) {
                 is Resource.Failure -> {
-                    Log.e("LoginScreen", "Error: ${it.exception.message}")
+                    Toast.makeText(context, "Error logging in", Toast.LENGTH_SHORT).show()
                 }
                 is Resource.Loading -> {
                     CircularProgressIndicator()

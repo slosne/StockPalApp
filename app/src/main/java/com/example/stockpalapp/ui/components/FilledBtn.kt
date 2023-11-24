@@ -14,15 +14,14 @@ fun FilledBtn(
     modifier: Modifier = Modifier,
     clickHandler: () -> Unit,
     btnText: String,
-    enabled: Boolean = true
-)
-{
+    enabled: Boolean = true) {
+
     Button(
         onClick = clickHandler,
         modifier = modifier,
         enabled = enabled,
-        elevation = ButtonDefaults.buttonElevation(5.dp)
-    ) {
+        elevation = ButtonDefaults.buttonElevation(5.dp))
+    {
         Text(text = btnText)
     }
 }
@@ -32,6 +31,6 @@ fun FilledBtn(
 @Composable
 fun FilledBtnPreview() {
     StockPalAppTheme(useDarkTheme = false) {
-        FilledBtn(btnText = "test", clickHandler = {})
+        FilledBtn(clickHandler = {}, btnText = "Test")
     }
 }

@@ -11,13 +11,13 @@ import com.example.stockpalapp.R
 
 
 @Composable
-fun AlertDialogExample(
+fun AlertDialogComponent(
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
     dialogTitle: String,
     dialogText: String,
-    icon: ImageVector,
-) {
+    icon: ImageVector) {
+
     AlertDialog(
         icon = {
             Icon(icon, contentDescription = stringResource(R.string.example_icon))
@@ -51,3 +51,4 @@ fun AlertDialogExample(
         }
     )
 }
+

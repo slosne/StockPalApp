@@ -18,7 +18,6 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.rememberDrawerState
@@ -37,10 +36,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.stockpalapp.AppLayout
 import com.example.stockpalapp.R
-import com.example.stockpalapp.ui.components.AlertDialogExample
+import com.example.stockpalapp.ui.components.AlertDialogComponent
 import com.example.stockpalapp.ui.components.FilledBtn
 import com.example.stockpalapp.ui.components.ProductListItem
-import com.example.stockpalapp.ui.components.StandardBtn
 import com.example.stockpalapp.ui.model.Routes
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
 import com.example.stockpalapp.ui.viewmodels.ShoppingScreenViewModel
@@ -56,20 +54,32 @@ fun ShoppingItemList(modifier: Modifier = Modifier){
 
     LazyColumn(modifier = modifier){
         items(shoppingList) { item ->
-            ProductListItem(title = item.name, description = item.category, imageUrl = item.image, date = null, amount = null) {
+            ProductListItem(
+                title = item.name,
+                description = item.category,
+                imageUrl = item.image,
+                date = null,
+                amount = null)
+            {
                 Row {
                     val openAlertDialog1 = remember { mutableStateOf(false)}
-                    IconButton(onClick = { openAlertDialog1.value = true }) {
-                        Icon(modifier = Modifier.size(40.dp), imageVector = Icons.Default.Check, contentDescription = "Kjøpt")
+
+                    IconButton(onClick = { openAlertDialog1.value = true })
+                    {
+                        Icon(
+                            modifier = Modifier.size(40.dp),
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Kjøpt"
+                        )
                     }
 
                     if (openAlertDialog1.value) {
-                        AlertDialogExample(
+                        AlertDialogComponent(
                             onDismissRequest = { openAlertDialog1.value = false },
                             onConfirmation = {
                                 openAlertDialog1.value = false
 
-                                //Varen fjernes og legges til i Matskapet
+                                //Varen fjernes og legges til i matskapet
                                 shoppingScreenViewModel.AddShoppingListProductToPantry(item)
                             },
                             dialogTitle = stringResource(R.string.add_to_pantry),
@@ -80,17 +90,22 @@ fun ShoppingItemList(modifier: Modifier = Modifier){
 
                     Spacer(modifier = Modifier.size(7.dp))
                     val openAlertDialog2 = remember { mutableStateOf(false)}
-                    IconButton(onClick = { openAlertDialog2.value = true }) {
-                        Icon(modifier = Modifier.size(40.dp), imageVector = Icons.Default.Delete, contentDescription = "Kjøpt")
+                    IconButton(onClick = { openAlertDialog2.value = true })
+                    {
+                        Icon(
+                            modifier = Modifier.size(40.dp),
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "Kjøpt"
+                        )
                     }
 
                     if (openAlertDialog2.value) {
-                        AlertDialogExample(
+                        AlertDialogComponent(
                             onDismissRequest = { openAlertDialog2.value = false },
                             onConfirmation = {
                                 openAlertDialog2.value = false
 
-                                //Varen fjernes fra Handlelisten
+                                //Varen fjernes fra handlelisten
                                 shoppingScreenViewModel.removeShoppingListProduct(item.id)
                             },
                             dialogTitle = stringResource(R.string.shoppinglist_rem),
@@ -104,20 +119,27 @@ fun ShoppingItemList(modifier: Modifier = Modifier){
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ShoppingScreen(navController: NavController, drawerState: DrawerState, scope: CoroutineScope)
-{
+fun ShoppingScreen(
+    navController: NavController,
+    drawerState: DrawerState,
+    scope: CoroutineScope) {
+
         AppLayout(
             content = { paddingValues ->
-                Column(modifier = Modifier.padding(paddingValues)) {
+                Column(modifier = Modifier.padding(paddingValues))
+                {
                     ShoppingItemList()
                     Spacer(modifier = Modifier.size(30.dp))
-                    Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
-                        FilledBtn(modifier = Modifier, {navController.navigate(Routes().addPantryItem)}, "Legg til")
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier.fillMaxWidth())
+                    {
+                        FilledBtn(
+                            modifier = Modifier,
+                            clickHandler = {navController.navigate(Routes().addPantryItem)},
+                            btnText = "Legg til")
                         Spacer(modifier = Modifier.size(10.dp))
-                        StandardBtn(modifier = Modifier, {}, "Del handleliste")
-
                     }
                 }
             },
@@ -156,7 +178,6 @@ fun ShoppingScreenPreview() {
         val scope = rememberCoroutineScope()
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
         ShoppingScreen(navController, drawerState, scope)
-
     }
 }
 

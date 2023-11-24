@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -19,15 +20,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
+import com.example.stockpalapp.ui.model.Routes
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SmallRecipeCard(
     title: String,
     imageUrl: String,
-    missingIngredients: List<String>)
+    missingIngredients: List<String>,
+    navController: NavController)
 {
 
     val imagePainter = rememberImagePainter(data = imageUrl)
@@ -41,7 +47,8 @@ fun SmallRecipeCard(
     ) {
         ElevatedCard(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxSize(),
+            onClick = {navController.navigate(Routes().recipes)}
         ) {
             Row(modifier = Modifier.padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically)
@@ -50,12 +57,12 @@ fun SmallRecipeCard(
                     .fillMaxSize()
                     .weight(4f), horizontalAlignment = Alignment.CenterHorizontally){
                     Spacer(modifier = Modifier.size(5.dp))
-                    Text(text = title, style = MaterialTheme.typography.titleLarge)
+                    Text(text = title, style = MaterialTheme.typography.titleMedium)
                     Spacer(modifier = Modifier.size(7.dp))
-                    Text(text = "Du mangler: ", style = MaterialTheme.typography.titleMedium)
+                    Text(text = "Du mangler: ", style = MaterialTheme.typography.titleSmall)
                     Spacer(modifier = Modifier.size(7.dp))
                     for (ingredient in missingIngredients) {
-                        Text(text = ingredient, style = MaterialTheme.typography.titleSmall)
+                        Text(text = ingredient, style = MaterialTheme.typography.bodySmall)
                     }
                 }
                 Surface(shape = RoundedCornerShape(16.dp),
@@ -87,7 +94,8 @@ fun SmallRecipeCardPreview() {
         SmallRecipeCard(
             title = "test",
             imageUrl = "https://images.unsplash.com/photo-1678051299678-439050e063a3?auto=format&fit=crop&q=80&w=1974&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            missingIngredients = ing
+            missingIngredients = ing,
+            navController = rememberNavController()
         )
     }
 }

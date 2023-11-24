@@ -45,40 +45,6 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun RecipePage(){
-
-    val recipeScreenViewModel: RecipeScreenViewModel = hiltViewModel()
-    //val recipeList by recipeScreenViewModel.recipes.collectAsState(initial = emptyList())
-    val sortedList = recipeScreenViewModel.sortedList.collectAsState().value
-
-    LazyColumn {
-
-        item {
-            RecipeSearch()
-            Column(horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxWidth()) {
-                Spacer(modifier = Modifier.size(15.dp))
-                Text(text = stringResource(R.string.suggestions),
-                    style = MaterialTheme.typography.titleLarge)
-                Spacer(modifier = Modifier.size(15.dp))
-            }
-        }
-
-        items(sortedList){ item ->
-            FullRecipeCard(
-                title = item.title,
-                imageUrl = item.image,
-                cuisine = item.cuisine,
-                cookingTime = item.cookingTime,
-                ingredients = item.ingredients,
-                instructions = item.instructions
-            )
-        }
-
-    }
-}
-
-@Composable
 fun RecipeSearch(){
 
     val recipeScreenViewModel: RecipeScreenViewModel = hiltViewModel()
@@ -89,7 +55,8 @@ fun RecipeSearch(){
         mutableStateOf("")
     }
 
-    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center){
+    Box(modifier = Modifier.fillMaxWidth(),
+        contentAlignment = Alignment.Center){
         OutlinedTextField(
             value = searchValue,
             onValueChange = {
@@ -108,7 +75,39 @@ fun RecipeSearch(){
             }
         )
     }
+}
 
+@Composable
+fun RecipePage(){
+
+    val recipeScreenViewModel: RecipeScreenViewModel = hiltViewModel()
+    val sortedList = recipeScreenViewModel.sortedList.collectAsState().value
+
+    LazyColumn {
+        item {
+            RecipeSearch()
+            Column(horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxWidth())
+            {
+                Spacer(modifier = Modifier.size(15.dp))
+                Text(text = stringResource(R.string.suggestions),
+                    style = MaterialTheme
+                        .typography
+                        .titleLarge)
+                Spacer(modifier = Modifier.size(15.dp))
+            }
+        }
+        items(sortedList){ item ->
+            FullRecipeCard(
+                title = item.title,
+                imageUrl = item.image,
+                cuisine = item.cuisine,
+                cookingTime = item.cookingTime,
+                ingredients = item.ingredients,
+                instructions = item.instructions
+            )
+        }
+    }
 }
 
 @Composable
@@ -137,7 +136,6 @@ fun RecipeScreen(
         arrowBackClickHandler = { scope.launch { drawerState.open() } }
     )
 }
-
 
 @Preview(showBackground = true)
 @Composable

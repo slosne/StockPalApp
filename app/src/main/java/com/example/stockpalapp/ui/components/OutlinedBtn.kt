@@ -8,13 +8,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.stockpalapp.ui.theme.StockPalAppTheme
 
 @Composable
-fun StandardBtn(
+fun OutlinedBtn(
     modifier: Modifier = Modifier,
     clickHandler: () -> Unit,
     btnText: String)
 {
-    OutlinedButton(onClick = clickHandler, modifier = modifier,
-    ) {
+    OutlinedButton(
+        onClick = clickHandler,
+        modifier = modifier)
+    {
         Text(text = btnText)
     }
 }
@@ -23,6 +25,6 @@ fun StandardBtn(
 @Composable
 fun StandardBtnPreview() {
     StockPalAppTheme(useDarkTheme = false) {
-        StandardBtn(btnText = "test", clickHandler = {})
+        OutlinedBtn(btnText = "test", clickHandler = {})
     }
 }
