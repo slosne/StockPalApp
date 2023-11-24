@@ -80,7 +80,7 @@
     <string name="expiry_date_warning_icon">Advarselikon</string>
     <string name="expired_item_delete">Sletteikon</string>
     <string name="all_recipes">Alle oppskrifter</string>
-    <string name="your_profile">Your profile</string>
+    <string name="your_profile">Din profil</string>
     <string name="log_out">Logg ut</string>
     <string name="profile_pic_placeholder">Profilikon</string>
     <string name="chng_to_light">Bytt til light mode</string>
