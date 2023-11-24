@@ -183,7 +183,7 @@ fun FoodItemList(modifier: Modifier = Modifier){
 @Composable
 fun PantryScreenBtn(navController: NavController){
     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-        FilledBtn(btnText = "Legg til", clickHandler = { navController.navigate(Routes().addPantryItem)})
+        FilledBtn(btnText = stringResource(R.string.add_item), clickHandler = { navController.navigate(Routes().addPantryItem)})
     }
 }
 
