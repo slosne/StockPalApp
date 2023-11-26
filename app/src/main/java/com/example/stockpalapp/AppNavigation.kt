@@ -7,18 +7,18 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.stockpalapp.ui.model.Routes
-import com.example.stockpalapp.ui.screens.AddPantryItemScreen
-import com.example.stockpalapp.ui.screens.HomeScreen
-import com.example.stockpalapp.ui.screens.LoginScreen
-import com.example.stockpalapp.ui.screens.RecipeScreen
-import com.example.stockpalapp.ui.screens.ShoppingScreen
-import com.example.stockpalapp.ui.screens.PantryScreen
-import com.example.stockpalapp.ui.screens.ProfileScreen
-import com.example.stockpalapp.ui.screens.SettingScreen
-import com.example.stockpalapp.ui.screens.SignupScreen
-import com.example.stockpalapp.ui.viewmodels.AuthViewModel
-import com.example.stockpalapp.ui.viewmodels.ThemeViewModel
+import com.example.stockpalapp.presentation.model.Routes
+import com.example.stockpalapp.presentation.screens.AddPantryItemScreen
+import com.example.stockpalapp.presentation.screens.HomeScreen
+import com.example.stockpalapp.presentation.screens.LoginScreen
+import com.example.stockpalapp.presentation.screens.PantryScreen
+import com.example.stockpalapp.presentation.screens.ProfileScreen
+import com.example.stockpalapp.presentation.screens.RecipeScreen
+import com.example.stockpalapp.presentation.screens.SettingScreen
+import com.example.stockpalapp.presentation.screens.ShoppingScreen
+import com.example.stockpalapp.presentation.screens.SignupScreen
+import com.example.stockpalapp.presentation.viewmodels.AuthViewModel
+import com.example.stockpalapp.presentation.viewmodels.ThemeViewModel
 
 @Composable
 fun AppNavigation(

@@ -1,7 +1,7 @@
 package com.example.stockpalapp.data.repositories.impl
 
 import com.example.stockpalapp.data.repositories.ProductRepository
-import com.example.stockpalapp.model.Product
+import com.example.stockpalapp.domain.model.product.Product
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.toObject
