@@ -88,7 +88,7 @@ class AddPantryItemViewModel @Inject constructor(
         viewModelScope.launch {
             _productList.value = _productList.value + item.copy()
             Log.d("List", _productList.value.toString())
-            Toast.makeText(context, "Produktene er lagt til listens", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Produktene er lagt til listen", Toast.LENGTH_SHORT).show()
         }
     }
 
