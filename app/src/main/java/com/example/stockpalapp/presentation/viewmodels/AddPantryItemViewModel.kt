@@ -88,6 +88,7 @@ class AddPantryItemViewModel @Inject constructor(
         viewModelScope.launch {
             _productList.value = _productList.value + item.copy()
             Log.d("List", _productList.value.toString())
+            Toast.makeText(context, "Produktene er lagt til listen", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -96,7 +97,7 @@ class AddPantryItemViewModel @Inject constructor(
             shoppingListRepository.saveMultipleShoppingListProducts(_productList.value)
             _productList.value = emptyList()
             if (internetConnection.isInternetAvailable(context)){
-                Toast.makeText(context, "Produktene er lagt til listen", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Produktene er lagt til Handlelisten", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(context, "Internet ikke tilgjengelig. Lagt til liste, men ikke sync til skyen", Toast.LENGTH_LONG).show()
             }
@@ -108,7 +109,7 @@ class AddPantryItemViewModel @Inject constructor(
             pantryRepository.saveMultiplePantryProducts(_productList.value)
             _productList.value = emptyList()
             if (internetConnection.isInternetAvailable(context)){
-                Toast.makeText(context, "Produktene er lagt til listen", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Produktene er lagt til Matskapet", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(context, "Internet ikke tilgjengelig. Lagt til liste, men ikke sync til skyen", Toast.LENGTH_LONG).show()
             }
@@ -125,7 +126,6 @@ class AddPantryItemViewModel @Inject constructor(
     fun getAProductByEanNumber(seachInput: Long) {
         viewModelScope.launch {
             _product.value = productRepository.getProductByEanNumber(seachInput)
-            Toast.makeText(context, "Produktene er lagt til matskapet", Toast.LENGTH_SHORT).show()
         }
     }
 
