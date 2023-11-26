@@ -21,6 +21,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -95,7 +96,7 @@ class AddPantryItemViewModel @Inject constructor(
             shoppingListRepository.saveMultipleShoppingListProducts(_productList.value)
             _productList.value = emptyList()
             if (internetConnection.isInternetAvailable(context)){
-                Toast.makeText(context, "Produktene er lagt til Handlekurven", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Produktene er lagt til listen", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(context, "Internet ikke tilgjengelig. Lagt til liste, men ikke sync til skyen", Toast.LENGTH_LONG).show()
             }
@@ -107,7 +108,7 @@ class AddPantryItemViewModel @Inject constructor(
             pantryRepository.saveMultiplePantryProducts(_productList.value)
             _productList.value = emptyList()
             if (internetConnection.isInternetAvailable(context)){
-                Toast.makeText(context, "Produktene er lagt til matskapet", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Produktene er lagt til listen", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(context, "Internet ikke tilgjengelig. Lagt til liste, men ikke sync til skyen", Toast.LENGTH_LONG).show()
             }
@@ -132,7 +133,9 @@ class AddPantryItemViewModel @Inject constructor(
         viewModelScope.launch {
             var productFromData = productRepository.getProductByEanNumber(seachInput)
             if (productFromData !=null) {
-                addProductToList(productFromData)
+                addProductToList(Product(id = productFromData.id, name = productFromData.name, eanNumber = productFromData.eanNumber, number = 1, category = productFromData.category, image = productFromData.image, expDate = Timestamp(
+                    Date(2025)
+                ), vendor = productFromData.vendor))
             } else {
                 Toast.makeText(context, "Produktet finnes ikke i Databasen", Toast.LENGTH_SHORT).show()
             }
