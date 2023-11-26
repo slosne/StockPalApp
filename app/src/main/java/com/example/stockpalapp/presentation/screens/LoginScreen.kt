@@ -1,6 +1,6 @@
 package com.example.stockpalapp.presentation.screens
 
-import android.widget.Toast
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -115,12 +115,10 @@ fun LoginScreen(
             textAlign = TextAlign.Center
         )
 
-        val context = LocalContext.current
-
         authResource?.value?.let {
             when (it) {
                 is Resource.Failure -> {
-                    Toast.makeText(context, "Error logging in", Toast.LENGTH_SHORT).show()
+                    Log.d(stringResource(R.string.error_logging_in), stringResource(R.string.error_logging_in))
                 }
                 is Resource.Loading -> {
                     CircularProgressIndicator()

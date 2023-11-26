@@ -89,4 +89,19 @@
     <string name="error_signing_up">Opprettelse av ny bruker feilet</string>
     <string name="user_created">Ny bruker opprettet</string>
     <string name="add_item">Legg til</string>
+    <string name="error_logging_in">Error ved log in</string>
+    <string name="drop_down_pil">Drop-Down Pil</string>
+    <string name="item_added">Vare lagt til</string>
+    <string name="no_internet">Internet ikke tilgjengelig. Lagt til liste, men ikke sync til skyen</string>
+    <string name="added_to_itemlist">Produktene er lagt til listen</string>
+    <string name="added_to_shopping">Produktene er lagt til Handlelisten</string>
+    <string name="added_to_pantry">Produktene er lagt til Matskapet</string>
+    <string name="not_in_database">Produktet finnes ikke i Databasen</string>
+    <string name="scan_cancelled">Scanning kansellert</string>
+    <string name="scan_failed">Scanning Feilet</string>
+    <string name="all_fields_req">Alle tekstfelt må fylles ut</string>
+    <string name="special_chars_validation">Navn må ikke inneholde spesialtegn</string>
+    <string name="invalid_email_format">Ugyldig email-format</string>
+    <string name="invalid_password">Passord må inneholde minst 6 karakterer med minst ett siffer</string>
+    <string name="item_removed">Produktet er fjernet</string>
 </resources>

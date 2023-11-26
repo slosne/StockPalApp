@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.stockpalapp.R
 import com.example.stockpalapp.data.repositories.PantryRepository
 import com.example.stockpalapp.data.repositories.ProductRepository
 import com.example.stockpalapp.data.repositories.ShoppingListRepository
@@ -51,9 +52,9 @@ class AddPantryItemViewModel @Inject constructor(
             )
         }
         if (internetConnection.isInternetAvailable(context)){
-            Toast.makeText(context, "Vare lagt til", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.item_added), Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(context, "Internet ikke tilgjengelig. Lagt til liste, men ikke sync til skyen", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, context.getString(R.string.no_internet), Toast.LENGTH_LONG).show()
         }
 
     }
@@ -71,9 +72,9 @@ class AddPantryItemViewModel @Inject constructor(
             )
         }
         if (internetConnection.isInternetAvailable(context)){
-            Toast.makeText(context, "Vare lagt til", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.item_added), Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(context, "Internet ikke tilgjengelig. Lagt til liste, men ikke sync til skyen", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, context.getString (R.string.no_internet), Toast.LENGTH_LONG).show()
         }
     }
 
@@ -88,7 +89,8 @@ class AddPantryItemViewModel @Inject constructor(
         viewModelScope.launch {
             _productList.value = _productList.value + item.copy()
             Log.d("List", _productList.value.toString())
-            Toast.makeText(context, "Produktene er lagt til listen", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context,
+                context.getString(R.string.added_to_itemlist), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -97,9 +99,9 @@ class AddPantryItemViewModel @Inject constructor(
             shoppingListRepository.saveMultipleShoppingListProducts(_productList.value)
             _productList.value = emptyList()
             if (internetConnection.isInternetAvailable(context)){
-                Toast.makeText(context, "Produktene er lagt til Handlelisten", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString (R.string.added_to_shopping), Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(context, "Internet ikke tilgjengelig. Lagt til liste, men ikke sync til skyen", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, context.getString (R.string.no_internet), Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -109,9 +111,10 @@ class AddPantryItemViewModel @Inject constructor(
             pantryRepository.saveMultiplePantryProducts(_productList.value)
             _productList.value = emptyList()
             if (internetConnection.isInternetAvailable(context)){
-                Toast.makeText(context, "Produktene er lagt til Matskapet", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,
+                    context.getString(R.string.added_to_pantry), Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(context, "Internet ikke tilgjengelig. Lagt til liste, men ikke sync til skyen", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, context.getString (R.string.no_internet), Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -137,7 +140,8 @@ class AddPantryItemViewModel @Inject constructor(
                     Date(2025)
                 ), vendor = productFromData.vendor))
             } else {
-                Toast.makeText(context, "Produktet finnes ikke i Databasen", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,
+                    context.getString(R.string.not_in_database), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -153,11 +157,12 @@ class AddPantryItemViewModel @Inject constructor(
             }
             .addOnCanceledListener {
                 // Task canceled
-                Toast.makeText(context, "Scanning kanselert", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,
+                    context.getString(R.string.scan_cancelled), Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener { e ->
                 // Task failed with an exception
-                Toast.makeText(context, "Scanning Feilet", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString (R.string.scan_failed), Toast.LENGTH_SHORT).show()
             }
     }
 
