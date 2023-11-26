@@ -117,9 +117,9 @@ fun AddPantryItemScanningAndSearching() {
             // Add other Text or Composables to display other product details
             val title = product!!.name
             val ean = product!!.eanNumber
-            val ammount = product!!.number
+            val ammount = 1
             val category = product!!.category
-            val expDate = "050398"
+            val expDate = "010125"
             val imgUrl = product!!.image
 
             Box(
