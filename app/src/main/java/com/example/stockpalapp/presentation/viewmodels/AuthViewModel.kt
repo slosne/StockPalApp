@@ -1,11 +1,11 @@
 package com.example.stockpalapp.presentation.viewmodels
 
 import android.content.Context
-import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.stockpalapp.R
 import com.example.stockpalapp.data.repositories.AuthRepository
 import com.example.stockpalapp.data.repositories.PantryRepository
 import com.example.stockpalapp.domain.model.Pantry
@@ -76,14 +76,14 @@ class AuthViewModel @Inject constructor(
 
     fun handleSignUpClick(name: String, email: String, password: String, context: Context) {
         if (name.isBlank() || email.isBlank() || password.isBlank()) {
-            Toast.makeText(context, "Please fill out all fields", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.all_fields_req), Toast.LENGTH_SHORT).show()
         } else if (!isNameValid(name)) {
-            Toast.makeText(context, "Name must not include special characters", Toast.LENGTH_SHORT).show()
-            Log.e("AuthViewModel", "Invalid name format")
+            Toast.makeText(context, context.getString (R.string.special_chars_validation), Toast.LENGTH_SHORT).show()
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            Toast.makeText(context, "Invalid email format", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context,
+                context.getString(R.string.invalid_email_format), Toast.LENGTH_SHORT).show()
         } else if (!isPasswordValid(password)){
-            Toast.makeText(context, "Password must contain at least 6 chars and include 1 digit", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.invalid_password), Toast.LENGTH_SHORT).show()
         }
         else {
             signupUser(name, email, password)

@@ -4,6 +4,7 @@ import android.content.Context
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.stockpalapp.R
 import com.example.stockpalapp.data.repositories.PantryRepository
 import com.example.stockpalapp.data.repositories.RecipeRepository
 import com.example.stockpalapp.data.repositories.ShoppingListRepository
@@ -32,7 +33,7 @@ class ShoppingScreenViewModel @Inject constructor(
     fun removeShoppingListProduct(itemID: String) {
         viewModelScope.launch {
             shoppingListRepository.deleteShoppingListProduct(itemID)
-            Toast.makeText(context, "Produktet er fjernet", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.item_removed), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -49,7 +50,8 @@ class ShoppingScreenViewModel @Inject constructor(
             )
             )
             removeShoppingListProduct(item.id)
-            Toast.makeText(context, "Produktet ble lagt til i Matskapet", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context,
+                context.getString(R.string.added_to_pantry) , Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -180,7 +180,7 @@ fun AddPantryItem() {
                     onClick = { expandedState = !expandedState }) {
                     Icon(
                         imageVector = Icons.Default.ArrowDropDown,
-                        contentDescription = "Drop-Down Arrow"
+                        contentDescription = stringResource(R.string.drop_down_pil)
                     )
                 }
             }
