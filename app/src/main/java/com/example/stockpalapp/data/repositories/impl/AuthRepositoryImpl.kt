@@ -1,7 +1,7 @@
 package com.example.stockpalapp.data.repositories.impl
 
 import com.example.stockpalapp.data.repositories.AuthRepository
-import com.example.stockpalapp.model.Resource
+import com.example.stockpalapp.domain.model.Resource
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest

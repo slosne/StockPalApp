@@ -5,9 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.getValue
-import com.example.stockpalapp.ui.theme.StockPalAppTheme
-import com.example.stockpalapp.ui.viewmodels.AuthViewModel
-import com.example.stockpalapp.ui.viewmodels.ThemeViewModel
+import com.example.stockpalapp.presentation.theme.StockPalAppTheme
+import com.example.stockpalapp.presentation.viewmodels.AuthViewModel
+import com.example.stockpalapp.presentation.viewmodels.ThemeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

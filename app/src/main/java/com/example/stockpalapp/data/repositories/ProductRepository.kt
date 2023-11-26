@@ -1,6 +1,6 @@
 package com.example.stockpalapp.data.repositories
 
-import com.example.stockpalapp.model.Product
+import com.example.stockpalapp.domain.model.product.Product
 import kotlinx.coroutines.flow.Flow
 
 interface ProductRepository {

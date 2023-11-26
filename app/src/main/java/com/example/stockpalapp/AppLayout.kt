@@ -30,8 +30,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.stockpalapp.ui.model.BottomNavItem
-import com.example.stockpalapp.ui.model.DrawerItem
+import com.example.stockpalapp.presentation.model.BottomNavItem
+import com.example.stockpalapp.presentation.model.DrawerItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

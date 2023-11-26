@@ -1,8 +1,8 @@
 package com.example.stockpalapp.data.repositories
 
-import com.example.stockpalapp.model.Pantry
-import com.example.stockpalapp.model.PantryProduct
-import com.example.stockpalapp.model.Product
+import com.example.stockpalapp.domain.model.Pantry
+import com.example.stockpalapp.domain.model.product.PantryProduct
+import com.example.stockpalapp.domain.model.product.Product
 import kotlinx.coroutines.flow.Flow
 
 interface PantryRepository {

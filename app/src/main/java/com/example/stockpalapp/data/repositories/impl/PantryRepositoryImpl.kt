@@ -2,9 +2,9 @@ package com.example.stockpalapp.data.repositories.impl
 
 import com.example.stockpalapp.data.repositories.AuthRepository
 import com.example.stockpalapp.data.repositories.PantryRepository
-import com.example.stockpalapp.model.Pantry
-import com.example.stockpalapp.model.PantryProduct
-import com.example.stockpalapp.model.Product
+import com.example.stockpalapp.domain.model.Pantry
+import com.example.stockpalapp.domain.model.product.PantryProduct
+import com.example.stockpalapp.domain.model.product.Product
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.toObject

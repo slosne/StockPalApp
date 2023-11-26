@@ -1,6 +1,6 @@
 package com.example.stockpalapp.data.repositories
 
-import com.example.stockpalapp.model.Resource
+import com.example.stockpalapp.domain.model.Resource
 import com.google.firebase.auth.FirebaseUser
 
 //Khan, B. (4. september, 2022). Firebase Authentication using MVVM with Hilt and Coroutines
